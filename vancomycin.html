@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vancomycin Dosing Calculator - Sanford Guide</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card: #111827;
+      --muted: #9ca3af;
+      --text: #e5e7eb;
+      --accent: #22d3ee;
+      --danger: #ef4444;
+      --warn: #f59e0b;
+      --ok: #10b981;
+      --border: #293241;
+      --input-bg: #0f172a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      background: var(--bg); 
+      color: var(--text); 
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+    }
+    .wrap { max-width: 1320px; margin: 0 auto; padding: 20px; }
+    h1 { font-size: 24px; margin-bottom: 8px; color: #fff; }
+    .subtitle { color: var(--muted); margin-bottom: 20px; font-size: 14px; }
+    .source-badge {
+      display: inline-block;
+      background: #a78bfa;
+      color: #fff;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-left: 10px;
+    }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+    .section { 
+      background: var(--card); 
+      border: 1px solid var(--border); 
+      border-radius: 14px; 
+      padding: 16px; 
+      margin-bottom: 14px; 
+    }
+    .section h2 { 
+      margin: 0 0 12px; 
+      font-size: 15px; 
+      color: #9dd6ff; 
+      display: flex; 
+      align-items: center; 
+      gap: 8px; 
+    }
+    .section h2::before { 
+      content: ''; 
+      width: 4px; 
+      height: 16px; 
+      background: var(--accent); 
+      border-radius: 2px; 
+    }
+    label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+    input, select { 
+      width: 100%; 
+      padding: 10px 12px; 
+      border-radius: 8px; 
+      border: 1px solid var(--border); 
+      background: var(--input-bg); 
+      color: var(--text); 
+      outline: none; 
+      font-size: 14px;
+      transition: border-color 0.2s;
+    }
+    input:focus, select:focus { border-color: var(--accent); }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .row-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    @media (max-width: 700px) { .row, .row-3, .row-4 { grid-template-columns: 1fr; } }
+    .hint { font-size: 11px; color: var(--muted); margin-top: 4px; }
+    .pill { 
+      display: inline-block; 
+      padding: 3px 8px; 
+      border: 1px solid var(--border); 
+      border-radius: 999px; 
+      font-size: 11px; 
+      margin: 2px 4px 0 0; 
+      color: #b5f3ff; 
+      background: rgba(34, 211, 238, 0.1);
+    }
+    .pill.warn { color: #fde68a; border-color: #7c4a00; background: rgba(245, 158, 11, 0.1); }
+    .pill.danger { color: #fecaca; border-color: #7f1d1d; background: rgba(239, 68, 68, 0.1); }
+    .out { 
+      background: #0b1320; 
+      border: 1px dashed #234; 
+      padding: 12px; 
+      border-radius: 10px; 
+      color: #bfe5ff; 
+      font-size: 13px; 
+      margin-bottom: 10px;
+    }
+    .out:last-child { margin-bottom: 0; }
+    .out strong { color: #9dd6ff; }
+    .full { grid-column: 1 / -1; }
+    
+    /* Alert boxes */
+    .alert { background: #1b0e10; border: 1px solid #7f1d1d; color: #fecaca; padding: 12px; border-radius: 10px; margin-bottom: 12px; }
+    .alert strong { color: #f87171; }
+    .warn-box { background: #271a00; border: 1px solid #7c4a00; color: #fde68a; padding: 12px; border-radius: 10px; margin-bottom: 12px; }
+    .warn-box strong { color: #fbbf24; }
+    .ok-box { background: #031610; border: 1px solid #064e3b; color: #d1fae5; padding: 12px; border-radius: 10px; margin-bottom: 12px; }
+    .ok-box strong { color: #34d399; }
+    .info-box { background: #0c1929; border: 1px solid #1e40af; color: #93c5fd; padding: 12px; border-radius: 10px; margin-bottom: 12px; }
+    .info-box strong { color: #60a5fa; }
+    
+    /* Toggle button group */
+    .toggle-group { 
+      display: inline-flex; 
+      border: 1px solid var(--border); 
+      border-radius: 8px; 
+      overflow: hidden; 
+    }
+    .toggle-btn { 
+      padding: 8px 16px; 
+      background: var(--input-bg); 
+      color: var(--muted); 
+      border: none; 
+      cursor: pointer; 
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+    .toggle-btn.active { 
+      background: var(--accent); 
+      color: #000; 
+      font-weight: 600; 
+    }
+    .toggle-btn:hover:not(.active) { background: #1e293b; }
+    
+    /* Copy button */
+    .copy-btn { 
+      background: var(--accent); 
+      color: #000; 
+      border: none; 
+      padding: 8px 16px; 
+      border-radius: 6px; 
+      cursor: pointer; 
+      font-size: 12px; 
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .copy-btn:hover { background: #06b6d4; }
+    
+    /* Regimen output */
+    .regimen-box { 
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); 
+      border: 2px solid var(--accent); 
+      border-radius: 12px; 
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    .regimen-box h3 { 
+      color: var(--accent); 
+      font-size: 14px; 
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .regimen-text { 
+      font-size: 15px; 
+      line-height: 1.6; 
+      color: #fff;
+    }
+    .regimen-text .dose { color: #22d3ee; font-weight: 600; }
+    .regimen-text .freq { color: #a78bfa; }
+    
+    /* Input group with unit toggle */
+    .input-with-toggle { display: flex; gap: 0; }
+    .input-with-toggle input { 
+      border-radius: 8px 0 0 8px; 
+      border-right: none; 
+      flex: 1;
+    }
+    .input-with-toggle .toggle-group { border-radius: 0 8px 8px 0; }
+    .input-with-toggle .toggle-btn { padding: 8px 10px; }
+    
+    /* Weight display boxes */
+    .weight-display { 
+      display: grid; 
+      grid-template-columns: repeat(4, 1fr); 
+      gap: 10px; 
+    }
+    @media (max-width: 600px) { .weight-display { grid-template-columns: repeat(2, 1fr); } }
+    .weight-box { 
+      background: #0f172a; 
+      border: 1px solid var(--border); 
+      border-radius: 8px; 
+      padding: 10px; 
+      text-align: center;
+    }
+    .weight-box .label { font-size: 11px; color: var(--muted); }
+    .weight-box .value { font-size: 16px; color: #fff; font-weight: 600; }
+    .weight-box .unit { font-size: 11px; color: var(--muted); }
+    
+    .hidden { display: none !important; }
+    
+    /* Dose Cards */
+    .dose-card {
+      background: #0b1320;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+    .dose-card:last-child { margin-bottom: 0; }
+    .dose-card .dose-title {
+      font-weight: 600;
+      color: #9dd6ff;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+    .dose-card .dose-value {
+      font-size: 18px;
+      font-weight: 600;
+      color: #22d3ee;
+    }
+    .dose-card .dose-value.magenta { color: #f472b6; }
+    .dose-card .dose-value.orange { color: #fbbf24; }
+    .dose-card .dose-value.green { color: #34d399; }
+    .dose-card .dose-value.purple { color: #a78bfa; }
+    .dose-card .dose-hint {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    
+    .max-warning { color: #fbbf24; font-size: 12px; font-weight: 600; }
+    
+    /* Collapsible details */
+    details { 
+      border: 1px solid var(--border); 
+      border-radius: 12px; 
+      margin-bottom: 14px;
+      background: var(--card);
+    }
+    details > summary { 
+      cursor: pointer; 
+      color: #9dd6ff; 
+      padding: 14px 16px; 
+      font-weight: 500;
+      list-style: none;
+    }
+    details > summary::-webkit-details-marker { display: none; }
+    details > summary::before { 
+      content: '▶'; 
+      display: inline-block; 
+      margin-right: 8px; 
+      transition: transform 0.2s;
+    }
+    details[open] > summary::before { transform: rotate(90deg); }
+    details .details-content { padding: 0 16px 16px; }
+    
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 10px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { background: var(--input-bg); color: var(--muted); font-weight: 600; font-size: 12px; }
+    td { color: #bfe5ff; }
+    
+    /* Previous Dose Toggle */
+    .prev-dose-toggle {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .prev-dose-toggle label {
+      margin: 0;
+      font-size: 13px;
+      color: var(--text);
+    }
+    
+    /* TDM Section styling */
+    .tdm-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .tdm-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tdm-checkbox input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+    }
+    .tdm-checkbox label {
+      font-size: 13px;
+      color: var(--text);
+      margin: 0;
+    }
+    
+    /* Dose adjustment indicators */
+    .dose-adjustment {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+    .dose-adjustment.increase { background: rgba(251, 191, 36, 0.2); color: #fbbf24; }
+    .dose-adjustment.decrease { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+    .dose-adjustment.maintain { background: rgba(52, 211, 153, 0.2); color: #34d399; }
+    
+    /* Global Hold Banner */
+    .global-hold-banner {
+      background: linear-gradient(135deg, #4c0519 0%, #7f1d1d 100%);
+      border: 2px solid #ef4444;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+    .global-hold-banner .hold-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #ef4444;
+      margin-bottom: 8px;
+    }
+    .global-hold-banner .hold-message {
+      font-size: 14px;
+      color: #fecaca;
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>💊 Vancomycin – Adult Dosing Calculator <span class="source-badge">📚 Sanford Guide</span></h1>
+  <p class="subtitle">Adult IV dosing with renal adjustments and dialysis protocols • BMI-based weight selection</p>
+
+  <!-- Safety Alerts -->
+  <div class="alert">
+    <strong>⚠️ Nephrotoxicity & Ototoxicity Risk:</strong> Monitor renal function and auditory status. Risk increases with prolonged therapy, high doses, or concurrent nephrotoxins.
+  </div>
+  <div class="info-box">
+    <strong>📊 AUC-Guided Dosing:</strong> Target AUC<sub>24</sub>/MIC 400-600 µg·h/mL for serious MRSA infections. Trough-only monitoring (10-15 or 15-20 µg/mL) is an alternative.
+  </div>
+
+  <!-- Global Hold Banner - Hidden by default -->
+  <div class="global-hold-banner hidden" id="globalHoldBanner">
+    <div class="hold-title">🛑 HOLD – Do Not Dose</div>
+    <div class="hold-message" id="holdMessage">AUC >600 or trough >20 mg/L. Hold dosing and recheck levels. Resume when therapeutic; adjust dose accordingly.</div>
+  </div>
+
+  <div class="grid">
+    <!-- LEFT COLUMN -->
+    <div>
+      <!-- Previous Vancomycin Therapy -->
+      <div class="section">
+        <h2>Previous Vancomycin Therapy</h2>
+        <div class="prev-dose-toggle">
+          <label>Was patient previously on Vancomycin?</label>
+          <div class="toggle-group">
+            <button type="button" class="toggle-btn active" id="prevNo" onclick="setPrevDose('no')">No</button>
+            <button type="button" class="toggle-btn" id="prevYes" onclick="setPrevDose('yes')">Yes</button>
+          </div>
+        </div>
+        <div id="prevDoseInputs" class="hidden">
+          <div class="row">
+            <div>
+              <label>Previous Dose (mg)</label>
+              <input id="prevDose" type="number" step="1" placeholder="1000" oninput="calculate()" />
+            </div>
+            <div>
+              <label>Previous Frequency</label>
+              <select id="prevFreq" onchange="calculate()">
+                <option value="q8h">q8h (3×/day)</option>
+                <option value="q12h" selected>q12h (2×/day)</option>
+                <option value="q24h">q24h (1×/day)</option>
+                <option value="q48h">q48h (0.5×/day)</option>
+              </select>
+            </div>
+          </div>
+          <div class="out info-box">
+            <strong>Previous TDD:</strong> <span id="prevTDD">—</span> mg/day
+            <div class="hint">Dose will be adjusted based on observed AUC/trough levels below</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Patient Demographics -->
+      <div class="section">
+        <h2>Patient Demographics</h2>
+        <div class="row">
+          <div><label>Age (years)</label><input id="age" type="number" min="18" max="120" placeholder="56" oninput="calculate()" /></div>
+          <div><label>Sex</label><select id="sex" onchange="calculate()"><option value="male">Male</option><option value="female">Female</option></select></div>
+        </div>
+        <div class="row">
+          <div><label>Actual Body Weight (kg)</label><input id="weight" type="number" step="0.1" min="30" max="300" placeholder="72.5" oninput="calculate()" /></div>
+          <div><label>Height (cm)</label><input id="height" type="number" step="0.1" min="100" max="250" placeholder="173" oninput="calculate()" /></div>
+        </div>
+        <div class="weight-display">
+          <div class="weight-box"><div class="label">BMI</div><div class="value" id="bmiOutput">—</div><div class="unit">kg/m²</div></div>
+          <div class="weight-box"><div class="label">IBW</div><div class="value" id="ibwOutput">—</div><div class="unit">kg</div></div>
+          <div class="weight-box"><div class="label">AdjBW</div><div class="value" id="adjbwOutput">—</div><div class="unit">kg</div></div>
+          <div class="weight-box"><div class="label">Dosing Wt</div><div class="value" id="dosingWtOutput">—</div><div class="unit" id="dosingWtUnit">kg</div></div>
+        </div>
+        <div id="underweightTag" class="hidden" style="margin-top:8px"><span class="pill">BMI &lt;18.5 — Using IBW for dosing</span></div>
+        <div id="obesityTag" class="hidden" style="margin-top:8px"><span class="pill warn">BMI ≥30 — Loading: ABW, Maintenance: AdjBW</span></div>
+      </div>
+
+      <!-- Renal Function -->
+      <div class="section">
+        <h2>Renal Function</h2>
+        <div class="row">
+          <div id="scrInputGroup">
+            <label>Serum Creatinine</label>
+            <div class="input-with-toggle">
+              <input id="scr" type="number" step="0.01" placeholder="1.0" oninput="calculate()" />
+              <div class="toggle-group">
+                <button type="button" class="toggle-btn active" id="scrMgDl" onclick="setScrUnit('mgdl')">mg/dL</button>
+                <button type="button" class="toggle-btn" id="scrUmolL" onclick="setScrUnit('umol')">µmol/L</button>
+              </div>
+            </div>
+          </div>
+          <div id="crclMethodGroup">
+            <label>CrCl Method</label>
+            <select id="crclMethod" onchange="calculate()">
+              <option value="cg_actual">Cockcroft–Gault (Actual BW)</option>
+              <option value="cg_ibw">Cockcroft–Gault (IBW)</option>
+              <option value="cg_adj">Cockcroft–Gault (AdjBW if obese)</option>
+              <option value="direct">Direct CrCl Entry</option>
+            </select>
+          </div>
+        </div>
+        <div id="directCrclGroup" style="display:none; margin-bottom: 12px;">
+          <label>Enter CrCl directly (mL/min)</label>
+          <input id="directCrcl" type="number" step="1" placeholder="90" oninput="calculate()" style="width: 100%;" />
+        </div>
+        <div class="row">
+          <div class="out"><strong>Estimated CrCl:</strong> <span id="crclOutput">—</span> mL/min</div>
+          <div class="out"><strong>Renal Category:</strong> <span id="renalCatOutput">—</span></div>
+        </div>
+        <div>
+          <label>Dialysis / Renal Replacement</label>
+          <select id="dialysis" onchange="calculate()">
+            <option value="none">None</option>
+            <option value="hd_low_post">HD – Low-flux (Post-HD)</option>
+            <option value="hd_high_post">HD – High-flux (Post-HD)</option>
+            <option value="hd_low_intra">HD – Low-flux (Intradialytic)</option>
+            <option value="hd_high_intra">HD – High-flux (Intradialytic)</option>
+            <option value="capd">CAPD (Peritoneal Dialysis - IV dosing)</option>
+            <option value="capd_ip_intermittent">CAPD - IP Intermittent</option>
+            <option value="capd_ip_continuous">CAPD - IP Continuous</option>
+            <option value="apd_ip">APD - IP Intermittent</option>
+            <option value="crrt">CRRT (CVVH/CVVHD/CVVHDF)</option>
+            <option value="sled">SLED / PIRRT</option>
+          </select>
+        </div>
+        <div class="tdm-row" style="margin-top: 12px;">
+          <div class="tdm-checkbox">
+            <input type="checkbox" id="concurrentNephrotoxin" onchange="calculate()" />
+            <label for="concurrentNephrotoxin">Concurrent nephrotoxin (aminoglycoside, contrast, NSAIDs, etc.)</label>
+          </div>
+        </div>
+        <div class="warn-box hidden" id="nephrotoxinWarning" style="margin-top: 8px;">
+          <strong>⚠️ Increased AKI Risk:</strong> Concurrent nephrotoxins increase acute kidney injury risk. Favor the lower end of AUC target (400-500). Monitor SCr frequently.
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div>
+      <!-- Indication & Route -->
+      <div class="section">
+        <h2>Indication & Route</h2>
+        <div class="row">
+          <div>
+            <label>Indication</label>
+            <select id="indication" onchange="calculate()">
+              <option value="bacteremia">MRSA Bacteremia</option>
+              <option value="endocarditis">Endocarditis</option>
+              <option value="meningitis">Meningitis / CNS Infection</option>
+              <option value="pneumonia">Pneumonia (MRSA)</option>
+              <option value="osteomyelitis">Osteomyelitis</option>
+              <option value="ssti">Skin/Soft Tissue Infection</option>
+              <option value="sepsis">Sepsis / Critically Ill</option>
+              <option value="surgical_prophylaxis">Surgical Prophylaxis</option>
+              <option value="pji">Prosthetic Joint Infection</option>
+              <option value="dfi">Diabetic Foot Infection</option>
+              <option value="csf_shunt">CSF Shunt Infection</option>
+              <option value="gbs_prophylaxis">GBS Maternal Prophylaxis</option>
+              <option value="cdi">C. difficile (Oral)</option>
+              <option value="intrathecal">Intrathecal/Intraventricular</option>
+            </select>
+          </div>
+          <div>
+            <label>Route</label>
+            <select id="route" onchange="calculate()">
+              <option value="iv">IV - Intermittent Infusion</option>
+              <option value="continuous">IV - Continuous Infusion</option>
+              <option value="oral">Oral (C. difficile only)</option>
+              <option value="intrathecal">Intrathecal</option>
+            </select>
+          </div>
+        </div>
+        <div class="out full" id="indicationNote">Select an indication for specific guidance.</div>
+      </div>
+
+      <!-- TDM Monitoring Section -->
+      <div class="section">
+        <h2>Therapeutic Drug Monitoring (TDM)</h2>
+        <div class="tdm-row">
+          <div class="tdm-checkbox">
+            <input type="checkbox" id="useAUC" checked onchange="calculate()" />
+            <label for="useAUC">AUC Monitoring</label>
+          </div>
+          <div style="margin-left: auto; display: flex; gap: 12px; align-items: center;">
+            <label style="margin: 0; font-size: 12px;">MIC (mg/L):</label>
+            <input id="mic" type="number" step="0.5" value="1" min="0.5" max="4" style="width: 70px;" oninput="calculate()" />
+          </div>
+        </div>
+        <div class="row" id="aucInputRow">
+          <div>
+            <label>Observed Daily AUC (µg·h/mL)</label>
+            <input id="obsAUC" type="number" step="1" placeholder="e.g. 450" oninput="calculate()" />
+            <div class="hint">Target: 400-600 (for MIC = 1)</div>
+          </div>
+          <div class="out" id="aucStatus" style="display: flex; align-items: center; justify-content: center;">
+            <span id="aucStatusText">Enter observed AUC to check status</span>
+          </div>
+        </div>
+        
+        <div class="tdm-row" style="margin-top: 12px;">
+          <div class="tdm-checkbox">
+            <input type="checkbox" id="useTrough" onchange="calculate()" />
+            <label for="useTrough">Trough Monitoring</label>
+          </div>
+          <div style="margin-left: auto; display: flex; gap: 12px; align-items: center;">
+            <label style="margin: 0; font-size: 12px;">Policy 15-20:</label>
+            <input type="checkbox" id="policyBand" onchange="calculate()" />
+          </div>
+        </div>
+        <div class="row hidden" id="troughInputRow">
+          <div>
+            <label>Observed Trough (mg/L)</label>
+            <input id="obsTrough" type="number" step="0.1" placeholder="e.g. 12" oninput="calculate()" />
+            <div class="hint" id="troughTargetHint">Target: 10-15 mg/L (or 15-20 for serious MRSA)</div>
+          </div>
+          <div class="out" id="troughStatus" style="display: flex; align-items: center; justify-content: center;">
+            <span id="troughStatusText">Enter observed trough to check status</span>
+          </div>
+        </div>
+        
+        <div class="out info-box" id="monitoringPlan" style="margin-top: 12px;">
+          <strong>📌 Monitoring Plan:</strong>
+          <div id="monitorPlanText">Select monitoring method(s) above. AUC-based monitoring is preferred for serious MRSA infections per Sanford/ASHP/IDSA guidelines.</div>
+        </div>
+        
+        <div class="out" id="doseAdjustmentBox" style="display: none;">
+          <strong>📊 Dose Adjustment Recommendation:</strong>
+          <div id="doseAdjustmentText"></div>
+        </div>
+      </div>
+
+      <!-- Calculated Doses -->
+      <div class="section" id="doseSection">
+        <h2>Calculated Doses (Sanford Guide)</h2>
+        <div class="row">
+          <div class="dose-card" id="loadingDoseCard">
+            <div class="dose-title">Loading Dose</div>
+            <div class="dose-value" id="loadingDoseOutput">—</div>
+            <div class="dose-hint" id="loadingHint">25-30 mg/kg IV (max 3 gm)</div>
+          </div>
+          <div class="dose-card">
+            <div class="dose-title">Maintenance Dose</div>
+            <div class="dose-value orange" id="maintDoseOutput">—</div>
+            <div class="dose-hint" id="maintHint">15-20 mg/kg IV (max 2 gm)</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="dose-card">
+            <div class="dose-title">Dosing Interval</div>
+            <div class="dose-value green" id="intervalOutput">—</div>
+            <div class="dose-hint" id="intervalHint">Based on CrCl per Sanford</div>
+          </div>
+          <div class="dose-card">
+            <div class="dose-title">Estimated Daily Dose</div>
+            <div class="dose-value purple" id="dailyDoseOutput">—</div>
+            <div class="dose-hint" id="dailyHint">Total mg/day</div>
+          </div>
+        </div>
+        <div class="dose-card" id="infusionCard">
+          <div class="dose-title">Infusion Rate</div>
+          <div class="dose-value" id="infusionOutput">—</div>
+          <div class="dose-hint">Sanford: 10-15 mg/min (≤1 gm over 1 hr, &gt;1 gm over 1.5-2 hr)</div>
+        </div>
+        
+        <!-- Continuous Infusion Box -->
+        <div class="dose-card hidden" id="ciBox" style="border: 1px solid var(--accent);">
+          <div class="dose-title" style="color: var(--accent);">Continuous Infusion (Alternative)</div>
+          <div class="dose-value" id="ciDoseOutput">—</div>
+          <div class="dose-hint" id="ciHint">30-40 mg/kg/day, target Css 20-25 mg/L</div>
+        </div>
+      </div>
+
+      <!-- IV Concentration & Antibiotic Lock Section -->
+      <div class="section">
+        <h2>Safety Calculators</h2>
+        <div class="row">
+          <div>
+            <label>IV Concentration Check</label>
+            <div class="row" style="margin-bottom: 4px;">
+              <input id="concDose" type="number" step="1" placeholder="Dose (mg)" oninput="checkConcentration()" />
+              <input id="concVol" type="number" step="1" placeholder="Volume (mL)" oninput="checkConcentration()" />
+            </div>
+            <div class="out" id="concResult" style="min-height: 40px;">Enter dose and volume to check concentration...</div>
+            <div class="hint">Standard: ≤5 mg/mL | Fluid-restricted: up to 10 mg/mL max</div>
+          </div>
+          <div>
+            <label>Antibiotic Lock (Catheter)</label>
+            <div style="margin-bottom: 4px;">
+              <input id="lockVol" type="number" step="0.1" placeholder="Lumen volume (mL)" oninput="calcLock()" />
+            </div>
+            <div class="out" id="lockResult" style="min-height: 40px;">Enter lumen volume for lock calculation...</div>
+            <div class="hint">Target: 2.5-5 mg/mL in lock solution; dwell up to 72h</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dialysis Section -->
+      <div class="section hidden" id="dialysisSection">
+        <h2>Dialysis Dosing (Sanford Guide)</h2>
+        <div id="dialysisContent"></div>
+      </div>
+
+      <!-- Oral/Intrathecal Section -->
+      <div class="section hidden" id="specialRouteSection">
+        <h2 id="specialRouteTitle">Special Route Dosing</h2>
+        <div id="specialRouteContent"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Collapsible Reference Tables -->
+  <details>
+    <summary>📋 Sanford Guide Dosing Reference Tables</summary>
+    <div class="details-content">
+      <div class="warn-box" style="margin-top: 12px;">
+        <strong>Maximum Doses (Sanford):</strong><br>
+        • Loading: <strong>max 3 gm</strong><br>
+        • Maintenance: <strong>max 2 gm per dose</strong><br>
+        • Daily: <strong>&gt;4.5 gm/day should rarely be required</strong>
+      </div>
+      
+      <h3 style="color: #9dd6ff; margin: 16px 0 10px;">Renal Dosing</h3>
+      <table>
+        <thead>
+          <tr><th>CrCl (mL/min)</th><th>Maintenance Dose</th><th>Interval</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>&gt;100</td><td>15-20 mg/kg (max 2g)</td><td>q8-12h</td></tr>
+          <tr><td>&gt;50-100</td><td>15-20 mg/kg (max 2g)</td><td>q12h</td></tr>
+          <tr><td>20-50</td><td>15-20 mg/kg (max 2g)</td><td>q24h</td></tr>
+          <tr><td>&lt;20</td><td>15-20 mg/kg (max 2g)</td><td>q48h</td></tr>
+        </tbody>
+      </table>
+      
+      <h3 style="color: #9dd6ff; margin: 20px 0 10px;">Dialysis Dosing (IV)</h3>
+      <table>
+        <thead>
+          <tr><th>Modality</th><th>Loading</th><th>Maintenance</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>HD Low-flux (Post-HD)</strong></td><td>25 mg/kg</td><td>7.5 mg/kg after dialysis</td></tr>
+          <tr><td><strong>HD High-flux (Post-HD)</strong></td><td>25 mg/kg</td><td>10 mg/kg after dialysis</td></tr>
+          <tr><td><strong>HD Low-flux (Intra)</strong></td><td>30 mg/kg</td><td>7.5-10 mg/kg</td></tr>
+          <tr><td><strong>HD High-flux (Intra)</strong></td><td>35 mg/kg</td><td>10-15 mg/kg</td></tr>
+          <tr><td><strong>CAPD</strong></td><td>—</td><td>7.5 mg/kg q48-96h</td></tr>
+          <tr><td><strong>CRRT</strong></td><td>20-25 mg/kg</td><td>7.5-10 mg/kg q12h</td></tr>
+          <tr><td><strong>SLED</strong></td><td>20-25 mg/kg</td><td>15 mg/kg after dialysis</td></tr>
+        </tbody>
+      </table>
+      
+      <h3 style="color: #9dd6ff; margin: 20px 0 10px;">Intraperitoneal Dosing (PD Peritonitis)</h3>
+      <table>
+        <thead>
+          <tr><th>Modality</th><th>Loading</th><th>Maintenance</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>CAPD - Intermittent</strong></td><td>—</td><td>15-30 mg/kg IP q5-7d</td></tr>
+          <tr><td><strong>APD - Intermittent</strong></td><td>—</td><td>15 mg/kg IP q4d</td></tr>
+          <tr><td><strong>CAPD/APD - Continuous</strong></td><td>20-25 mg/kg IP</td><td>25 mg/L in all exchanges</td></tr>
+        </tbody>
+      </table>
+      
+      <h3 style="color: #9dd6ff; margin: 20px 0 10px;">Pediatric Dosing (Age &gt;28 Days) - Reference Only</h3>
+      <table>
+        <thead>
+          <tr><th>Usage</th><th>Dose</th><th>Target</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>IV</strong></td><td>60-80 mg/kg/day (divided q6-8h)</td><td>AUC 400-600 or trough 10-15 µg/mL</td></tr>
+          <tr><td><strong>Oral (C. diff)</strong></td><td>40 mg/kg/day (divided q6h)</td><td>—</td></tr>
+        </tbody>
+      </table>
+      <div class="hint" style="margin-top: 8px; font-size: 11px; color: var(--muted);">
+        Pediatric note: AUC<sub>24</sub> closer to 400 µg/mL is adequate for most non-CNS infections in infants and older children with normal renal function.
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>🤰 Pregnancy & Lactation</summary>
+    <div class="details-content">
+      <div class="row" style="margin-top: 12px;">
+        <div class="out"><strong>FDA Pregnancy Category:</strong> <span style="color: #fbbf24;">C</span></div>
+        <div class="out"><strong>Lactation:</strong> <span style="color: #34d399;">Safe with monitoring</span></div>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>🧪 Pharmacology & Half-Life</summary>
+    <div class="details-content">
+      <table style="margin-top: 12px;">
+        <tbody>
+          <tr><td style="width: 40%;"><strong>PK/PD Index</strong></td><td>24-hr AUC/MIC</td></tr>
+          <tr><td><strong>Half-life (normal renal)</strong></td><td>4-6 hours</td></tr>
+          <tr><td><strong>Half-life (ESRD)</strong></td><td>200-250 hours</td></tr>
+          <tr><td><strong>Volume of Distribution (Vd)</strong></td><td>0.7 L/kg</td></tr>
+          <tr><td><strong>Protein Binding</strong></td><td>55%</td></tr>
+          <tr><td><strong>CSF Penetration</strong></td><td>7-14% (with inflammation)</td></tr>
+          <tr><td><strong>Elimination</strong></td><td>Renal</td></tr>
+          <tr><td><strong>Target AUC<sub>24</sub></strong></td><td>400-600 µg·h/mL</td></tr>
+          <tr><td><strong>Target Trough</strong></td><td>10-20 µg/mL</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <details>
+    <summary>🩺 Hepatic & ECMO Adjustments</summary>
+    <div class="details-content">
+      <div class="ok-box" style="margin-top: 12px;">
+        <strong>Hepatic Impairment:</strong> No dosage adjustment required (Child-Pugh A, B, or C)
+      </div>
+      <div class="info-box">
+        <strong>ECMO Dosing:</strong> Minimal impact on pharmacokinetics. Use standard dosing. TDM is vital to achieve safety and efficacy targets.
+        <div class="hint" style="margin-top: 4px;">(Crit Care 2024;28:326)</div>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>⚠️ Adverse Effects</summary>
+    <div class="details-content">
+      <div class="warn-box" style="margin-top: 12px;">
+        <strong>Nephrotoxicity (Dose-dependent)</strong>
+        <ul style="margin: 8px 0 0 16px; font-size: 12px;">
+          <li>Risk increases with dose, duration, and AUC</li>
+          <li>Monitor SCr at least every 48-72h during therapy</li>
+          <li>Risk factors: high trough (>15-20), concurrent nephrotoxins, prolonged therapy</li>
+          <li>AKI definition: ≥0.3 mg/dL rise in 48h OR ≥50% increase from baseline in 7 days</li>
+        </ul>
+      </div>
+      <div class="warn-box">
+        <strong>Vancomycin Histamine Release Syndrome (VHS)</strong>
+        <ul style="margin: 8px 0 0 16px; font-size: 12px;">
+          <li>Acute onset erythematous edematous skin ("Red Man Syndrome")</li>
+          <li>Due to non-specific histamine release from mast cells</li>
+          <li>NOT an allergy - associated with rapid infusion</li>
+          <li>Prevention: Infuse at ≤10-15 mg/min; slow rate if reaction occurs</li>
+        </ul>
+      </div>
+      <div class="alert">
+        <strong>Other Adverse Effects:</strong>
+        <ul style="margin: 8px 0 0 16px; font-size: 12px;">
+          <li><strong>Ototoxicity:</strong> High-frequency hearing loss (19% after ~27 days at high doses)</li>
+          <li><strong>DRESS Syndrome:</strong> Most common antimicrobial cause in US; risk increases >2 weeks therapy</li>
+          <li><strong>Neutropenia:</strong> Usually reversible with discontinuation</li>
+          <li><strong>Thrombocytopenia:</strong> Immune-mediated; linear relationship with peak trough</li>
+          <li><strong>Linear IgA Bullous Dermatosis:</strong> Rare; blistering skin eruption</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>📚 TDM/Monitoring Guide</summary>
+    <div class="details-content">
+      <div class="info-box" style="margin-top: 12px;">
+        <strong>AUC-Based Monitoring (Preferred for Serious MRSA)</strong>
+        <ul style="margin: 8px 0 0 16px; font-size: 12px;">
+          <li>Target AUC<sub>24</sub>/MIC: 400-600 µg·h/mL (assuming MIC = 1)</li>
+          <li>Methods: Trapezoidal equations (peak + trough at steady state) OR Bayesian modeling</li>
+          <li>First levels: Within 24-48h at steady state (typically before 4th dose)</li>
+          <li>For AUC: Draw two levels - 1-2h post-dose (peak) + trough before next dose</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <strong>Trough-Only Monitoring (Alternative)</strong>
+        <ul style="margin: 8px 0 0 16px; font-size: 12px;">
+          <li>Target: 10-15 mg/L (uncomplicated infections) or 15-20 mg/L (serious MRSA)</li>
+          <li>Preferred for: meningitis, CNS infections, unstable renal function</li>
+          <li>Poor proxy for AUC; target may be achieved with trough <15 mg/L</li>
+        </ul>
+      </div>
+      <div class="warn-box">
+        <strong>Dose Adjustment Based on Levels</strong>
+        <ul style="margin: 8px 0 0 16px; font-size: 12px;">
+          <li>If AUC <400 or trough below target: <strong>↑ dose by 25%</strong></li>
+          <li>If AUC >600 or trough above target: <strong>↓ dose by 25%</strong></li>
+          <li>If AUC >600 or trough >20 mg/L: <strong>HOLD dosing</strong>; recheck level and resume when therapeutic</li>
+          <li>Unstable renal function: more frequent monitoring (daily SCr, levels q24-48h)</li>
+        </ul>
+      </div>
+      <div class="out">
+        <strong>Level Timing:</strong>
+        <ul style="margin: 8px 0 0 16px; font-size: 12px;">
+          <li><strong>Intermittent IV:</strong> First trough just before 4th dose (steady state). After any change, recheck in 24-48h.</li>
+          <li><strong>HD:</strong> Obtain pre-HD level before next session; at least weekly monitoring.</li>
+          <li><strong>PD:</strong> Serum level ~48-72h after loading; redose based on level.</li>
+          <li><strong>CRRT/PIRRT:</strong> Monitor within first 24-48h and after any changes.</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+
+  <!-- Disclaimer -->
+  <div class="info-box" style="margin-top: 14px;">
+    <strong>⚕️ Clinical Disclaimer:</strong> This calculator is based on Sanford Guide recommendations for adult patients. Always verify with current guidelines and consider individual patient factors. Therapeutic drug monitoring (TDM) is recommended for serious infections.
+  </div>
+</div>
+
+<script>
+// ========== STATE ==========
+let scrUnit = 'mgdl';
+let hasPrevDose = false;
+
+// ========== HELPER FUNCTIONS ==========
+function $(id) { return document.getElementById(id); }
+
+function round250(dose) {
+  return Math.round(dose / 250) * 250;
+}
+
+function formatDose(dose) {
+  return dose.toLocaleString();
+}
+
+function setScrUnit(unit) {
+  scrUnit = unit;
+  $('scrMgDl').classList.toggle('active', unit === 'mgdl');
+  $('scrUmolL').classList.toggle('active', unit === 'umol');
+  calculate();
+}
+
+function setPrevDose(val) {
+  hasPrevDose = val === 'yes';
+  $('prevNo').classList.toggle('active', !hasPrevDose);
+  $('prevYes').classList.toggle('active', hasPrevDose);
+  $('prevDoseInputs').classList.toggle('hidden', !hasPrevDose);
+  calculate();
+}
+
+// Get dose adjustment based on observed levels (Sanford Guide TDM)
+function getDoseAdjustment(obsAUC, obsTrough, trMin, trMax) {
+  // Returns: { factor: 1.0/1.25/0.75, type: 'maintain'|'increase'|'decrease'|'hold', reason: 'string' }
+  
+  // Priority 1: Check for HOLD conditions
+  if (obsAUC > 600) {
+    return { factor: 0, type: 'hold', reason: `AUC ${obsAUC} > 600 → HOLD dosing` };
+  }
+  if (obsTrough > 20) {
+    return { factor: 0, type: 'hold', reason: `Trough ${obsTrough} > 20 → HOLD dosing` };
+  }
+  
+  // Priority 2: AUC-based adjustment
+  if (obsAUC > 0) {
+    if (obsAUC < 400) {
+      return { factor: 1.25, type: 'increase', reason: `AUC ${obsAUC} < 400 → ↑ dose 25%` };
+    } else if (obsAUC >= 400 && obsAUC <= 600) {
+      return { factor: 1.0, type: 'maintain', reason: `AUC ${obsAUC} therapeutic (400-600) → maintain dose` };
+    }
+  }
+  
+  // Priority 3: Trough-based adjustment (if no AUC)
+  if (obsTrough > 0) {
+    if (obsTrough < trMin) {
+      return { factor: 1.25, type: 'increase', reason: `Trough ${obsTrough} < ${trMin} → ↑ dose 25%` };
+    } else if (obsTrough >= trMin && obsTrough <= trMax) {
+      return { factor: 1.0, type: 'maintain', reason: `Trough ${obsTrough} therapeutic (${trMin}-${trMax}) → maintain dose` };
+    } else if (obsTrough > trMax && obsTrough <= 20) {
+      return { factor: 0.75, type: 'decrease', reason: `Trough ${obsTrough} > ${trMax} → ↓ dose 25%` };
+    }
+  }
+  
+  // No observed levels
+  return { factor: 1.0, type: 'none', reason: '' };
+}
+
+// ========== CALCULATIONS ==========
+function calcBMI(weight, height) {
+  if (!weight || !height) return null;
+  const heightM = height / 100;
+  return weight / (heightM * heightM);
+}
+
+function calcIBW(sex, height) {
+  if (!height) return null;
+  const heightIn = height / 2.54;
+  let ibw;
+  if (sex === 'male') {
+    ibw = 50 + 2.3 * (heightIn - 60);
+  } else {
+    ibw = 45.5 + 2.3 * (heightIn - 60);
+  }
+  // Floor: IBW should not be less than 30 kg (very short patients)
+  return Math.max(ibw, 30);
+}
+
+function calcAdjBW(ibw, actualWt) {
+  if (!ibw || !actualWt) return null;
+  return ibw + 0.4 * (actualWt - ibw);
+}
+
+function calcCrCl(age, sex, weight, scrMgDl) {
+  if (!age || !weight || !scrMgDl || scrMgDl <= 0) return null;
+  let crcl = ((140 - age) * weight) / (72 * scrMgDl);
+  if (sex === 'female') crcl *= 0.85;
+  return Math.round(crcl);
+}
+
+// Sanford renal intervals - with ARC detection
+// Fixed boundaries: >= for inclusive ranges per Sanford table
+function getIntervalByCrCl(crcl) {
+  if (crcl >= 130) return { interval: 'q8h', multiplier: 3, text: 'Every 8 hours (ARC)', isARC: true };
+  if (crcl >= 100) return { interval: 'q8-12h', multiplier: 2.5, text: 'Every 8-12 hours', isRange: true };
+  if (crcl >= 50) return { interval: 'q12h', multiplier: 2, text: 'Every 12 hours' };
+  if (crcl >= 20) return { interval: 'q24h', multiplier: 1, text: 'Every 24 hours' };
+  return { interval: 'q48h', multiplier: 0.5, text: 'Every 48 hours' };
+}
+
+function getRenalCategory(crcl) {
+  if (crcl >= 130) return 'ARC (≥130)';
+  if (crcl >= 100) return 'Normal (≥100)';
+  if (crcl >= 50) return 'Mild (50-99)';
+  if (crcl >= 20) return 'Moderate (20-49)';
+  return 'Severe (<20)';
+}
+
+// ========== MAIN CALCULATION ==========
+function calculate() {
+  const age = +($('age').value || 0);
+  const sex = $('sex').value;
+  const weight = +($('weight').value || 0);
+  const height = +($('height').value || 0);
+  let scrInput = +($('scr').value || 0);
+  const crclMethod = $('crclMethod').value;
+  const directCrclVal = +($('directCrcl').value || 0);
+  const dialysis = $('dialysis').value;
+  const indication = $('indication').value;
+  
+  // Auto-set route for fixed-route indications
+  const routeSelect = $('route');
+  if (indication === 'cdi') {
+    routeSelect.value = 'oral';
+    routeSelect.disabled = true;
+  } else if (indication === 'intrathecal') {
+    routeSelect.value = 'intrathecal';
+    routeSelect.disabled = true;
+  } else {
+    routeSelect.disabled = false;
+    // Reset to IV if coming from a fixed route
+    if (routeSelect.value === 'oral' || routeSelect.value === 'intrathecal') {
+      routeSelect.value = 'iv';
+    }
+  }
+  const route = routeSelect.value;
+  
+  // Show/hide direct CrCl input and SCr input
+  $('directCrclGroup').style.display = crclMethod === 'direct' ? 'block' : 'none';
+  $('scrInputGroup').style.display = crclMethod === 'direct' ? 'none' : 'block';
+  
+  // Convert SCr to mg/dL
+  let scrMgDl = scrInput;
+  if (scrUnit === 'umol' && scrInput > 0) {
+    scrMgDl = scrInput / 88.4;
+  }
+  
+  // Calculate body weights
+  const bmi = calcBMI(weight, height);
+  const ibw = calcIBW(sex, height);
+  const adjbw = ibw && weight > ibw ? calcAdjBW(ibw, weight) : null;
+  const isObese = bmi && bmi >= 30;
+  const isUnderweight = bmi && bmi < 18.5;
+  const isOverweight = bmi && bmi >= 25 && bmi < 30;
+  
+  // Display weight calculations
+  $('bmiOutput').textContent = bmi ? bmi.toFixed(1) : '—';
+  $('ibwOutput').textContent = ibw ? ibw.toFixed(1) : '—';
+  $('adjbwOutput').textContent = adjbw ? adjbw.toFixed(1) : '—';
+  $('obesityTag').classList.toggle('hidden', !isObese);
+  $('underweightTag').classList.toggle('hidden', !isUnderweight);
+  
+  // Dosing weight selection per Sanford Guide controversy note:
+  // Recent review suggests: Loading = Actual BW, Maintenance = Adjusted BW (for obese)
+  // - BMI < 18.5 (underweight): Use IBW for both
+  // - BMI 18.5-29.9 (normal/overweight): Use Actual Body Weight for both
+  // - BMI ≥ 30 (obese): Loading = Actual BW, Maintenance = Adjusted BW
+  let loadingWt = weight; // Always actual BW for loading
+  let maintWt = weight;   // Adjusted for obese patients
+  let dosingWtMethod = 'ABW';
+  
+  if (isUnderweight && ibw) {
+    loadingWt = ibw;
+    maintWt = ibw;
+    dosingWtMethod = 'IBW';
+  } else if (isObese && adjbw) {
+    loadingWt = weight;  // Actual BW for loading
+    maintWt = adjbw;     // Adjusted BW for maintenance
+    dosingWtMethod = 'ABW/AdjBW';
+  }
+  
+  // For display purposes, show the maintenance weight
+  let dosingWt = maintWt;
+  
+  // Display dosing weight with method
+  let dosingWtText = dosingWt ? dosingWt.toFixed(1) : '—';
+  if (dosingWt && bmi) {
+    dosingWtText += ` <span style="color: var(--accent); font-size: 0.85rem;">(${dosingWtMethod})</span>`;
+  }
+  $('dosingWtOutput').innerHTML = dosingWtText;
+  
+  // Calculate CrCl
+  let crcl = null;
+  const onDialysis = dialysis !== 'none';
+  
+  if (!onDialysis) {
+    if (crclMethod === 'direct' && directCrclVal > 0) {
+      crcl = directCrclVal;
+    } else if (age > 0 && scrMgDl > 0) {
+      let cgWeight = weight;
+      if (crclMethod === 'cg_ibw' && ibw) cgWeight = ibw;
+      else if (crclMethod === 'cg_adj' && isObese && adjbw) cgWeight = adjbw;
+      crcl = calcCrCl(age, sex, cgWeight, scrMgDl);
+    }
+  }
+  
+  $('crclOutput').textContent = crcl ? crcl : (onDialysis ? 'N/A (Dialysis)' : '—');
+  $('renalCatOutput').textContent = crcl ? getRenalCategory(crcl) : (onDialysis ? dialysis.toUpperCase() : '—');
+  
+  // Handle special routes
+  const isOral = route === 'oral';
+  const isIntrathecal = route === 'intrathecal';
+  
+  $('specialRouteSection').classList.toggle('hidden', !isOral && !isIntrathecal);
+  $('doseSection').classList.toggle('hidden', isOral || isIntrathecal || onDialysis);
+  $('dialysisSection').classList.toggle('hidden', !onDialysis);
+  
+  if (isOral) {
+    $('specialRouteTitle').textContent = 'Oral Dosing (C. difficile)';
+    $('specialRouteContent').innerHTML = `
+      <div class="dose-card">
+        <div class="dose-title">Oral Vancomycin for C. difficile</div>
+        <div class="dose-value">125-500 mg PO q6h</div>
+        <div class="dose-hint">Duration: 10-14 days for initial episode. Not absorbed systemically.</div>
+      </div>
+    `;
+    updateRegimen('Vancomycin 125 mg PO q6h × 10 days (C. difficile)', '');
+    return;
+  }
+  
+  if (isIntrathecal) {
+    $('specialRouteTitle').textContent = 'Intrathecal Dosing';
+    $('specialRouteContent').innerHTML = `
+      <div class="dose-card">
+        <div class="dose-title">Intrathecal/Intraventricular Vancomycin</div>
+        <div class="dose-value">10-20 mg/day</div>
+        <div class="dose-hint">Target CSF concentration: 10-20 µg/mL. Administer with systemic therapy.</div>
+      </div>
+    `;
+    updateRegimen('Vancomycin 10-20 mg intrathecal daily (+ systemic therapy)', '');
+    return;
+  }
+  
+  // Handle dialysis - pass actual weight for loading, dosingWt for maintenance
+  if (onDialysis && dosingWt > 0) {
+    // Show nephrotoxin warning for dialysis patients too
+    const hasNephrotoxin = $('concurrentNephrotoxin').checked;
+    $('nephrotoxinWarning').classList.toggle('hidden', !hasNephrotoxin);
+    
+    calculateDialysisDose(dialysis, weight, dosingWt, hasPrevDose);
+    return;
+  }
+  
+  // ========== TDM MONITORING ==========
+  const useAUC = $('useAUC').checked;
+  const useTrough = $('useTrough').checked;
+  const mic = +($('mic').value || 1) || 1;
+  const obsAUC = +($('obsAUC').value || 0);
+  const obsTrough = +($('obsTrough').value || 0);
+  const policyBand = $('policyBand').checked;
+  const trMin = policyBand ? 15 : 10;
+  const trMax = policyBand ? 20 : 15;
+  
+  // Update trough target hint
+  $('troughTargetHint').textContent = `Target: ${trMin}-${trMax} mg/L${policyBand ? ' (Policy 15-20)' : ' (or 15-20 for serious MRSA)'}`;
+  
+  // Show/hide trough inputs
+  $('troughInputRow').classList.toggle('hidden', !useTrough);
+  
+  // AUC status display
+  if (useAUC && obsAUC > 0) {
+    const aucMIC = Math.round(obsAUC / mic);
+    if (obsAUC > 600) {
+      $('aucStatusText').innerHTML = `<span style="color: #ef4444;">❌ AUC ${obsAUC} > 600 → HOLD</span>`;
+    } else if (obsAUC < 400) {
+      $('aucStatusText').innerHTML = `<span style="color: #fbbf24;">⚠️ AUC ${obsAUC} < 400 → ↑ dose 25%</span>`;
+    } else {
+      $('aucStatusText').innerHTML = `<span style="color: #34d399;">✓ AUC ${obsAUC} therapeutic (400-600)</span>`;
+    }
+  } else {
+    $('aucStatusText').textContent = 'Enter observed AUC to check status';
+  }
+  
+  // Trough status display
+  if (useTrough && obsTrough > 0) {
+    if (obsTrough > 20) {
+      $('troughStatusText').innerHTML = `<span style="color: #ef4444;">❌ Trough ${obsTrough} > 20 → HOLD</span>`;
+    } else if (obsTrough > trMax) {
+      $('troughStatusText').innerHTML = `<span style="color: #fbbf24;">⚠️ Trough ${obsTrough} > ${trMax} → ↓ dose 25%</span>`;
+    } else if (obsTrough < trMin) {
+      $('troughStatusText').innerHTML = `<span style="color: #fbbf24;">⚠️ Trough ${obsTrough} < ${trMin} → ↑ dose 25%</span>`;
+    } else {
+      $('troughStatusText').innerHTML = `<span style="color: #34d399;">✓ Trough ${obsTrough} therapeutic (${trMin}-${trMax})</span>`;
+    }
+  } else {
+    $('troughStatusText').textContent = 'Enter observed trough to check status';
+  }
+  
+  // Get dose adjustment
+  const adjustment = getDoseAdjustment(obsAUC, obsTrough, trMin, trMax);
+  
+  // Show global hold banner if needed
+  const showHold = adjustment.type === 'hold';
+  $('globalHoldBanner').classList.toggle('hidden', !showHold);
+  if (showHold) {
+    let holdReasons = [];
+    if (obsAUC > 600) holdReasons.push(`AUC ${obsAUC} > 600`);
+    if (obsTrough > 20) holdReasons.push(`Trough ${obsTrough} > 20 mg/L`);
+    $('holdMessage').textContent = `${holdReasons.join(' & ')}. Hold dosing and recheck levels. Resume when therapeutic; adjust dose accordingly.`;
+  }
+  
+  // Show dose adjustment box if applicable
+  const showAdjustment = adjustment.type !== 'none' && !showHold;
+  $('doseAdjustmentBox').style.display = showAdjustment ? 'block' : 'none';
+  if (showAdjustment) {
+    let adjClass = adjustment.type === 'increase' ? 'increase' : (adjustment.type === 'decrease' ? 'decrease' : 'maintain');
+    $('doseAdjustmentText').innerHTML = `<span class="dose-adjustment ${adjClass}">${adjustment.reason}</span>`;
+  }
+  
+  // Update monitoring plan
+  let monitorPlan = [];
+  if (useAUC) {
+    const targetL = Math.round(400 / mic);
+    const targetH = Math.round(600 / mic);
+    monitorPlan.push(`AUC/MIC target: ${targetL}–${targetH} (MIC = ${mic} mg/L)`);
+    // Warning if MIC > 1 creates unsafe AUC target
+    if (mic > 1) {
+      const requiredAUC = 400 * mic;
+      if (requiredAUC > 600) {
+        monitorPlan.push(`<span style="color: #ef4444;">⚠️ MIC ${mic}: Required AUC ${requiredAUC}-${600*mic} exceeds safety threshold of 600!</span>`);
+      }
+    }
+  }
+  if (useTrough) {
+    monitorPlan.push(`Trough target: ${trMin}–${trMax} mg/L${policyBand ? ' (policy 15-20)' : ''}`);
+  }
+  if (useAUC && useTrough) {
+    monitorPlan.push('If conflict: prioritize AUC for serious MRSA.');
+  }
+  if (!useAUC && !useTrough) {
+    monitorPlan.push('Select AUC and/or trough monitoring method above.');
+  }
+  $('monitorPlanText').innerHTML = monitorPlan.join('<br>');
+  
+  // Previous dose calculation
+  let prevTDD = 0;
+  let prevSingleDose = 0;
+  if (hasPrevDose) {
+    prevSingleDose = +($('prevDose').value || 0);
+    const prevFreq = $('prevFreq').value;
+    let multiplier = 2; // default q12h
+    if (prevFreq === 'q8h') multiplier = 3;
+    else if (prevFreq === 'q24h') multiplier = 1;
+    else if (prevFreq === 'q48h') multiplier = 0.5;
+    prevTDD = prevSingleDose * multiplier;
+    $('prevTDD').textContent = prevTDD > 0 ? formatDose(prevTDD) : '—';
+  }
+  
+  // If previous dose exists but no TDM levels entered, continue previous regimen
+  const noLevelsEntered = obsAUC === 0 && obsTrough === 0;
+  const usePreviousDose = hasPrevDose && prevSingleDose > 0 && noLevelsEntered;
+
+  // Regular IV dosing
+  if (dosingWt > 0 && crcl) {
+    // Indication-specific dosing overrides
+    let loadingMgKg, maintMgKg, forceInterval;
+    
+    if (indication === 'gbs_prophylaxis') {
+      // GBS: 20 mg/kg loading + 20 mg/kg q8h
+      loadingMgKg = 20;
+      maintMgKg = 20;
+      forceInterval = { interval: 'q8h', multiplier: 3, text: 'Every 8 hours (GBS protocol)' };
+    } else if (indication === 'surgical_prophylaxis') {
+      // Surgical prophylaxis: 15 mg/kg, no loading typically
+      loadingMgKg = 15;
+      maintMgKg = 15;
+      forceInterval = null; // Use CrCl-based
+    } else {
+      // Standard dosing
+      loadingMgKg = isObese ? 22.5 : 27.5; // Lower range for obese
+      maintMgKg = 17.5;
+      forceInterval = null;
+    }
+    
+    let loadingDose = round250(loadingWt * loadingMgKg);
+    const loadingCapped = loadingDose > 3000;
+    if (loadingCapped) loadingDose = 3000;
+    
+    // Maintenance dose
+    let maintDose = round250(maintWt * maintMgKg);
+    let adjustmentHtml = '';
+    let adjustmentNote = '';
+    
+    // If previous dose exists and adjustment available, use it
+    if (hasPrevDose && prevSingleDose > 0 && adjustment.type !== 'none') {
+      if (adjustment.type === 'hold') {
+        // Hold - don't calculate new dose
+        maintDose = 0;
+        adjustmentNote = 'HOLD - Do not dose until levels recheck';
+      } else {
+        // Apply adjustment to previous dose
+        maintDose = round250(prevSingleDose * adjustment.factor);
+        if (adjustment.type === 'increase') {
+          adjustmentHtml = `<span class="dose-adjustment increase">↑ +25% from previous</span>`;
+          adjustmentNote = `Previous: ${formatDose(prevSingleDose)} mg → Adjusted: ${formatDose(maintDose)} mg`;
+        } else if (adjustment.type === 'decrease') {
+          adjustmentHtml = `<span class="dose-adjustment decrease">↓ -25% from previous</span>`;
+          adjustmentNote = `Previous: ${formatDose(prevSingleDose)} mg → Adjusted: ${formatDose(maintDose)} mg`;
+        } else if (adjustment.type === 'maintain') {
+          maintDose = prevSingleDose; // Keep same dose
+          adjustmentHtml = `<span class="dose-adjustment maintain">→ Maintained</span>`;
+          adjustmentNote = `Therapeutic - maintaining ${formatDose(prevSingleDose)} mg`;
+        }
+      }
+    } else if (usePreviousDose) {
+      // Continue previous dose if no levels entered
+      maintDose = prevSingleDose;
+      adjustmentHtml = `<span class="dose-adjustment maintain">→ Continuing</span>`;
+      adjustmentNote = `Continuing previous dose ${formatDose(prevSingleDose)} mg (enter levels for adjustment)`;
+    }
+    
+    // Cap maintenance at 2g
+    const maintCapped = maintDose > 2000;
+    if (maintCapped) maintDose = 2000;
+    
+    // Get interval - use forced interval for specific indications or CrCl-based
+    const intervalInfo = forceInterval || getIntervalByCrCl(crcl);
+    
+    // Handle ARC and nephrotoxin warnings
+    const hasNephrotoxin = $('concurrentNephrotoxin').checked;
+    $('nephrotoxinWarning').classList.toggle('hidden', !hasNephrotoxin);
+    
+    // Calculate daily dose - cap at 4500 mg per Sanford (rarely needed)
+    let dailyDose = Math.round(maintDose * intervalInfo.multiplier);
+    const dailyCapped = dailyDose > 4500;
+    if (dailyCapped) {
+      // Reduce maintenance dose to stay under 4.5g/day
+      maintDose = round250(4500 / intervalInfo.multiplier);
+      dailyDose = Math.round(maintDose * intervalInfo.multiplier);
+    }
+    
+    // Calculate infusion time
+    const infusionTime = loadingDose > 1000 ? '1.5-2 hours' : '1 hour';
+    const infusionRate = Math.round(loadingDose / (loadingDose > 1000 ? 90 : 60));
+    
+    // Calculate Continuous Infusion dose (alternative)
+    // Sanford: 30-40 mg/kg/day, adjusted by renal function
+    let ciDaily;
+    if (crcl >= 130) ciDaily = Math.round(dosingWt * 50); // ARC - higher dose
+    else if (crcl >= 100) ciDaily = Math.round(dosingWt * 40); // Normal-high
+    else if (crcl >= 50) ciDaily = Math.round(dosingWt * 35); // Normal-low to mild
+    else if (crcl >= 25) ciDaily = Math.round(dosingWt * 25); // Moderate
+    else ciDaily = Math.round(dosingWt * 15); // Severe
+    
+    // Display CI box only for IV continuous route (not oral/intrathecal)
+    const isContinuous = route === 'continuous' && !isOral && !isIntrathecal;
+    $('ciBox').classList.toggle('hidden', !isContinuous);
+    if (isContinuous) {
+      $('ciDoseOutput').textContent = `${formatDose(ciDaily)} mg/day`;
+      $('ciHint').textContent = `Target Css 20-25 mg/L. Adjusted for CrCl ${crcl} mL/min.`;
+    }
+    
+    // Display (if not HOLD)
+    if (showHold) {
+      $('loadingDoseOutput').innerHTML = `<span style="color: #ef4444;">HOLD</span>`;
+      $('maintDoseOutput').innerHTML = `<span style="color: #ef4444;">HOLD - Do not dose</span>`;
+      $('intervalOutput').textContent = '—';
+      $('dailyDoseOutput').innerHTML = '—';
+      $('loadingHint').textContent = 'Hold until levels normalize';
+      $('maintHint').textContent = adjustment.reason;
+      $('intervalHint').textContent = '';
+      $('dailyHint').textContent = '';
+      $('infusionOutput').textContent = '—';
+      updateRegimen(`⛔ HOLD - ${adjustment.reason}`, 'Recheck levels and resume when therapeutic');
+    } else {
+      // Hide loading dose if patient was previously on vancomycin
+      $('loadingDoseCard').classList.toggle('hidden', hasPrevDose);
+      
+      let loadingText = `${formatDose(loadingDose)} mg IV`;
+      if (loadingCapped) loadingText += ' <span class="max-warning">⚠️ MAX 3g</span>';
+      $('loadingDoseOutput').innerHTML = loadingText;
+      
+      // Loading hint - show correct mg/kg based on indication
+      let loadingHintMgKg = indication === 'gbs_prophylaxis' ? '20' : (indication === 'surgical_prophylaxis' ? '15' : (isObese ? '20-25' : '25-30'));
+      $('loadingHint').innerHTML = `${loadingHintMgKg} mg/kg × ${loadingWt.toFixed(1)} kg (ABW) = ${formatDose(Math.round(loadingWt * loadingMgKg))} mg`;
+      
+      let maintText = `${formatDose(maintDose)} mg IV ${adjustmentHtml}`;
+      if (maintCapped) maintText += ' <span class="max-warning">⚠️ MAX 2g/dose</span>';
+      $('maintDoseOutput').innerHTML = maintText;
+      
+      if (adjustmentNote) {
+        $('maintHint').innerHTML = `<span style="color: var(--accent);">${adjustmentNote}</span>`;
+      } else {
+        // Maintenance hint - show correct mg/kg based on indication
+        let maintHintMgKg = indication === 'gbs_prophylaxis' ? '20' : (indication === 'surgical_prophylaxis' ? '15' : '15-20');
+        const wtLabel = isObese ? `${maintWt.toFixed(1)} kg (AdjBW)` : `${maintWt.toFixed(1)} kg`;
+        $('maintHint').textContent = `${maintHintMgKg} mg/kg × ${wtLabel}${maintCapped ? ' (capped at 2g)' : ''}`;
+      }
+      
+      $('intervalOutput').textContent = intervalInfo.text;
+      $('intervalHint').textContent = forceInterval ? `${indication.replace(/_/g, ' ')} protocol` : `CrCl ${crcl} mL/min → ${intervalInfo.interval}`;
+      
+      // Daily dose display - show range for q8-12h
+      let dailyText = `${formatDose(dailyDose)} mg/day`;
+      if (dailyCapped) dailyText += ' <span class="max-warning">⚠️ MAX 4.5g/day</span>';
+      $('dailyDoseOutput').innerHTML = dailyText;
+      
+      // Fix multiplier display for q8-12h (show 2-3 instead of 2.5)
+      let multiplierText = intervalInfo.isRange ? '2-3' : intervalInfo.multiplier;
+      $('dailyHint').textContent = `${formatDose(maintDose)} mg × ${multiplierText} doses/day${dailyCapped ? ' (Sanford: rarely need >4.5g)' : ''}`;
+      
+      // Hide infusion card if patient already on vancomycin (no loading needed)
+      $('infusionCard').classList.toggle('hidden', hasPrevDose);
+      $('infusionOutput').textContent = `Infuse over ${infusionTime} (~${infusionRate} mg/min)`;
+      
+      // Update indication note
+      updateIndicationNote(indication);
+      
+      // Update regimen summary
+      let regimenText;
+      if (hasPrevDose) {
+        // No loading dose for patients already on vancomycin
+        regimenText = `Maintenance: ${formatDose(maintDose)} mg IV ${intervalInfo.interval}`;
+      } else {
+        regimenText = `Loading: ${formatDose(loadingDose)} mg IV over ${infusionTime}${loadingCapped ? ' (max 3g)' : ''}\nMaintenance: ${formatDose(maintDose)} mg IV ${intervalInfo.interval}`;
+      }
+      let notes = `CrCl: ${crcl} mL/min | Dosing weight: ${dosingWt.toFixed(1)} kg (${dosingWtMethod}) | Daily dose: ~${formatDose(dailyDose)} mg`;
+      if (adjustmentNote) notes += ` | ${adjustmentNote}`;
+      updateRegimen(regimenText, notes);
+    }
+  } else {
+    clearOutputs();
+  }
+}
+
+function calculateDialysisDose(dialysis, loadingWt, maintWt, hasPrevDose) {
+  let loadingMgKg, maintMgKg, maintInterval, notes;
+  
+  switch (dialysis) {
+    case 'hd_low_post':
+      loadingMgKg = 25;
+      maintMgKg = 7.5;
+      maintInterval = 'after each HD session';
+      notes = 'Low permeability membrane, post-HD dosing. Target pre-HD trough 15-20 mg/L.';
+      break;
+    case 'hd_high_post':
+      loadingMgKg = 25;
+      maintMgKg = 10;
+      maintInterval = 'after each HD session';
+      notes = 'High permeability membrane, post-HD dosing. Target pre-HD trough 15-20 mg/L.';
+      break;
+    case 'hd_low_intra':
+      loadingMgKg = 30;
+      maintMgKg = 8.75;
+      maintInterval = 'during last 60-90 min of HD';
+      notes = 'Low permeability membrane, intradialytic dosing (7.5-10 mg/kg).';
+      break;
+    case 'hd_high_intra':
+      loadingMgKg = 35;
+      maintMgKg = 12.5;
+      maintInterval = 'during last 60-90 min of HD';
+      notes = 'High permeability membrane, intradialytic dosing (10-15 mg/kg).';
+      break;
+    case 'capd':
+      loadingMgKg = 0;
+      maintMgKg = 7.5;
+      maintInterval = 'q48-96h';
+      notes = 'CAPD: Administer IV, adjust interval based on trough levels.';
+      break;
+    case 'crrt':
+      loadingMgKg = 22.5;
+      maintMgKg = 8.75;
+      maintInterval = 'q12h';
+      notes = 'CRRT (effluent 20-25 mL/kg/hr): TDM strongly recommended. Adjust based on AUC/trough.';
+      break;
+    case 'sled':
+      loadingMgKg = 22.5;
+      maintMgKg = 15;
+      maintInterval = 'after each SLED session';
+      notes = 'SLED/PIRRT: May also give during final 60-90 min of dialysis. TDM recommended.';
+      break;
+    case 'capd_ip_intermittent':
+      loadingMgKg = 0;
+      maintMgKg = 22.5;
+      maintInterval = 'IP every 5-7 days';
+      notes = 'CAPD Intraperitoneal (intermittent): 15-30 mg/kg IP in one exchange every 5-7 days. Dwell ≥6 hours preferred.';
+      break;
+    case 'capd_ip_continuous':
+      loadingMgKg = 22.5;
+      maintMgKg = 0;
+      maintInterval = 'continuous 25 mg/L in all exchanges';
+      notes = 'CAPD IP Continuous: Load 20-25 mg/kg IP, then 25 mg/L added to all exchanges.';
+      break;
+    case 'apd_ip':
+      loadingMgKg = 0;
+      maintMgKg = 15;
+      maintInterval = 'IP every 4 days';
+      notes = 'APD Intraperitoneal: 15 mg/kg IP every 4 days. Supplemental doses may be needed. Dwell ≥6 hours preferred.';
+      break;
+    default:
+      return;
+  }
+  
+  // Use loadingWt (actual BW) for loading, maintWt (AdjBW if obese) for maintenance
+  let loadingDose = loadingMgKg > 0 ? round250(loadingWt * loadingMgKg) : 0;
+  if (loadingDose > 3000) loadingDose = 3000;
+  
+  let maintDose = maintMgKg > 0 ? round250(maintWt * maintMgKg) : 0;
+  // Cap maintenance dose at 2g per dose (consistent with non-dialysis)
+  if (maintDose > 2000) maintDose = 2000;
+  
+  // Skip loading dose if patient was previously on vancomycin
+  const showLoading = loadingMgKg > 0 && !hasPrevDose;
+  
+  // Special handling for IP continuous (mg/L not mg/kg)
+  const isIPContinuous = dialysis === 'capd_ip_continuous';
+  const routeLabel = dialysis.includes('ip') ? 'IP' : 'IV';
+  
+  let loadingHtml = '';
+  if (showLoading) {
+    loadingHtml = `
+    <div class="dose-card">
+      <div class="dose-title">Loading Dose</div>
+      <div class="dose-value">${formatDose(loadingDose)} mg ${routeLabel}</div>
+      <div class="dose-hint">${loadingMgKg} mg/kg × ${loadingWt.toFixed(1)} kg (ABW)</div>
+    </div>`;
+  } else if (hasPrevDose && loadingMgKg > 0) {
+    loadingHtml = `
+    <div class="dose-card" style="opacity: 0.6;">
+      <div class="dose-title">Loading Dose</div>
+      <div class="dose-value" style="color: var(--muted);">Not needed</div>
+      <div class="dose-hint">Patient already on vancomycin</div>
+    </div>`;
+  }
+  
+  let html = loadingHtml + `
+    <div class="dose-card">
+      <div class="dose-title">Maintenance Dose</div>
+      <div class="dose-value orange">${isIPContinuous ? '25 mg/L in all exchanges' : (maintDose > 0 ? formatDose(maintDose) + ' mg ' + routeLabel + ' ' + maintInterval : maintInterval)}${maintDose > 2000 ? ' <span class="max-warning">⚠️ MAX 2g</span>' : ''}</div>
+      <div class="dose-hint">${maintMgKg > 0 ? maintMgKg + ' mg/kg × ' + maintWt.toFixed(1) + ' kg' : (isIPContinuous ? 'Add to each liter of dialysate' : '')}</div>
+    </div>
+    <div class="info-box" style="margin-top: 12px;">
+      <strong>📌 Notes:</strong> ${notes}
+    </div>
+  `;
+  
+  $('dialysisContent').innerHTML = html;
+  
+  const maintText = isIPContinuous ? '25 mg/L in all exchanges' : `${formatDose(maintDose)} mg ${routeLabel} ${maintInterval}`;
+  const regimenText = showLoading 
+    ? `Loading: ${formatDose(loadingDose)} mg ${routeLabel}\nMaintenance: ${maintText}`
+    : `Maintenance: ${maintText}`;
+  updateRegimen(regimenText, notes);
+}
+
+function updateIndicationNote(indication) {
+  const notes = {
+    'bacteremia': 'MRSA bacteremia: Duration ≥14 days from first negative blood culture. AUC-guided dosing preferred. Consider ID consult.',
+    'endocarditis': 'Endocarditis: Native valve 6 weeks; prosthetic ≥6 weeks with combination therapy. AUC 400-600.',
+    'meningitis': 'CNS infection: Target trough 15-20 µg/mL or AUC 400-600. Consider intrathecal vancomycin (5-20 mg/day) if poor response.',
+    'pneumonia': 'MRSA pneumonia: Duration 7-21 days based on response. Consider linezolid as alternative.',
+    'osteomyelitis': 'Osteomyelitis: Duration ≥6 weeks (shorter if bone completely resected). AUC-guided dosing.',
+    'ssti': 'SSTI: Uncomplicated 7-14 days, trough 10-15 µg/mL. Complicated: AUC monitoring recommended.',
+    'sepsis': 'Sepsis/critically ill: Loading dose ASAP (within 1 hour). AUC 400-600. Check for ARC (CrCl ≥130).',
+    'surgical_prophylaxis': 'Surgical prophylaxis: 15 mg/kg 60-120 min pre-incision. Repeat if surgery >4h. Stop ≤24h post-op.',
+    'pji': 'Prosthetic joint infection: Duration 2-6 weeks. Combine with rifampin when appropriate after debridement.',
+    'dfi': 'Diabetic foot infection: MRSA coverage 2-4 weeks without osteomyelitis. Add gram-negative coverage as needed.',
+    'csf_shunt': 'CSF shunt infection: IV + intrathecal/intraventricular (5-20 mg/day). Remove hardware if possible. Duration per ID.',
+    'gbs_prophylaxis': 'GBS maternal prophylaxis: 20 mg/kg (max 2g) loading, then 20 mg/kg q8h until delivery.',
+    'cdi': 'C. difficile: Use ORAL vancomycin 125 mg q6h × 10 days. Fulminant: 500 mg q6h ± rectal enema + IV metronidazole.',
+    'intrathecal': 'Intrathecal: 10-20 mg/day adult. Use preservative-free formulation. Target CSF 10-20 µg/mL.'
+  };
+  
+  $('indicationNote').innerHTML = `<strong>📌 ${indication.replace(/_/g, ' ').toUpperCase()}:</strong> ${notes[indication] || 'No specific guidance.'}`;
+}
+
+function updateRegimen(regimenText, notes) {
+  // Regimen box was removed - function kept for compatibility
+  return;
+}
+
+function clearOutputs() {
+  $('loadingDoseOutput').textContent = '—';
+  $('maintDoseOutput').textContent = '—';
+  $('intervalOutput').textContent = '—';
+  $('dailyDoseOutput').textContent = '—';
+  $('infusionOutput').textContent = '—';
+  $('loadingHint').textContent = '25-30 mg/kg IV (max 3 gm)';
+  $('maintHint').textContent = '15-20 mg/kg IV';
+  $('intervalHint').textContent = 'Based on CrCl per Sanford';
+  $('dailyHint').textContent = 'Total mg/day';
+}
+
+function copyRegimen() {
+  // Collect all dosing info from outputs
+  const loading = $('loadingDoseOutput').innerText;
+  const maint = $('maintDoseOutput').innerText;
+  const interval = $('intervalOutput').innerText;
+  const daily = $('dailyDoseOutput').innerText;
+  const infusion = $('infusionOutput').innerText;
+  
+  const text = `Loading: ${loading}\nMaintenance: ${maint}\nInterval: ${interval}\nDaily Dose: ${daily}\nInfusion: ${infusion}`;
+  navigator.clipboard.writeText(text).then(() => {
+    alert('Regimen copied to clipboard!');
+  });
+}
+
+// IV Concentration Check
+function checkConcentration() {
+  const dose = +($('concDose').value || 0);
+  const vol = +($('concVol').value || 0);
+  
+  if (dose > 0 && vol > 0) {
+    const conc = dose / vol;
+    let status, style;
+    if (conc > 10) {
+      status = '❌ UNSAFE: >10 mg/mL — Do not use';
+      style = 'color: #ef4444;';
+    } else if (conc > 5) {
+      status = '⚠️ Caution: 5-10 mg/mL — Only if fluid-restricted';
+      style = 'color: #fbbf24;';
+    } else {
+      status = '✓ OK: ≤5 mg/mL';
+      style = 'color: #34d399;';
+    }
+    $('concResult').innerHTML = `<strong>${conc.toFixed(2)} mg/mL</strong> <span style="${style}">${status}</span>`;
+  } else {
+    $('concResult').textContent = 'Enter dose and volume to check concentration...';
+  }
+}
+
+// Antibiotic Lock Calculator
+function calcLock() {
+  const vol = +($('lockVol').value || 0);
+  
+  if (vol > 0) {
+    const mgLow = (2.5 * vol).toFixed(1);
+    const mgHigh = (5 * vol).toFixed(1);
+    $('lockResult').innerHTML = `Mix <strong style="color: var(--accent);">${mgLow}-${mgHigh} mg</strong> vancomycin in ${vol} mL to achieve 2.5-5 mg/mL lock solution. Dwell per protocol (up to 72h).`;
+  } else {
+    $('lockResult').textContent = 'Enter lumen volume for lock calculation...';
+  }
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+  calculate();
+  checkConcentration();
+  calcLock();
+});
+</script>
+</body>
+</html>

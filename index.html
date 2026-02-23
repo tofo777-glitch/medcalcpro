@@ -1,0 +1,1923 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MedCalculationPro — Clinical Calculators</title>
+  <meta name="description" content="MedCalculationPro: fast clinical calculators for dosing and bedside use." />
+  <meta property="og:title" content="MedCalculationPro — Clinical Calculators" />
+  <meta property="og:description" content="59+ evidence-based medical calculators for dosing, scoring, and bedside clinical decision support." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630'><rect width='1200' height='630' fill='%23070a13'/><text x='600' y='340' font-size='80' font-weight='800' fill='%236ea8fe' text-anchor='middle'>MedCalculationPro</text></svg>" />
+  <meta name="theme-color" content="#070a13" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect rx='20' width='100' height='100' fill='%236ea8fe'/><text x='50' y='72' font-size='60' font-weight='800' fill='white' text-anchor='middle'>M</text></svg>" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" /></noscript>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">M</div>
+      <div>
+        <h1>MedCalculationPro</h1>
+        <p class="subtitle">Clinical calculators for dosing & bedside use</p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button id="btnTheme" class="btn btn-ghost" type="button" title="Toggle theme">
+        <svg id="iconTheme" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <span class="btn-label">Theme</span>
+      </button>
+      <button id="btnClearHistory" class="btn btn-ghost" type="button" title="Clear saved results">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+        <span class="btn-label">Clear history</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <div class="search">
+        <input id="searchInput" type="search" placeholder="Search calculators… (Ctrl+K)" autocomplete="off" />
+      </div>
+
+      <section id="favoritesSection" class="panel favorites-panel" style="display:none">
+        <h3>&#11088; Favorites</h3>
+        <div id="favoritesNav" class="nav"></div>
+      </section>
+
+      <nav class="nav" aria-label="Calculators">
+        <p class="nav-category">Dosing & Pharmacy</p>
+        <button class="nav-item" data-target="calc-vancomycin" type="button">💊 Vancomycin Dosing (Sanford)</button>
+        <button class="nav-item active" data-target="calc-crcl" type="button">Creatinine Clearance (CrCl)</button>
+        <button class="nav-item" data-target="calc-gfr" type="button">GFR (CKD-EPI 2021)</button>
+        <button class="nav-item" data-target="calc-mgkg" type="button">Weight-based Dose (mg/kg)</button>
+        <button class="nav-item" data-target="calc-infusion" type="button">IV Infusion Rate</button>
+        <button class="nav-item" data-target="calc-bsa" type="button">Body Surface Area (BSA)</button>
+        <button class="nav-item" data-target="calc-ibw" type="button">Ideal Body Weight (Devine)</button>
+        <button class="nav-item" data-target="calc-bmi" type="button">BMI Calculator</button>
+
+        <p class="nav-category">Cardiology</p>
+        <button class="nav-item" data-target="calc-chadsvasc" type="button">CHA₂DS₂-VASc Score</button>
+        <button class="nav-item" data-target="calc-heart" type="button">HEART Score</button>
+        <button class="nav-item" data-target="calc-qtc" type="button">Corrected QT (QTc)</button>
+        <button class="nav-item" data-target="calc-map" type="button">Mean Arterial Pressure</button>
+        <button class="nav-item" data-target="calc-hasbled" type="button">HAS-BLED Score</button>
+
+        <p class="nav-category">Emergency & Critical Care</p>
+        <button class="nav-item" data-target="calc-gcs" type="button">Glasgow Coma Scale (GCS)</button>
+        <button class="nav-item" data-target="calc-wells-pe" type="button">Wells' Criteria for PE</button>
+        <button class="nav-item" data-target="calc-wells-dvt" type="button">Wells' Criteria for DVT</button>
+        <button class="nav-item" data-target="calc-perc" type="button">PERC Rule for PE</button>
+        <button class="nav-item" data-target="calc-curb65" type="button">CURB-65 (Pneumonia)</button>
+        <button class="nav-item" data-target="calc-qsofa" type="button">qSOFA Score</button>
+        <button class="nav-item" data-target="calc-news2" type="button">NEWS2 Score</button>
+        <button class="nav-item" data-target="calc-parkland" type="button">Parkland Formula (Burns)</button>
+
+        <p class="nav-category">Electrolytes & ABG</p>
+        <button class="nav-item" data-target="calc-na" type="button">Corrected Sodium</button>
+        <button class="nav-item" data-target="calc-ca" type="button">Corrected Calcium</button>
+        <button class="nav-item" data-target="calc-anion" type="button">Anion Gap</button>
+        <button class="nav-item" data-target="calc-winters" type="button">Winters' Formula</button>
+        <button class="nav-item" data-target="calc-osm" type="button">Serum Osmolality</button>
+        <button class="nav-item" data-target="calc-aagradient" type="button">A-a Gradient</button>
+        <button class="nav-item" data-target="calc-fena" type="button">FENa</button>
+
+        <p class="nav-category">Hepatology</p>
+        <button class="nav-item" data-target="calc-meld" type="button">MELD Score</button>
+        <button class="nav-item" data-target="calc-childpugh" type="button">Child-Pugh Score</button>
+        <button class="nav-item" data-target="calc-fib4" type="button">FIB-4 Index</button>
+
+        <p class="nav-category">Neurology</p>
+        <button class="nav-item" data-target="calc-nihss" type="button">NIH Stroke Scale (NIHSS)</button>
+        <button class="nav-item" data-target="calc-abcd2" type="button">ABCD² Score for TIA</button>
+
+        <p class="nav-category">Nephrology</p>
+        <button class="nav-item" data-target="calc-mdrd" type="button">MDRD GFR Equation</button>
+        <button class="nav-item" data-target="calc-freewater" type="button">Free Water Deficit</button>
+
+        <p class="nav-category">Pulmonology</p>
+        <button class="nav-item" data-target="calc-psi" type="button">PSI/PORT Score (Pneumonia)</button>
+        <button class="nav-item" data-target="calc-pesi" type="button">PESI (PE Severity)</button>
+        <button class="nav-item" data-target="calc-years" type="button">YEARS Algorithm for PE</button>
+        <button class="nav-item" data-target="calc-abg" type="button">ABG Analyzer</button>
+
+        <p class="nav-category">Critical Care</p>
+        <button class="nav-item" data-target="calc-sofa" type="button">SOFA Score</button>
+        <button class="nav-item" data-target="calc-sirs" type="button">SIRS / Sepsis Criteria</button>
+        <button class="nav-item" data-target="calc-apache2" type="button">APACHE II Score</button>
+        <button class="nav-item" data-target="calc-maintenance" type="button">Maintenance Fluids (4-2-1)</button>
+
+        <p class="nav-category">Cardiology (cont.)</p>
+        <button class="nav-item" data-target="calc-ascvd" type="button">ASCVD 10-Year Risk</button>
+        <button class="nav-item" data-target="calc-rcri" type="button">Revised Cardiac Risk Index</button>
+        <button class="nav-item" data-target="calc-grace" type="button">GRACE ACS Risk Calculator</button>
+        <button class="nav-item" data-target="calc-ldl" type="button">LDL Calculated (Friedewald)</button>
+
+        <p class="nav-category">Surgery / GI</p>
+        <button class="nav-item" data-target="calc-alvarado" type="button">Alvarado Score (Appendicitis)</button>
+        <button class="nav-item" data-target="calc-gbs" type="button">Glasgow-Blatchford (GI Bleed)</button>
+        <button class="nav-item" data-target="calc-caprini" type="button">Caprini VTE Risk Score</button>
+
+        <p class="nav-category">Hematology / VTE</p>
+        <button class="nav-item" data-target="calc-padua" type="button">Padua VTE Prediction</button>
+
+        <p class="nav-category">Infectious Disease</p>
+        <button class="nav-item" data-target="calc-centor" type="button">Centor Score (Strep)</button>
+
+        <p class="nav-category">Toxicology</p>
+        <button class="nav-item" data-target="calc-ciwa" type="button">CIWA-Ar (Alcohol Withdrawal)</button>
+
+        <p class="nav-category">Endocrine</p>
+        <button class="nav-item" data-target="calc-homa" type="button">HOMA-IR (Insulin Resistance)</button>
+
+        <p class="nav-category">Psychiatry</p>
+        <button class="nav-item" data-target="calc-phq9" type="button">PHQ-9 (Depression)</button>
+
+        <p class="nav-category">Pediatrics</p>
+        <button class="nav-item" data-target="calc-pecarn" type="button">PECARN Head Injury</button>
+
+        <p class="nav-category">OB/GYN</p>
+        <button class="nav-item" data-target="calc-pregnancy" type="button">Pregnancy Due Dates</button>
+
+        <p class="nav-category">Pharmacy</p>
+        <button class="nav-item" data-target="calc-steroid" type="button">Steroid Conversion</button>
+        <button class="nav-item" data-target="calc-canadian" type="button">Canadian CT Head Rule</button>
+
+        <p class="nav-category">Tools</p>
+        <button class="nav-item" data-target="calc-convert" type="button">Unit Converter</button>
+      </nav>
+
+      <section class="panel">
+        <h3>&#128203; Saved results</h3>
+        <div id="history" class="history"></div>
+      </section>
+
+      <section class="panel disclaimer">
+        <h3>&#9888;&#65039; Clinical disclaimer</h3>
+        <p>
+          MedCalculationPro is for informational/educational use only and does not replace clinical judgment,
+          institutional protocols, or specialist advice. Always verify inputs, units, and results.
+        </p>
+      </section>
+    </aside>
+
+    <section class="content">
+      <!-- CrCl -->
+      <article id="calc-crcl" class="card calc active" data-name="creatinine clearance crcl cockcroft gault">
+        <header class="card-header">
+          <h2>Creatinine Clearance (Cockcroft–Gault)</h2>
+          <p class="muted">Estimates CrCl in mL/min from age, weight, SCr, and sex.</p>
+        </header>
+
+        <form id="formCrCl" class="grid" autocomplete="off">
+          <div class="field">
+            <label for="crclAge">Age (years)</label>
+            <input id="crclAge" inputmode="decimal" type="number" min="0" step="1" placeholder="e.g., 55" required />
+          </div>
+
+          <div class="field">
+            <label for="crclSex">Sex</label>
+            <select id="crclSex" required>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="crclWeight">Weight</label>
+            <div class="row">
+              <input id="crclWeight" inputmode="decimal" type="number" min="0" step="0.1" placeholder="e.g., 78" required />
+              <select id="crclWeightUnit" aria-label="Weight unit">
+                <option value="kg">kg</option>
+                <option value="lb">lb</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="crclScr">Serum Creatinine (SCr)</label>
+            <div class="row">
+              <input id="crclScr" inputmode="decimal" type="number" min="0" step="0.01" placeholder="e.g., 1.1" required />
+              <select id="crclScrUnit" aria-label="SCr unit">
+                <option value="mgdl">mg/dL</option>
+                <option value="umol">µmol/L</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn" type="submit">Calculate</button>
+            <button class="btn btn-ghost" type="button" data-reset="formCrCl">Reset</button>
+          </div>
+        </form>
+
+        <div class="result" id="crclResult" aria-live="polite"></div>
+        <details class="details">
+          <summary>Formula</summary>
+          <p class="mono">
+            CrCl (mL/min) = ((140 − age) × weight(kg)) / (72 × SCr(mg/dL)) × (0.85 if female)
+          </p>
+        </details>
+      </article>
+
+      <!-- mg/kg -->
+      <article id="calc-mgkg" class="card calc" data-name="mg kg dose weight based dosing pediatric">
+        <header class="card-header">
+          <h2>Weight-based Dose (mg/kg)</h2>
+          <p class="muted">Calculates total dose based on weight and mg/kg dose.</p>
+        </header>
+
+        <form id="formMgKg" class="grid" autocomplete="off">
+          <div class="field">
+            <label for="mgkgWeight">Weight</label>
+            <div class="row">
+              <input id="mgkgWeight" inputmode="decimal" type="number" min="0" step="0.1" placeholder="e.g., 22.5" required />
+              <select id="mgkgWeightUnit" aria-label="Weight unit">
+                <option value="kg">kg</option>
+                <option value="lb">lb</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="mgkgDose">Dose (mg/kg)</label>
+            <input id="mgkgDose" inputmode="decimal" type="number" min="0" step="0.01" placeholder="e.g., 10" required />
+          </div>
+
+          <div class="field">
+            <label for="mgkgMax">Optional max dose (mg)</label>
+            <input id="mgkgMax" inputmode="decimal" type="number" min="0" step="0.1" placeholder="e.g., 1000" />
+          </div>
+
+          <div class="actions">
+            <button class="btn" type="submit">Calculate</button>
+            <button class="btn btn-ghost" type="button" data-reset="formMgKg">Reset</button>
+          </div>
+        </form>
+
+        <div class="result" id="mgkgResult" aria-live="polite"></div>
+      </article>
+
+      <!-- Infusion -->
+      <article id="calc-infusion" class="card calc" data-name="infusion rate ml hr mcg kg min drip iv">
+        <header class="card-header">
+          <h2>IV Infusion Rate</h2>
+          <p class="muted">Converts ordered dose to mL/hr based on concentration.</p>
+        </header>
+
+        <form id="formInfusion" class="grid" autocomplete="off">
+          <div class="field">
+            <label for="infDose">Ordered dose</label>
+            <div class="row">
+              <input id="infDose" inputmode="decimal" type="number" min="0" step="0.01" placeholder="e.g., 5" required />
+              <select id="infDoseUnit" aria-label="Dose unit">
+                <option value="mcgkgmin">mcg/kg/min</option>
+                <option value="mckgmin">mcg/kg/min</option>
+                <option value="mghr">mg/hr</option>
+                <option value="mcgmin">mcg/min</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="infWeight">Patient weight (needed for mcg/kg/min)</label>
+            <div class="row">
+              <input id="infWeight" inputmode="decimal" type="number" min="0" step="0.1" placeholder="e.g., 70" />
+              <select id="infWeightUnit" aria-label="Weight unit">
+                <option value="kg">kg</option>
+                <option value="lb">lb</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="infConc">Concentration</label>
+            <div class="row">
+              <input id="infConc" inputmode="decimal" type="number" min="0" step="0.01" placeholder="e.g., 200" required />
+              <select id="infConcUnit" aria-label="Concentration unit">
+                <option value="mcgml">mcg/mL</option>
+                <option value="mgml">mg/mL</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn" type="submit">Calculate</button>
+            <button class="btn btn-ghost" type="button" data-reset="formInfusion">Reset</button>
+          </div>
+        </form>
+
+        <div class="result" id="infResult" aria-live="polite"></div>
+        <details class="details">
+          <summary>Notes</summary>
+          <ul class="muted">
+            <li>Always verify concentration preparation and pump settings.</li>
+            <li>If using mcg/kg/min, weight is required.</li>
+          </ul>
+        </details>
+      </article>
+
+      <!-- BSA -->
+      <article id="calc-bsa" class="card calc" data-name="bsa body surface area mosteller">
+        <header class="card-header">
+          <h2>Body Surface Area (Mosteller)</h2>
+          <p class="muted">BSA (m²) = sqrt( (height(cm) × weight(kg)) / 3600 )</p>
+        </header>
+
+        <form id="formBsa" class="grid" autocomplete="off">
+          <div class="field">
+            <label for="bsaWeight">Weight</label>
+            <div class="row">
+              <input id="bsaWeight" inputmode="decimal" type="number" min="0" step="0.1" placeholder="e.g., 70" required />
+              <select id="bsaWeightUnit" aria-label="Weight unit">
+                <option value="kg">kg</option>
+                <option value="lb">lb</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="bsaHeight">Height</label>
+            <div class="row">
+              <input id="bsaHeight" inputmode="decimal" type="number" min="0" step="0.1" placeholder="e.g., 170" required />
+              <select id="bsaHeightUnit" aria-label="Height unit">
+                <option value="cm">cm</option>
+                <option value="in">in</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn" type="submit">Calculate</button>
+            <button class="btn btn-ghost" type="button" data-reset="formBsa">Reset</button>
+          </div>
+        </form>
+
+        <div class="result" id="bsaResult" aria-live="polite"></div>
+      </article>
+
+      <!-- GFR CKD-EPI -->
+      <article id="calc-gfr" class="card calc" data-name="gfr ckd epi glomerular filtration rate egfr kidney">
+        <header class="card-header">
+          <h2>GFR — CKD-EPI 2021</h2>
+          <p class="muted">Estimates GFR without race variable (2021 CKD-EPI creatinine equation).</p>
+        </header>
+        <form id="formGfr" class="grid" autocomplete="off">
+          <div class="field"><label for="gfrAge">Age (years)</label><input id="gfrAge" type="number" min="18" max="120" step="1" placeholder="e.g., 55" required /></div>
+          <div class="field"><label for="gfrSex">Sex</label><select id="gfrSex" required><option value="male">Male</option><option value="female">Female</option></select></div>
+          <div class="field"><label for="gfrScr">Serum Creatinine</label><div class="row"><input id="gfrScr" type="number" min="0" step="0.01" placeholder="e.g., 1.1" required /><select id="gfrScrUnit"><option value="mgdl">mg/dL</option><option value="umol">µmol/L</option></select></div></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formGfr">Reset</button></div>
+        </form>
+        <div class="result" id="gfrResult" aria-live="polite"></div>
+        <details class="details"><summary>About CKD-EPI 2021</summary><p class="muted tiny">Uses the 2021 CKD-EPI equation without race. eGFR = 142 × min(SCr/κ, 1)^α × max(SCr/κ, 1)^(−1.200) × 0.9938^Age × (1.012 if female). κ = 0.7 (F), 0.9 (M); α = −0.241 (F), −0.302 (M).</p></details>
+      </article>
+
+      <!-- IBW -->
+      <article id="calc-ibw" class="card calc" data-name="ideal body weight devine ibw adjusted dosing">
+        <header class="card-header">
+          <h2>Ideal Body Weight (Devine)</h2>
+          <p class="muted">Calculates IBW and Adjusted Body Weight (ABW).</p>
+        </header>
+        <form id="formIbw" class="grid" autocomplete="off">
+          <div class="field"><label for="ibwSex">Sex</label><select id="ibwSex" required><option value="male">Male</option><option value="female">Female</option></select></div>
+          <div class="field"><label for="ibwHeight">Height</label><div class="row"><input id="ibwHeight" type="number" min="0" step="0.1" placeholder="e.g., 170" required /><select id="ibwHeightUnit"><option value="cm">cm</option><option value="in">in</option></select></div></div>
+          <div class="field"><label for="ibwActual">Actual Weight (optional, for ABW)</label><div class="row"><input id="ibwActual" type="number" min="0" step="0.1" placeholder="e.g., 90" /><select id="ibwActualUnit"><option value="kg">kg</option><option value="lb">lb</option></select></div></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formIbw">Reset</button></div>
+        </form>
+        <div class="result" id="ibwResult" aria-live="polite"></div>
+      </article>
+
+      <!-- BMI -->
+      <article id="calc-bmi" class="card calc" data-name="bmi body mass index obesity overweight">
+        <header class="card-header">
+          <h2>BMI Calculator</h2>
+          <p class="muted">Body Mass Index = weight(kg) / height(m)²</p>
+        </header>
+        <form id="formBmi" class="grid" autocomplete="off">
+          <div class="field"><label for="bmiWeight">Weight</label><div class="row"><input id="bmiWeight" type="number" min="0" step="0.1" placeholder="e.g., 70" required /><select id="bmiWeightUnit"><option value="kg">kg</option><option value="lb">lb</option></select></div></div>
+          <div class="field"><label for="bmiHeight">Height</label><div class="row"><input id="bmiHeight" type="number" min="0" step="0.1" placeholder="e.g., 170" required /><select id="bmiHeightUnit"><option value="cm">cm</option><option value="in">in</option></select></div></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formBmi">Reset</button></div>
+        </form>
+        <div class="result" id="bmiResult" aria-live="polite"></div>
+      </article>
+
+      <!-- CHA2DS2-VASc -->
+      <article id="calc-chadsvasc" class="card calc" data-name="chadsvasc cha2ds2 vasc atrial fibrillation afib stroke risk anticoagulation">
+        <header class="card-header">
+          <h2>CHA₂DS₂-VASc Score</h2>
+          <p class="muted">Estimates stroke risk in non-valvular atrial fibrillation.</p>
+        </header>
+        <form id="formChadsvasc" class="grid" autocomplete="off">
+          <div class="field"><label for="cvAge">Age</label><select id="cvAge" required><option value="0">< 65</option><option value="1">65–74</option><option value="2">≥ 75</option></select></div>
+          <div class="field"><label for="cvSex">Sex</label><select id="cvSex" required><option value="0">Male</option><option value="1">Female</option></select></div>
+          <div class="field"><label for="cvChf">CHF history</label><select id="cvChf"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="cvHtn">Hypertension</label><select id="cvHtn"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="cvStroke">Stroke/TIA/TE</label><select id="cvStroke"><option value="0">No</option><option value="2">Yes (+2)</option></select></div>
+          <div class="field"><label for="cvVasc">Vascular disease</label><select id="cvVasc"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="cvDm">Diabetes</label><select id="cvDm"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formChadsvasc">Reset</button></div>
+        </form>
+        <div class="result" id="chadsvascResult" aria-live="polite"></div>
+      </article>
+
+      <!-- HEART Score -->
+      <article id="calc-heart" class="card calc" data-name="heart score chest pain acs major cardiac event mace">
+        <header class="card-header">
+          <h2>HEART Score</h2>
+          <p class="muted">Risk stratification for major adverse cardiac events (MACE) in chest pain patients.</p>
+        </header>
+        <form id="formHeart" class="grid" autocomplete="off">
+          <div class="field"><label for="heartH">History</label><select id="heartH" required><option value="0">Slightly suspicious (0)</option><option value="1">Moderately suspicious (1)</option><option value="2">Highly suspicious (2)</option></select></div>
+          <div class="field"><label for="heartE">ECG</label><select id="heartE" required><option value="0">Normal (0)</option><option value="1">Non-specific repol. (1)</option><option value="2">Significant ST deviation (2)</option></select></div>
+          <div class="field"><label for="heartA">Age</label><select id="heartA" required><option value="0">< 45 (0)</option><option value="1">45–64 (1)</option><option value="2">≥ 65 (2)</option></select></div>
+          <div class="field"><label for="heartR">Risk factors</label><select id="heartR" required><option value="0">No known (0)</option><option value="1">1–2 risk factors (1)</option><option value="2">≥ 3 or h/o atherosclerosis (2)</option></select></div>
+          <div class="field"><label for="heartT">Troponin</label><select id="heartT" required><option value="0">≤ normal limit (0)</option><option value="1">1–3× normal (1)</option><option value="2">> 3× normal (2)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formHeart">Reset</button></div>
+        </form>
+        <div class="result" id="heartResult" aria-live="polite"></div>
+      </article>
+
+      <!-- QTc -->
+      <article id="calc-qtc" class="card calc" data-name="corrected qt qtc bazett fridericia ecg prolongation">
+        <header class="card-header">
+          <h2>Corrected QT Interval (QTc)</h2>
+          <p class="muted">Bazett, Fridericia, Framingham & Hodges formulas.</p>
+        </header>
+        <form id="formQtc" class="grid" autocomplete="off">
+          <div class="field"><label for="qtcQt">QT interval (ms)</label><input id="qtcQt" type="number" min="0" step="1" placeholder="e.g., 420" required /></div>
+          <div class="field"><label for="qtcHr">Heart rate (bpm)</label><input id="qtcHr" type="number" min="1" step="1" placeholder="e.g., 72" required /></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formQtc">Reset</button></div>
+        </form>
+        <div class="result" id="qtcResult" aria-live="polite"></div>
+      </article>
+
+      <!-- MAP -->
+      <article id="calc-map" class="card calc" data-name="mean arterial pressure map blood pressure systolic diastolic">
+        <header class="card-header">
+          <h2>Mean Arterial Pressure (MAP)</h2>
+          <p class="muted">MAP = DBP + ⅓(SBP − DBP)</p>
+        </header>
+        <form id="formMap" class="grid" autocomplete="off">
+          <div class="field"><label for="mapSbp">Systolic BP (mmHg)</label><input id="mapSbp" type="number" min="0" step="1" placeholder="e.g., 120" required /></div>
+          <div class="field"><label for="mapDbp">Diastolic BP (mmHg)</label><input id="mapDbp" type="number" min="0" step="1" placeholder="e.g., 80" required /></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formMap">Reset</button></div>
+        </form>
+        <div class="result" id="mapResult" aria-live="polite"></div>
+      </article>
+
+      <!-- HAS-BLED -->
+      <article id="calc-hasbled" class="card calc" data-name="has bled hasbled bleeding risk anticoagulation warfarin">
+        <header class="card-header">
+          <h2>HAS-BLED Score</h2>
+          <p class="muted">Estimates risk of major bleeding for patients on anticoagulation.</p>
+        </header>
+        <form id="formHasbled" class="grid" autocomplete="off">
+          <div class="field"><label for="hbHtn">Hypertension (uncontrolled, SBP>160)</label><select id="hbHtn"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="hbRenal">Abnormal renal function</label><select id="hbRenal"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="hbLiver">Abnormal liver function</label><select id="hbLiver"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="hbStroke">Stroke history</label><select id="hbStroke"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="hbBleed">Bleeding history/predisposition</label><select id="hbBleed"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="hbInr">Labile INR</label><select id="hbInr"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="hbAge">Age > 65</label><select id="hbAge"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="hbDrug">Drugs (antiplatelets/NSAIDs)</label><select id="hbDrug"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="hbAlc">Alcohol use (≥8/wk)</label><select id="hbAlc"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formHasbled">Reset</button></div>
+        </form>
+        <div class="result" id="hasbledResult" aria-live="polite"></div>
+      </article>
+
+      <!-- GCS -->
+      <article id="calc-gcs" class="card calc" data-name="glasgow coma scale gcs eye verbal motor neurological trauma">
+        <header class="card-header">
+          <h2>Glasgow Coma Scale (GCS)</h2>
+          <p class="muted">Quantifies level of consciousness after brain injury (3–15).</p>
+        </header>
+        <form id="formGcs" class="grid" autocomplete="off">
+          <div class="field"><label for="gcsE">Eye opening</label><select id="gcsE" required><option value="1">1 – No response</option><option value="2">2 – To pressure</option><option value="3">3 – To voice</option><option value="4">4 – Spontaneous</option></select></div>
+          <div class="field"><label for="gcsV">Verbal response</label><select id="gcsV" required><option value="1">1 – No response</option><option value="2">2 – Incomprehensible</option><option value="3">3 – Inappropriate words</option><option value="4">4 – Confused</option><option value="5">5 – Oriented</option></select></div>
+          <div class="field"><label for="gcsM">Motor response</label><select id="gcsM" required><option value="1">1 – No response</option><option value="2">2 – Extension</option><option value="3">3 – Abnormal flexion</option><option value="4">4 – Withdrawal</option><option value="5">5 – Localizing</option><option value="6">6 – Obeys commands</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formGcs">Reset</button></div>
+        </form>
+        <div class="result" id="gcsResult" aria-live="polite"></div>
+      </article>
+
+      <!-- Wells PE -->
+      <article id="calc-wells-pe" class="card calc" data-name="wells criteria pe pulmonary embolism probability">
+        <header class="card-header">
+          <h2>Wells' Criteria for Pulmonary Embolism</h2>
+          <p class="muted">Estimates clinical probability of PE.</p>
+        </header>
+        <form id="formWellsPe" class="grid" autocomplete="off">
+          <div class="field"><label for="wpeDvt">Clinical signs/symptoms of DVT</label><select id="wpeDvt"><option value="0">No</option><option value="3">Yes (+3)</option></select></div>
+          <div class="field"><label for="wpePe">PE is #1 diagnosis, or equally likely</label><select id="wpePe"><option value="0">No</option><option value="3">Yes (+3)</option></select></div>
+          <div class="field"><label for="wpeHr">Heart rate > 100</label><select id="wpeHr"><option value="0">No</option><option value="1.5">Yes (+1.5)</option></select></div>
+          <div class="field"><label for="wpeImmob">Immobilization ≥ 3 days / surgery in past 4 wks</label><select id="wpeImmob"><option value="0">No</option><option value="1.5">Yes (+1.5)</option></select></div>
+          <div class="field"><label for="wpePrev">Previous DVT/PE</label><select id="wpePrev"><option value="0">No</option><option value="1.5">Yes (+1.5)</option></select></div>
+          <div class="field"><label for="wpeHemo">Hemoptysis</label><select id="wpeHemo"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="wpeMalig">Malignancy (treatment within 6 mo or palliative)</label><select id="wpeMalig"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formWellsPe">Reset</button></div>
+        </form>
+        <div class="result" id="wellsPeResult" aria-live="polite"></div>
+      </article>
+
+      <!-- Wells DVT -->
+      <article id="calc-wells-dvt" class="card calc" data-name="wells criteria dvt deep vein thrombosis probability">
+        <header class="card-header">
+          <h2>Wells' Criteria for DVT</h2>
+          <p class="muted">Estimates clinical probability of DVT.</p>
+        </header>
+        <form id="formWellsDvt" class="grid" autocomplete="off">
+          <div class="field"><label for="wdCancer">Active cancer (treatment ≤ 6 mo or palliative)</label><select id="wdCancer"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="wdParalysis">Paralysis/paresis/immobilization of LE</label><select id="wdParalysis"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="wdBedridden">Bedridden > 3 days or major surgery ≤ 12 wks</label><select id="wdBedridden"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="wdTender">Localized tenderness along deep veins</label><select id="wdTender"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="wdSwelling">Entire leg swollen</label><select id="wdSwelling"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="wdCalf">Calf swelling ≥ 3 cm vs. other leg</label><select id="wdCalf"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="wdPitting">Pitting edema (greater in symptomatic leg)</label><select id="wdPitting"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="wdCollat">Collateral superficial veins</label><select id="wdCollat"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="wdPrevDvt">Previously documented DVT</label><select id="wdPrevDvt"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="wdAlt">Alternative diagnosis at least as likely</label><select id="wdAlt"><option value="0">No</option><option value="-2">Yes (−2)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formWellsDvt">Reset</button></div>
+        </form>
+        <div class="result" id="wellsDvtResult" aria-live="polite"></div>
+      </article>
+
+      <!-- PERC -->
+      <article id="calc-perc" class="card calc" data-name="perc rule pulmonary embolism exclusion criteria">
+        <header class="card-header">
+          <h2>PERC Rule for PE</h2>
+          <p class="muted">Rules out PE if all criteria are negative (in low-risk patients).</p>
+        </header>
+        <form id="formPerc" class="grid" autocomplete="off">
+          <div class="field"><label for="percAge">Age ≥ 50</label><select id="percAge"><option value="0">No</option><option value="1">Yes</option></select></div>
+          <div class="field"><label for="percHr">HR ≥ 100</label><select id="percHr"><option value="0">No</option><option value="1">Yes</option></select></div>
+          <div class="field"><label for="percSat">SpO₂ < 95%</label><select id="percSat"><option value="0">No</option><option value="1">Yes</option></select></div>
+          <div class="field"><label for="percHemo">Hemoptysis</label><select id="percHemo"><option value="0">No</option><option value="1">Yes</option></select></div>
+          <div class="field"><label for="percEstrogen">Estrogen use</label><select id="percEstrogen"><option value="0">No</option><option value="1">Yes</option></select></div>
+          <div class="field"><label for="percPrior">Prior DVT/PE</label><select id="percPrior"><option value="0">No</option><option value="1">Yes</option></select></div>
+          <div class="field"><label for="percSurgery">Surgery/trauma ≤ 4 weeks</label><select id="percSurgery"><option value="0">No</option><option value="1">Yes</option></select></div>
+          <div class="field"><label for="percSwelling">Unilateral leg swelling</label><select id="percSwelling"><option value="0">No</option><option value="1">Yes</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formPerc">Reset</button></div>
+        </form>
+        <div class="result" id="percResult" aria-live="polite"></div>
+      </article>
+
+      <!-- CURB-65 -->
+      <article id="calc-curb65" class="card calc" data-name="curb 65 curb65 pneumonia severity community acquired cap">
+        <header class="card-header">
+          <h2>CURB-65 Score</h2>
+          <p class="muted">Predicts mortality in community-acquired pneumonia to guide inpatient vs outpatient treatment.</p>
+        </header>
+        <form id="formCurb65" class="grid" autocomplete="off">
+          <div class="field"><label for="cConfusion">Confusion (new-onset)</label><select id="cConfusion"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="cUrea">BUN > 19 mg/dL (> 7 mmol/L)</label><select id="cUrea"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="cRr">Respiratory rate ≥ 30</label><select id="cRr"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="cBp">SBP < 90 or DBP ≤ 60</label><select id="cBp"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="cAge65">Age ≥ 65</label><select id="cAge65"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formCurb65">Reset</button></div>
+        </form>
+        <div class="result" id="curb65Result" aria-live="polite"></div>
+      </article>
+
+      <!-- qSOFA -->
+      <article id="calc-qsofa" class="card calc" data-name="qsofa quick sofa sepsis organ failure assessment">
+        <header class="card-header">
+          <h2>qSOFA Score</h2>
+          <p class="muted">Quick bedside screen for sepsis risk outside the ICU.</p>
+        </header>
+        <form id="formQsofa" class="grid" autocomplete="off">
+          <div class="field"><label for="qsSbp">Systolic BP ≤ 100 mmHg</label><select id="qsSbp"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="qsRr">Respiratory rate ≥ 22</label><select id="qsRr"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="qsGcs">Altered mentation (GCS < 15)</label><select id="qsGcs"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formQsofa">Reset</button></div>
+        </form>
+        <div class="result" id="qsofaResult" aria-live="polite"></div>
+      </article>
+
+      <!-- NEWS2 -->
+      <article id="calc-news2" class="card calc" data-name="news2 national early warning score deterioration acuity">
+        <header class="card-header">
+          <h2>NEWS2 — National Early Warning Score</h2>
+          <p class="muted">Detects clinical deterioration in acute illness. Aggregate score 0–20.</p>
+        </header>
+        <form id="formNews2" class="grid" autocomplete="off">
+          <div class="field"><label for="n2Rr">Respiratory rate</label><select id="n2Rr" required><option value="3">≤ 8 (3)</option><option value="1">9–11 (1)</option><option value="0" selected>12–20 (0)</option><option value="2">21–24 (2)</option><option value="3b">≥ 25 (3)</option></select></div>
+          <div class="field"><label for="n2Spo2">SpO₂ Scale 1</label><select id="n2Spo2" required><option value="3">≤ 91 (3)</option><option value="2">92–93 (2)</option><option value="1">94–95 (1)</option><option value="0" selected>≥ 96 (0)</option></select></div>
+          <div class="field"><label for="n2Air">Air or O₂?</label><select id="n2Air" required><option value="0">Air (0)</option><option value="2">Oxygen (2)</option></select></div>
+          <div class="field"><label for="n2Temp">Temperature (°C)</label><select id="n2Temp" required><option value="3">≤ 35.0 (3)</option><option value="1">35.1–36.0 (1)</option><option value="0" selected>36.1–38.0 (0)</option><option value="1b">38.1–39.0 (1)</option><option value="2">≥ 39.1 (2)</option></select></div>
+          <div class="field"><label for="n2Sbp">Systolic BP</label><select id="n2Sbp" required><option value="3">≤ 90 (3)</option><option value="2">91–100 (2)</option><option value="1">101–110 (1)</option><option value="0" selected>111–219 (0)</option><option value="3b">≥ 220 (3)</option></select></div>
+          <div class="field"><label for="n2Hr">Heart rate</label><select id="n2Hr" required><option value="3">≤ 40 (3)</option><option value="1">41–50 (1)</option><option value="0" selected>51–90 (0)</option><option value="1b">91–110 (1)</option><option value="2">111–130 (2)</option><option value="3c">≥ 131 (3)</option></select></div>
+          <div class="field"><label for="n2Avpu">Consciousness</label><select id="n2Avpu" required><option value="0">Alert (0)</option><option value="3">CVPU (confusion/V/P/U) (3)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formNews2">Reset</button></div>
+        </form>
+        <div class="result" id="news2Result" aria-live="polite"></div>
+      </article>
+
+      <!-- Parkland -->
+      <article id="calc-parkland" class="card calc" data-name="parkland formula burns fluid resuscitation tbsa">
+        <header class="card-header">
+          <h2>Parkland Formula (Burns)</h2>
+          <p class="muted">Fluid resuscitation in first 24h: 4 mL × weight(kg) × %TBSA.</p>
+        </header>
+        <form id="formParkland" class="grid" autocomplete="off">
+          <div class="field"><label for="pkWeight">Weight</label><div class="row"><input id="pkWeight" type="number" min="0" step="0.1" placeholder="e.g., 70" required /><select id="pkWeightUnit"><option value="kg">kg</option><option value="lb">lb</option></select></div></div>
+          <div class="field"><label for="pkTbsa">%TBSA burned</label><input id="pkTbsa" type="number" min="0" max="100" step="1" placeholder="e.g., 30" required /></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formParkland">Reset</button></div>
+        </form>
+        <div class="result" id="parklandResult" aria-live="polite"></div>
+      </article>
+
+      <!-- Corrected Sodium -->
+      <article id="calc-na" class="card calc" data-name="corrected sodium hyperglycemia glucose">
+        <header class="card-header">
+          <h2>Corrected Sodium</h2>
+          <p class="muted">Adjusts measured Na⁺ for hyperglycemia (Katz 1973).</p>
+        </header>
+        <form id="formNa" class="grid" autocomplete="off">
+          <div class="field"><label for="naMeasured">Measured Na⁺ (mEq/L)</label><input id="naMeasured" type="number" step="0.1" placeholder="e.g., 130" required /></div>
+          <div class="field"><label for="naGlucose">Glucose (mg/dL)</label><input id="naGlucose" type="number" step="1" placeholder="e.g., 400" required /></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formNa">Reset</button></div>
+        </form>
+        <div class="result" id="naResult" aria-live="polite"></div>
+        <details class="details"><summary>Formula</summary><p class="mono">Corrected Na = Measured Na + 0.024 × (Glucose − 100)</p></details>
+      </article>
+
+      <!-- Corrected Calcium -->
+      <article id="calc-ca" class="card calc" data-name="corrected calcium albumin hypocalcemia">
+        <header class="card-header">
+          <h2>Corrected Calcium</h2>
+          <p class="muted">Adjusts total calcium for low albumin.</p>
+        </header>
+        <form id="formCa" class="grid" autocomplete="off">
+          <div class="field"><label for="caCa">Serum Calcium (mg/dL)</label><input id="caCa" type="number" step="0.1" placeholder="e.g., 8.0" required /></div>
+          <div class="field"><label for="caAlb">Albumin (g/dL)</label><input id="caAlb" type="number" step="0.1" placeholder="e.g., 2.5" required /></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formCa">Reset</button></div>
+        </form>
+        <div class="result" id="caResult" aria-live="polite"></div>
+        <details class="details"><summary>Formula</summary><p class="mono">Corrected Ca = Measured Ca + 0.8 × (4.0 − Albumin)</p></details>
+      </article>
+
+      <!-- Anion Gap -->
+      <article id="calc-anion" class="card calc" data-name="anion gap metabolic acidosis sodium chloride bicarbonate">
+        <header class="card-header">
+          <h2>Anion Gap</h2>
+          <p class="muted">AG = Na⁺ − (Cl⁻ + HCO₃⁻). Also calculates delta-delta.</p>
+        </header>
+        <form id="formAnion" class="grid" autocomplete="off">
+          <div class="field"><label for="agNa">Na⁺ (mEq/L)</label><input id="agNa" type="number" step="0.1" placeholder="e.g., 140" required /></div>
+          <div class="field"><label for="agCl">Cl⁻ (mEq/L)</label><input id="agCl" type="number" step="0.1" placeholder="e.g., 104" required /></div>
+          <div class="field"><label for="agHco3">HCO₃⁻ (mEq/L)</label><input id="agHco3" type="number" step="0.1" placeholder="e.g., 24" required /></div>
+          <div class="field"><label for="agAlb">Albumin (g/dL, optional for correction)</label><input id="agAlb" type="number" step="0.1" placeholder="e.g., 4.0" /></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formAnion">Reset</button></div>
+        </form>
+        <div class="result" id="anionResult" aria-live="polite"></div>
+      </article>
+
+      <!-- Winters' Formula -->
+      <article id="calc-winters" class="card calc" data-name="winters formula expected pco2 metabolic acidosis compensation">
+        <header class="card-header">
+          <h2>Winters' Formula</h2>
+          <p class="muted">Expected pCO₂ for respiratory compensation in metabolic acidosis.</p>
+        </header>
+        <form id="formWinters" class="grid" autocomplete="off">
+          <div class="field"><label for="wHco3">HCO₃⁻ (mEq/L)</label><input id="wHco3" type="number" step="0.1" placeholder="e.g., 15" required /></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formWinters">Reset</button></div>
+        </form>
+        <div class="result" id="wintersResult" aria-live="polite"></div>
+        <details class="details"><summary>Formula</summary><p class="mono">Expected pCO₂ = 1.5 × HCO₃⁻ + 8 ± 2</p></details>
+      </article>
+
+      <!-- Serum Osmolality -->
+      <article id="calc-osm" class="card calc" data-name="serum osmolality calculated osmol gap bun glucose sodium ethanol">
+        <header class="card-header">
+          <h2>Serum Osmolality (Calculated)</h2>
+          <p class="muted">Calculated serum osmolality and osmol gap.</p>
+        </header>
+        <form id="formOsm" class="grid" autocomplete="off">
+          <div class="field"><label for="osmNa">Na⁺ (mEq/L)</label><input id="osmNa" type="number" step="0.1" placeholder="e.g., 140" required /></div>
+          <div class="field"><label for="osmBun">BUN (mg/dL)</label><input id="osmBun" type="number" step="0.1" placeholder="e.g., 20" required /></div>
+          <div class="field"><label for="osmGlu">Glucose (mg/dL)</label><input id="osmGlu" type="number" step="1" placeholder="e.g., 100" required /></div>
+          <div class="field"><label for="osmEtoh">Ethanol (mg/dL, optional)</label><input id="osmEtoh" type="number" step="1" placeholder="e.g., 0" /></div>
+          <div class="field"><label for="osmMeasured">Measured Osm (mOsm/kg, for gap)</label><input id="osmMeasured" type="number" step="1" placeholder="e.g., 290" /></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formOsm">Reset</button></div>
+        </form>
+        <div class="result" id="osmResult" aria-live="polite"></div>
+        <details class="details"><summary>Formula</summary><p class="mono">Calculated Osm = 2×Na + BUN/2.8 + Glucose/18 + EtOH/4.6</p></details>
+      </article>
+
+      <!-- A-a Gradient -->
+      <article id="calc-aagradient" class="card calc" data-name="a-a gradient alveolar arterial oxygen pao2 fio2 abg">
+        <header class="card-header">
+          <h2>A-a Gradient</h2>
+          <p class="muted">Alveolar-arterial oxygen gradient to evaluate hypoxemia.</p>
+        </header>
+        <form id="formAa" class="grid" autocomplete="off">
+          <div class="field"><label for="aaAge">Age (years)</label><input id="aaAge" type="number" min="0" step="1" placeholder="e.g., 55" required /></div>
+          <div class="field"><label for="aaFio2">FiO₂ (%)</label><input id="aaFio2" type="number" min="21" max="100" step="1" placeholder="e.g., 21" required /></div>
+          <div class="field"><label for="aaPao2">PaO₂ (mmHg)</label><input id="aaPao2" type="number" step="0.1" placeholder="e.g., 90" required /></div>
+          <div class="field"><label for="aaPaco2">PaCO₂ (mmHg)</label><input id="aaPaco2" type="number" step="0.1" placeholder="e.g., 40" required /></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formAa">Reset</button></div>
+        </form>
+        <div class="result" id="aaResult" aria-live="polite"></div>
+        <details class="details"><summary>Formula</summary><p class="mono">PAO₂ = FiO₂ × (Patm − PH₂O) − PaCO₂/0.8<br/>A-a = PAO₂ − PaO₂<br/>Normal ≈ (Age/4) + 4</p></details>
+      </article>
+
+      <!-- FENa -->
+      <article id="calc-fena" class="card calc" data-name="fena fractional excretion sodium prerenal renal aki acute kidney">
+        <header class="card-header">
+          <h2>Fractional Excretion of Sodium (FENa)</h2>
+          <p class="muted">Helps differentiate prerenal from intrinsic renal AKI.</p>
+        </header>
+        <form id="formFena" class="grid" autocomplete="off">
+          <div class="field"><label for="fenaSerNa">Serum Na⁺ (mEq/L)</label><input id="fenaSerNa" type="number" step="0.1" placeholder="e.g., 140" required /></div>
+          <div class="field"><label for="fenaSerCr">Serum Creatinine (mg/dL)</label><input id="fenaSerCr" type="number" step="0.01" placeholder="e.g., 1.2" required /></div>
+          <div class="field"><label for="fenaUrNa">Urine Na⁺ (mEq/L)</label><input id="fenaUrNa" type="number" step="0.1" placeholder="e.g., 15" required /></div>
+          <div class="field"><label for="fenaUrCr">Urine Creatinine (mg/dL)</label><input id="fenaUrCr" type="number" step="0.1" placeholder="e.g., 80" required /></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formFena">Reset</button></div>
+        </form>
+        <div class="result" id="fenaResult" aria-live="polite"></div>
+        <details class="details"><summary>Formula</summary><p class="mono">FENa (%) = (Urine Na × Serum Cr) / (Serum Na × Urine Cr) × 100<br/>< 1% → prerenal | > 2% → intrinsic renal</p></details>
+      </article>
+
+      <!-- MELD -->
+      <article id="calc-meld" class="card calc" data-name="meld score model end stage liver disease transplant hepatic cirrhosis">
+        <header class="card-header">
+          <h2>MELD Score</h2>
+          <p class="muted">Model for End-Stage Liver Disease. Predicts 3-month mortality and transplant priority.</p>
+        </header>
+        <form id="formMeld" class="grid" autocomplete="off">
+          <div class="field"><label for="meldBili">Total Bilirubin (mg/dL)</label><input id="meldBili" type="number" min="0" step="0.1" placeholder="e.g., 2.0" required /></div>
+          <div class="field"><label for="meldInr">INR</label><input id="meldInr" type="number" min="0" step="0.1" placeholder="e.g., 1.5" required /></div>
+          <div class="field"><label for="meldCr">Creatinine (mg/dL)</label><input id="meldCr" type="number" min="0" step="0.1" placeholder="e.g., 1.2" required /></div>
+          <div class="field"><label for="meldNa">Na⁺ (mEq/L, for MELD-Na)</label><input id="meldNa" type="number" step="0.1" placeholder="e.g., 137" /></div>
+          <div class="field"><label for="meldDialysis">Dialysis ≥ 2× in past week?</label><select id="meldDialysis"><option value="0">No</option><option value="1">Yes (Cr set to 4.0)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formMeld">Reset</button></div>
+        </form>
+        <div class="result" id="meldResult" aria-live="polite"></div>
+      </article>
+
+      <!-- Child-Pugh -->
+      <article id="calc-childpugh" class="card calc" data-name="child pugh score cirrhosis liver classification hepatic">
+        <header class="card-header">
+          <h2>Child-Pugh Score</h2>
+          <p class="muted">Classifies severity of cirrhosis (A / B / C).</p>
+        </header>
+        <form id="formChildpugh" class="grid" autocomplete="off">
+          <div class="field"><label for="cpBili">Total Bilirubin</label><select id="cpBili" required><option value="1">< 2 mg/dL (1)</option><option value="2">2–3 mg/dL (2)</option><option value="3">> 3 mg/dL (3)</option></select></div>
+          <div class="field"><label for="cpAlb">Albumin</label><select id="cpAlb" required><option value="1">> 3.5 g/dL (1)</option><option value="2">2.8–3.5 g/dL (2)</option><option value="3">< 2.8 g/dL (3)</option></select></div>
+          <div class="field"><label for="cpInr">INR</label><select id="cpInr" required><option value="1">< 1.7 (1)</option><option value="2">1.7–2.3 (2)</option><option value="3">> 2.3 (3)</option></select></div>
+          <div class="field"><label for="cpAscites">Ascites</label><select id="cpAscites" required><option value="1">None (1)</option><option value="2">Mild / controlled (2)</option><option value="3">Moderate-severe / refractory (3)</option></select></div>
+          <div class="field"><label for="cpEnceph">Encephalopathy</label><select id="cpEnceph" required><option value="1">None (1)</option><option value="2">Grade I–II (2)</option><option value="3">Grade III–IV (3)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formChildpugh">Reset</button></div>
+        </form>
+        <div class="result" id="childpughResult" aria-live="polite"></div>
+      </article>
+
+      <!-- FIB-4 -->
+      <article id="calc-fib4" class="card calc" data-name="fib4 fib-4 fibrosis liver hcv hbv biopsy">
+        <header class="card-header"><h2>FIB-4 Index for Liver Fibrosis</h2><p class="muted">Non-invasive estimate of liver fibrosis in HCV/HBV/NAFLD.</p></header>
+        <form id="formFib4" class="grid" autocomplete="off">
+          <div class="field"><label for="fib4Age">Age (years)</label><input id="fib4Age" type="number" min="0" step="1" placeholder="e.g., 50" required /></div>
+          <div class="field"><label for="fib4Ast">AST (U/L)</label><input id="fib4Ast" type="number" min="0" step="1" placeholder="e.g., 45" required /></div>
+          <div class="field"><label for="fib4Alt">ALT (U/L)</label><input id="fib4Alt" type="number" min="0" step="1" placeholder="e.g., 40" required /></div>
+          <div class="field"><label for="fib4Plt">Platelet count (×10⁹/L)</label><input id="fib4Plt" type="number" min="0" step="1" placeholder="e.g., 200" required /></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formFib4">Reset</button></div>
+        </form>
+        <div class="result" id="fib4Result" aria-live="polite"></div>
+        <details class="details"><summary>Formula</summary><p class="mono">FIB-4 = (Age × AST) / (Platelet × √ALT)</p></details>
+      </article>
+
+      <!-- NIHSS -->
+      <article id="calc-nihss" class="card calc" data-name="nihss nih stroke scale neurological deficit">
+        <header class="card-header"><h2>NIH Stroke Scale (NIHSS)</h2><p class="muted">Quantifies stroke severity (0–42).</p></header>
+        <form id="formNihss" class="grid" autocomplete="off">
+          <div class="field"><label for="ns1a">1a. Level of consciousness</label><select id="ns1a"><option value="0">0 – Alert</option><option value="1">1 – Not alert, arousable</option><option value="2">2 – Not alert, requires repeated stimulation</option><option value="3">3 – Unresponsive</option></select></div>
+          <div class="field"><label for="ns1b">1b. LOC questions (month/age)</label><select id="ns1b"><option value="0">0 – Both correct</option><option value="1">1 – One correct</option><option value="2">2 – Neither correct</option></select></div>
+          <div class="field"><label for="ns1c">1c. LOC commands (open/close eyes, grip/release)</label><select id="ns1c"><option value="0">0 – Both correct</option><option value="1">1 – One correct</option><option value="2">2 – Neither correct</option></select></div>
+          <div class="field"><label for="ns2">2. Best gaze</label><select id="ns2"><option value="0">0 – Normal</option><option value="1">1 – Partial gaze palsy</option><option value="2">2 – Forced deviation</option></select></div>
+          <div class="field"><label for="ns3">3. Visual fields</label><select id="ns3"><option value="0">0 – No visual loss</option><option value="1">1 – Partial hemianopia</option><option value="2">2 – Complete hemianopia</option><option value="3">3 – Bilateral hemianopia/blind</option></select></div>
+          <div class="field"><label for="ns4">4. Facial palsy</label><select id="ns4"><option value="0">0 – Normal</option><option value="1">1 – Minor</option><option value="2">2 – Partial</option><option value="3">3 – Complete</option></select></div>
+          <div class="field"><label for="ns5a">5a. Motor arm – left</label><select id="ns5a"><option value="0">0 – No drift</option><option value="1">1 – Drift</option><option value="2">2 – Some effort against gravity</option><option value="3">3 – No effort against gravity</option><option value="4">4 – No movement</option></select></div>
+          <div class="field"><label for="ns5b">5b. Motor arm – right</label><select id="ns5b"><option value="0">0 – No drift</option><option value="1">1 – Drift</option><option value="2">2 – Some effort against gravity</option><option value="3">3 – No effort against gravity</option><option value="4">4 – No movement</option></select></div>
+          <div class="field"><label for="ns6a">6a. Motor leg – left</label><select id="ns6a"><option value="0">0 – No drift</option><option value="1">1 – Drift</option><option value="2">2 – Some effort against gravity</option><option value="3">3 – No effort against gravity</option><option value="4">4 – No movement</option></select></div>
+          <div class="field"><label for="ns6b">6b. Motor leg – right</label><select id="ns6b"><option value="0">0 – No drift</option><option value="1">1 – Drift</option><option value="2">2 – Some effort against gravity</option><option value="3">3 – No effort against gravity</option><option value="4">4 – No movement</option></select></div>
+          <div class="field"><label for="ns7">7. Limb ataxia</label><select id="ns7"><option value="0">0 – Absent</option><option value="1">1 – Present in 1 limb</option><option value="2">2 – Present in 2+ limbs</option></select></div>
+          <div class="field"><label for="ns8">8. Sensory</label><select id="ns8"><option value="0">0 – Normal</option><option value="1">1 – Mild-mod loss</option><option value="2">2 – Severe/total loss</option></select></div>
+          <div class="field"><label for="ns9">9. Best language</label><select id="ns9"><option value="0">0 – No aphasia</option><option value="1">1 – Mild-mod aphasia</option><option value="2">2 – Severe aphasia</option><option value="3">3 – Mute/global aphasia</option></select></div>
+          <div class="field"><label for="ns10">10. Dysarthria</label><select id="ns10"><option value="0">0 – Normal</option><option value="1">1 – Mild-mod</option><option value="2">2 – Severe/unintelligible</option></select></div>
+          <div class="field"><label for="ns11">11. Extinction/inattention</label><select id="ns11"><option value="0">0 – No abnormality</option><option value="1">1 – Partial (1 modality)</option><option value="2">2 – Profound (2+ modalities)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formNihss">Reset</button></div>
+        </form>
+        <div class="result" id="nihssResult" aria-live="polite"></div>
+      </article>
+
+      <!-- ABCD2 -->
+      <article id="calc-abcd2" class="card calc" data-name="abcd2 tia transient ischemic attack stroke risk">
+        <header class="card-header"><h2>ABCD² Score for TIA</h2><p class="muted">Estimates stroke risk after suspected TIA.</p></header>
+        <form id="formAbcd2" class="grid" autocomplete="off">
+          <div class="field"><label for="abAge">Age ≥ 60</label><select id="abAge"><option value="0">No (0)</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="abBp">BP ≥ 140/90 at evaluation</label><select id="abBp"><option value="0">No (0)</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="abClin">Clinical features</label><select id="abClin"><option value="0">Other (0)</option><option value="1">Speech disturbance w/o weakness (+1)</option><option value="2">Unilateral weakness (+2)</option></select></div>
+          <div class="field"><label for="abDur">Duration of symptoms</label><select id="abDur"><option value="0">< 10 min (0)</option><option value="1">10–59 min (+1)</option><option value="2">≥ 60 min (+2)</option></select></div>
+          <div class="field"><label for="abDm">Diabetes</label><select id="abDm"><option value="0">No (0)</option><option value="1">Yes (+1)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formAbcd2">Reset</button></div>
+        </form>
+        <div class="result" id="abcd2Result" aria-live="polite"></div>
+      </article>
+
+      <!-- MDRD -->
+      <article id="calc-mdrd" class="card calc" data-name="mdrd gfr modification diet renal disease creatinine kidney">
+        <header class="card-header"><h2>MDRD GFR Equation</h2><p class="muted">Estimates GFR using the 4-variable MDRD equation.</p></header>
+        <form id="formMdrd" class="grid" autocomplete="off">
+          <div class="field"><label for="mdrdAge">Age (years)</label><input id="mdrdAge" type="number" min="18" step="1" placeholder="e.g., 55" required /></div>
+          <div class="field"><label for="mdrdSex">Sex</label><select id="mdrdSex"><option value="male">Male</option><option value="female">Female</option></select></div>
+          <div class="field"><label for="mdrdScr">Serum Creatinine</label><div class="row"><input id="mdrdScr" type="number" min="0" step="0.01" placeholder="e.g., 1.2" required /><select id="mdrdScrUnit"><option value="mgdl">mg/dL</option><option value="umol">µmol/L</option></select></div></div>
+          <div class="field"><label for="mdrdBlack">Black race</label><select id="mdrdBlack"><option value="0">No</option><option value="1">Yes (×1.212)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formMdrd">Reset</button></div>
+        </form>
+        <div class="result" id="mdrdResult" aria-live="polite"></div>
+        <details class="details"><summary>Formula</summary><p class="mono">GFR = 175 × SCr⁻¹·¹⁵⁴ × Age⁻⁰·²⁰³ × 0.742 (if female) × 1.212 (if Black)</p></details>
+      </article>
+
+      <!-- Free Water Deficit -->
+      <article id="calc-freewater" class="card calc" data-name="free water deficit hypernatremia dehydration total body water">
+        <header class="card-header"><h2>Free Water Deficit</h2><p class="muted">Calculates free water deficit in hypernatremia.</p></header>
+        <form id="formFreewater" class="grid" autocomplete="off">
+          <div class="field"><label for="fwSex">Sex</label><select id="fwSex"><option value="male">Male</option><option value="female">Female</option></select></div>
+          <div class="field"><label for="fwAge">Age group</label><select id="fwAge"><option value="adult">Adult</option><option value="elderly">Elderly (> 65)</option></select></div>
+          <div class="field"><label for="fwWeight">Weight</label><div class="row"><input id="fwWeight" type="number" min="0" step="0.1" placeholder="e.g., 70" required /><select id="fwWeightUnit"><option value="kg">kg</option><option value="lb">lb</option></select></div></div>
+          <div class="field"><label for="fwNa">Current Na⁺ (mEq/L)</label><input id="fwNa" type="number" step="0.1" placeholder="e.g., 155" required /></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formFreewater">Reset</button></div>
+        </form>
+        <div class="result" id="freewaterResult" aria-live="polite"></div>
+        <details class="details"><summary>Formula</summary><p class="mono">FWD = TBW × ((Na/140) − 1)<br/>TBW = weight × factor (♂ 0.6, ♀ 0.5; elderly ♂ 0.5, ♀ 0.45)</p></details>
+      </article>
+
+      <!-- PSI/PORT -->
+      <article id="calc-psi" class="card calc" data-name="psi port pneumonia severity index community acquired cap mortality">
+        <header class="card-header"><h2>PSI/PORT Score (Pneumonia)</h2><p class="muted">Estimates mortality in CAP to guide admission decisions.</p></header>
+        <form id="formPsi" class="grid" autocomplete="off">
+          <div class="field"><label for="psiAge">Age</label><input id="psiAge" type="number" min="0" step="1" placeholder="e.g., 65" required /></div>
+          <div class="field"><label for="psiSex">Sex</label><select id="psiSex"><option value="male">Male</option><option value="female">Female (−10)</option></select></div>
+          <div class="field"><label for="psiNursing">Nursing home resident</label><select id="psiNursing"><option value="0">No</option><option value="10">Yes (+10)</option></select></div>
+          <div class="field"><label for="psiNeoplasm">Neoplastic disease</label><select id="psiNeoplasm"><option value="0">No</option><option value="30">Yes (+30)</option></select></div>
+          <div class="field"><label for="psiLiver">Liver disease</label><select id="psiLiver"><option value="0">No</option><option value="20">Yes (+20)</option></select></div>
+          <div class="field"><label for="psiChf">CHF</label><select id="psiChf"><option value="0">No</option><option value="10">Yes (+10)</option></select></div>
+          <div class="field"><label for="psiCvd">Cerebrovascular disease</label><select id="psiCvd"><option value="0">No</option><option value="10">Yes (+10)</option></select></div>
+          <div class="field"><label for="psiRenal">Renal disease</label><select id="psiRenal"><option value="0">No</option><option value="10">Yes (+10)</option></select></div>
+          <div class="field"><label for="psiAms">Altered mental status</label><select id="psiAms"><option value="0">No</option><option value="20">Yes (+20)</option></select></div>
+          <div class="field"><label for="psiRr">RR ≥ 30</label><select id="psiRr"><option value="0">No</option><option value="20">Yes (+20)</option></select></div>
+          <div class="field"><label for="psiSbp">SBP < 90</label><select id="psiSbp"><option value="0">No</option><option value="20">Yes (+20)</option></select></div>
+          <div class="field"><label for="psiTemp">Temp < 35°C or ≥ 40°C</label><select id="psiTemp"><option value="0">No</option><option value="15">Yes (+15)</option></select></div>
+          <div class="field"><label for="psiHr">HR ≥ 125</label><select id="psiHr"><option value="0">No</option><option value="10">Yes (+10)</option></select></div>
+          <div class="field"><label for="psiPh">pH < 7.35</label><select id="psiPh"><option value="0">No</option><option value="30">Yes (+30)</option></select></div>
+          <div class="field"><label for="psiBun">BUN ≥ 30 mg/dL</label><select id="psiBun"><option value="0">No</option><option value="20">Yes (+20)</option></select></div>
+          <div class="field"><label for="psiNa">Na < 130</label><select id="psiNa"><option value="0">No</option><option value="20">Yes (+20)</option></select></div>
+          <div class="field"><label for="psiGlu">Glucose ≥ 250</label><select id="psiGlu"><option value="0">No</option><option value="10">Yes (+10)</option></select></div>
+          <div class="field"><label for="psiHct">Hematocrit < 30%</label><select id="psiHct"><option value="0">No</option><option value="10">Yes (+10)</option></select></div>
+          <div class="field"><label for="psiPo2">PaO₂ < 60 or SpO₂ < 90%</label><select id="psiPo2"><option value="0">No</option><option value="10">Yes (+10)</option></select></div>
+          <div class="field"><label for="psiEffusion">Pleural effusion</label><select id="psiEffusion"><option value="0">No</option><option value="10">Yes (+10)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formPsi">Reset</button></div>
+        </form>
+        <div class="result" id="psiResult" aria-live="polite"></div>
+      </article>
+
+      <!-- PESI -->
+      <article id="calc-pesi" class="card calc" data-name="pesi pulmonary embolism severity index 30 day mortality">
+        <header class="card-header"><h2>PESI — PE Severity Index</h2><p class="muted">Predicts 30-day mortality in patients with PE.</p></header>
+        <form id="formPesi" class="grid" autocomplete="off">
+          <div class="field"><label for="pesiAge">Age (= points)</label><input id="pesiAge" type="number" min="0" step="1" placeholder="e.g., 65" required /></div>
+          <div class="field"><label for="pesiSex">Male sex</label><select id="pesiSex"><option value="0">Female</option><option value="10">Male (+10)</option></select></div>
+          <div class="field"><label for="pesiCancer">Cancer</label><select id="pesiCancer"><option value="0">No</option><option value="30">Yes (+30)</option></select></div>
+          <div class="field"><label for="pesiHf">Heart failure</label><select id="pesiHf"><option value="0">No</option><option value="10">Yes (+10)</option></select></div>
+          <div class="field"><label for="pesiLung">Chronic lung disease</label><select id="pesiLung"><option value="0">No</option><option value="10">Yes (+10)</option></select></div>
+          <div class="field"><label for="pesiHr">HR ≥ 110</label><select id="pesiHr"><option value="0">No</option><option value="20">Yes (+20)</option></select></div>
+          <div class="field"><label for="pesiSbp">SBP < 100</label><select id="pesiSbp"><option value="0">No</option><option value="30">Yes (+30)</option></select></div>
+          <div class="field"><label for="pesiRr">RR ≥ 30</label><select id="pesiRr"><option value="0">No</option><option value="20">Yes (+20)</option></select></div>
+          <div class="field"><label for="pesiTemp">Temp < 36°C</label><select id="pesiTemp"><option value="0">No</option><option value="20">Yes (+20)</option></select></div>
+          <div class="field"><label for="pesiAms">Altered mental status</label><select id="pesiAms"><option value="0">No</option><option value="60">Yes (+60)</option></select></div>
+          <div class="field"><label for="pesiSpo2">SpO₂ < 90%</label><select id="pesiSpo2"><option value="0">No</option><option value="20">Yes (+20)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formPesi">Reset</button></div>
+        </form>
+        <div class="result" id="pesiResult" aria-live="polite"></div>
+      </article>
+
+      <!-- YEARS -->
+      <article id="calc-years" class="card calc" data-name="years algorithm pulmonary embolism pe pregnant">
+        <header class="card-header"><h2>YEARS Algorithm for PE</h2><p class="muted">Simplifies PE workup; validated in pregnancy.</p></header>
+        <form id="formYears" class="grid" autocomplete="off">
+          <div class="field"><label for="yrDvt">Clinical signs of DVT</label><select id="yrDvt"><option value="0">No</option><option value="1">Yes</option></select></div>
+          <div class="field"><label for="yrHemo">Hemoptysis</label><select id="yrHemo"><option value="0">No</option><option value="1">Yes</option></select></div>
+          <div class="field"><label for="yrMost">PE most likely diagnosis</label><select id="yrMost"><option value="0">No</option><option value="1">Yes</option></select></div>
+          <div class="field"><label for="yrDdimer">D-dimer (ng/mL)</label><input id="yrDdimer" type="number" min="0" step="1" placeholder="e.g., 500" required /></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formYears">Reset</button></div>
+        </form>
+        <div class="result" id="yearsResult" aria-live="polite"></div>
+      </article>
+
+      <!-- ABG Analyzer -->
+      <article id="calc-abg" class="card calc" data-name="abg arterial blood gas analyzer acid base ph pco2 hco3">
+        <header class="card-header"><h2>ABG Analyzer</h2><p class="muted">Interprets arterial blood gas results.</p></header>
+        <form id="formAbg" class="grid" autocomplete="off">
+          <div class="field"><label for="abgPh">pH</label><input id="abgPh" type="number" min="6" max="8" step="0.01" placeholder="e.g., 7.40" required /></div>
+          <div class="field"><label for="abgPco2">PaCO₂ (mmHg)</label><input id="abgPco2" type="number" step="0.1" placeholder="e.g., 40" required /></div>
+          <div class="field"><label for="abgHco3">HCO₃⁻ (mEq/L)</label><input id="abgHco3" type="number" step="0.1" placeholder="e.g., 24" required /></div>
+          <div class="field"><label for="abgNa">Na⁺ (optional, for AG)</label><input id="abgNa" type="number" step="0.1" placeholder="e.g., 140" /></div>
+          <div class="field"><label for="abgCl">Cl⁻ (optional, for AG)</label><input id="abgCl" type="number" step="0.1" placeholder="e.g., 104" /></div>
+          <div class="actions"><button class="btn" type="submit">Analyze</button><button class="btn btn-ghost" type="button" data-reset="formAbg">Reset</button></div>
+        </form>
+        <div class="result" id="abgResult" aria-live="polite"></div>
+      </article>
+
+      <!-- SOFA -->
+      <article id="calc-sofa" class="card calc" data-name="sofa sequential organ failure assessment icu sepsis mortality">
+        <header class="card-header"><h2>SOFA Score</h2><p class="muted">Predicts ICU mortality based on 6 organ systems.</p></header>
+        <form id="formSofa" class="grid" autocomplete="off">
+          <div class="field"><label for="sofaResp">PaO₂/FiO₂ (Respiration)</label><select id="sofaResp"><option value="0">≥ 400 (0)</option><option value="1">300–399 (1)</option><option value="2">200–299 (2)</option><option value="3">100–199 + ventilated (3)</option><option value="4">< 100 + ventilated (4)</option></select></div>
+          <div class="field"><label for="sofaCoag">Platelets (×10³/µL)</label><select id="sofaCoag"><option value="0">≥ 150 (0)</option><option value="1">100–149 (1)</option><option value="2">50–99 (2)</option><option value="3">20–49 (3)</option><option value="4">< 20 (4)</option></select></div>
+          <div class="field"><label for="sofaLiver">Bilirubin (mg/dL)</label><select id="sofaLiver"><option value="0">< 1.2 (0)</option><option value="1">1.2–1.9 (1)</option><option value="2">2.0–5.9 (2)</option><option value="3">6.0–11.9 (3)</option><option value="4">≥ 12.0 (4)</option></select></div>
+          <div class="field"><label for="sofaCns">GCS (Neurological)</label><select id="sofaCns"><option value="0">15 (0)</option><option value="1">13–14 (1)</option><option value="2">10–12 (2)</option><option value="3">6–9 (3)</option><option value="4">< 6 (4)</option></select></div>
+          <div class="field"><label for="sofaCv">Cardiovascular (MAP / vasopressors)</label><select id="sofaCv"><option value="0">MAP ≥ 70, no vasopressors (0)</option><option value="1">MAP < 70, no vasopressors (1)</option><option value="2">Dopamine ≤ 5 or dobutamine (2)</option><option value="3">Dopamine > 5 or epi/norepi ≤ 0.1 (3)</option><option value="4">Dopamine > 15 or epi/norepi > 0.1 (4)</option></select></div>
+          <div class="field"><label for="sofaRenal">Creatinine (mg/dL) or UO</label><select id="sofaRenal"><option value="0">< 1.2 (0)</option><option value="1">1.2–1.9 (1)</option><option value="2">2.0–3.4 (2)</option><option value="3">3.5–4.9 or UO < 500 mL/d (3)</option><option value="4">≥ 5.0 or UO < 200 mL/d (4)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formSofa">Reset</button></div>
+        </form>
+        <div class="result" id="sofaResult" aria-live="polite"></div>
+      </article>
+
+      <!-- SIRS -->
+      <article id="calc-sirs" class="card calc" data-name="sirs systemic inflammatory response sepsis septic shock criteria">
+        <header class="card-header"><h2>SIRS / Sepsis / Septic Shock Criteria</h2><p class="muted">Defines SIRS, sepsis, severe sepsis, and septic shock.</p></header>
+        <form id="formSirs" class="grid" autocomplete="off">
+          <div class="field"><label for="sirsTemp">Temp > 38°C or < 36°C</label><select id="sirsTemp"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="sirsHr">HR > 90 bpm</label><select id="sirsHr"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="sirsRr">RR > 20 or PaCO₂ < 32 mmHg</label><select id="sirsRr"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="sirsWbc">WBC > 12k, < 4k, or > 10% bands</label><select id="sirsWbc"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="sirsInfection">Suspected/documented infection</label><select id="sirsInfection"><option value="0">No</option><option value="1">Yes</option></select></div>
+          <div class="field"><label for="sirsOrgan">Organ dysfunction present</label><select id="sirsOrgan"><option value="0">No</option><option value="1">Yes</option></select></div>
+          <div class="field"><label for="sirsHypo">Hypotension despite fluids</label><select id="sirsHypo"><option value="0">No</option><option value="1">Yes</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Evaluate</button><button class="btn btn-ghost" type="button" data-reset="formSirs">Reset</button></div>
+        </form>
+        <div class="result" id="sirsResult" aria-live="polite"></div>
+      </article>
+
+      <!-- APACHE II -->
+      <article id="calc-apache2" class="card calc" data-name="apache ii icu mortality critical care severity">
+        <header class="card-header"><h2>APACHE II Score</h2><p class="muted">Estimates ICU mortality (0–71). Uses worst values in first 24h of ICU.</p></header>
+        <form id="formApache2" class="grid" autocomplete="off">
+          <div class="field"><label for="apTemp">Temperature (°C, rectal)</label><input id="apTemp" type="number" step="0.1" placeholder="e.g., 37.0" required /></div>
+          <div class="field"><label for="apMap">MAP (mmHg)</label><input id="apMap" type="number" step="1" placeholder="e.g., 70" required /></div>
+          <div class="field"><label for="apHr">Heart rate</label><input id="apHr" type="number" step="1" placeholder="e.g., 80" required /></div>
+          <div class="field"><label for="apRr">Respiratory rate</label><input id="apRr" type="number" step="1" placeholder="e.g., 18" required /></div>
+          <div class="field"><label for="apFio2">FiO₂ < 0.5? (for A-aDO2/PaO2)</label><select id="apFio2"><option value="low">FiO₂ < 0.5 → use PaO₂</option><option value="high">FiO₂ ≥ 0.5 → use A-aDO₂</option></select></div>
+          <div class="field"><label for="apOxy">PaO₂ or A-aDO₂ (mmHg)</label><input id="apOxy" type="number" step="1" placeholder="e.g., 90" required /></div>
+          <div class="field"><label for="apPh">Arterial pH</label><input id="apPh" type="number" step="0.01" placeholder="e.g., 7.40" required /></div>
+          <div class="field"><label for="apNa">Serum Na (mEq/L)</label><input id="apNa" type="number" step="1" placeholder="e.g., 140" required /></div>
+          <div class="field"><label for="apK">Serum K (mEq/L)</label><input id="apK" type="number" step="0.1" placeholder="e.g., 4.0" required /></div>
+          <div class="field"><label for="apCr">Creatinine (mg/dL)</label><input id="apCr" type="number" step="0.1" placeholder="e.g., 1.0" required /></div>
+          <div class="field"><label for="apArf">Acute renal failure</label><select id="apArf"><option value="0">No</option><option value="1">Yes (double Cr points)</option></select></div>
+          <div class="field"><label for="apHct">Hematocrit (%)</label><input id="apHct" type="number" step="0.1" placeholder="e.g., 42" required /></div>
+          <div class="field"><label for="apWbc">WBC (×10³)</label><input id="apWbc" type="number" step="0.1" placeholder="e.g., 10" required /></div>
+          <div class="field"><label for="apGcs">GCS (3–15)</label><input id="apGcs" type="number" min="3" max="15" step="1" placeholder="e.g., 15" required /></div>
+          <div class="field"><label for="apAge">Age (years)</label><input id="apAge" type="number" min="0" step="1" placeholder="e.g., 55" required /></div>
+          <div class="field"><label for="apChronic">Chronic health (surgical/medical)</label><select id="apChronic"><option value="0">None (0)</option><option value="2">Elective postop + chronic organ insufficiency (+2)</option><option value="5">Emergency postop / nonoperative + chronic organ insufficiency (+5)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formApache2">Reset</button></div>
+        </form>
+        <div class="result" id="apache2Result" aria-live="polite"></div>
+      </article>
+
+      <!-- Maintenance Fluids -->
+      <article id="calc-maintenance" class="card calc" data-name="maintenance fluids 4-2-1 rule pediatric holliday segar">
+        <header class="card-header"><h2>Maintenance Fluids (4-2-1 Rule)</h2><p class="muted">Calculates maintenance IV fluid requirement (Holliday-Segar).</p></header>
+        <form id="formMaintenance" class="grid" autocomplete="off">
+          <div class="field"><label for="mfWeight">Weight</label><div class="row"><input id="mfWeight" type="number" min="0" step="0.1" placeholder="e.g., 70" required /><select id="mfWeightUnit"><option value="kg">kg</option><option value="lb">lb</option></select></div></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formMaintenance">Reset</button></div>
+        </form>
+        <div class="result" id="maintenanceResult" aria-live="polite"></div>
+        <details class="details"><summary>Formula</summary><p class="mono">First 10 kg: 4 mL/kg/hr<br/>Next 10 kg: 2 mL/kg/hr<br/>> 20 kg: 1 mL/kg/hr</p></details>
+      </article>
+
+      <!-- ASCVD -->
+      <article id="calc-ascvd" class="card calc" data-name="ascvd atherosclerotic cardiovascular disease 10 year risk aha acc cholesterol">
+        <header class="card-header"><h2>ASCVD 10-Year Risk Calculator</h2><p class="muted">AHA/ACC 2013 pooled cohort equation for 10-year CV risk.</p></header>
+        <form id="formAscvd" class="grid" autocomplete="off">
+          <div class="field"><label for="asvAge">Age (40–79)</label><input id="asvAge" type="number" min="40" max="79" step="1" placeholder="e.g., 55" required /></div>
+          <div class="field"><label for="asvSex">Sex</label><select id="asvSex" required><option value="male">Male</option><option value="female">Female</option></select></div>
+          <div class="field"><label for="asvRace">Race</label><select id="asvRace"><option value="white">White / Other</option><option value="aa">African American</option></select></div>
+          <div class="field"><label for="asvTc">Total cholesterol (mg/dL)</label><input id="asvTc" type="number" min="0" step="1" placeholder="e.g., 200" required /></div>
+          <div class="field"><label for="asvHdl">HDL (mg/dL)</label><input id="asvHdl" type="number" min="0" step="1" placeholder="e.g., 50" required /></div>
+          <div class="field"><label for="asvSbp">Systolic BP (mmHg)</label><input id="asvSbp" type="number" min="0" step="1" placeholder="e.g., 130" required /></div>
+          <div class="field"><label for="asvBpRx">BP treatment</label><select id="asvBpRx"><option value="0">No</option><option value="1">Yes</option></select></div>
+          <div class="field"><label for="asvDm">Diabetes</label><select id="asvDm"><option value="0">No</option><option value="1">Yes</option></select></div>
+          <div class="field"><label for="asvSmoke">Current smoker</label><select id="asvSmoke"><option value="0">No</option><option value="1">Yes</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formAscvd">Reset</button></div>
+        </form>
+        <div class="result" id="ascvdResult" aria-live="polite"></div>
+      </article>
+
+      <!-- RCRI -->
+      <article id="calc-rcri" class="card calc" data-name="rcri revised cardiac risk index lee preoperative surgery">
+        <header class="card-header"><h2>Revised Cardiac Risk Index (RCRI)</h2><p class="muted">Estimates cardiac risk for non-cardiac surgery (Lee criteria).</p></header>
+        <form id="formRcri" class="grid" autocomplete="off">
+          <div class="field"><label for="rcHigh">High-risk surgery (intraperitoneal, intrathoracic, suprainguinal vascular)</label><select id="rcHigh"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="rcIhd">History of ischemic heart disease</label><select id="rcIhd"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="rcChf">History of CHF</label><select id="rcChf"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="rcCvd">History of cerebrovascular disease</label><select id="rcCvd"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="rcDm">Diabetes on insulin</label><select id="rcDm"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="rcCr">Creatinine > 2 mg/dL</label><select id="rcCr"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formRcri">Reset</button></div>
+        </form>
+        <div class="result" id="rcriResult" aria-live="polite"></div>
+      </article>
+
+      <!-- GRACE -->
+      <article id="calc-grace" class="card calc" data-name="grace acs acute coronary syndrome risk mortality">
+        <header class="card-header"><h2>GRACE ACS Risk Calculator</h2><p class="muted">Estimates in-hospital and 6-month mortality for ACS. Simplified version.</p></header>
+        <form id="formGrace" class="grid" autocomplete="off">
+          <div class="field"><label for="grAge">Age</label><select id="grAge"><option value="0">≤ 29 (0)</option><option value="8">30–39 (8)</option><option value="25">40–49 (25)</option><option value="41">50–59 (41)</option><option value="58">60–69 (58)</option><option value="75">70–79 (75)</option><option value="91">80–89 (91)</option><option value="100">≥ 90 (100)</option></select></div>
+          <div class="field"><label for="grHr">Heart rate</label><select id="grHr"><option value="0">< 70 (0)</option><option value="7">70–89 (7)</option><option value="13">90–109 (13)</option><option value="23">110–149 (23)</option><option value="36">150–199 (36)</option><option value="46">≥ 200 (46)</option></select></div>
+          <div class="field"><label for="grSbp">Systolic BP</label><select id="grSbp"><option value="58">< 80 (58)</option><option value="53">80–99 (53)</option><option value="43">100–119 (43)</option><option value="34">120–139 (34)</option><option value="24">140–159 (24)</option><option value="10">160–199 (10)</option><option value="0">≥ 200 (0)</option></select></div>
+          <div class="field"><label for="grCr">Creatinine (mg/dL)</label><select id="grCr"><option value="1">0–0.39 (1)</option><option value="4">0.4–0.79 (4)</option><option value="7">0.8–1.19 (7)</option><option value="10">1.2–1.59 (10)</option><option value="13">1.6–1.99 (13)</option><option value="21">2.0–3.99 (21)</option><option value="28">≥ 4.0 (28)</option></select></div>
+          <div class="field"><label for="grKillip">Killip class</label><select id="grKillip"><option value="0">I (0)</option><option value="20">II (20)</option><option value="39">III (39)</option><option value="59">IV (59)</option></select></div>
+          <div class="field"><label for="grArrest">Cardiac arrest at admission</label><select id="grArrest"><option value="0">No (0)</option><option value="39">Yes (+39)</option></select></div>
+          <div class="field"><label for="grSt">ST-segment deviation</label><select id="grSt"><option value="0">No (0)</option><option value="28">Yes (+28)</option></select></div>
+          <div class="field"><label for="grEnz">Elevated cardiac enzymes</label><select id="grEnz"><option value="0">No (0)</option><option value="14">Yes (+14)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formGrace">Reset</button></div>
+        </form>
+        <div class="result" id="graceResult" aria-live="polite"></div>
+      </article>
+
+      <!-- LDL -->
+      <article id="calc-ldl" class="card calc" data-name="ldl calculated friedewald cholesterol lipid panel">
+        <header class="card-header"><h2>LDL Calculated (Friedewald)</h2><p class="muted">Calculates LDL from total cholesterol, HDL, and triglycerides.</p></header>
+        <form id="formLdl" class="grid" autocomplete="off">
+          <div class="field"><label for="ldlTc">Total Cholesterol (mg/dL)</label><input id="ldlTc" type="number" min="0" step="1" placeholder="e.g., 200" required /></div>
+          <div class="field"><label for="ldlHdl">HDL (mg/dL)</label><input id="ldlHdl" type="number" min="0" step="1" placeholder="e.g., 50" required /></div>
+          <div class="field"><label for="ldlTg">Triglycerides (mg/dL)</label><input id="ldlTg" type="number" min="0" step="1" placeholder="e.g., 150" required /></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formLdl">Reset</button></div>
+        </form>
+        <div class="result" id="ldlResult" aria-live="polite"></div>
+        <details class="details"><summary>Formula</summary><p class="mono">LDL = TC − HDL − (TG / 5)<br/>Inaccurate if TG > 400 mg/dL.</p></details>
+      </article>
+
+      <!-- Alvarado -->
+      <article id="calc-alvarado" class="card calc" data-name="alvarado score appendicitis acute abdomen surgery">
+        <header class="card-header"><h2>Alvarado Score for Appendicitis</h2><p class="muted">Predicts likelihood of appendicitis (0–10).</p></header>
+        <form id="formAlvarado" class="grid" autocomplete="off">
+          <div class="field"><label for="alvMigrate">RLQ migration of pain</label><select id="alvMigrate"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="alvAnorexia">Anorexia</label><select id="alvAnorexia"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="alvNausea">Nausea/vomiting</label><select id="alvNausea"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="alvRlq">RLQ tenderness</label><select id="alvRlq"><option value="0">No</option><option value="2">Yes (+2)</option></select></div>
+          <div class="field"><label for="alvRebound">Rebound pain</label><select id="alvRebound"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="alvTemp">Temp > 37.3°C</label><select id="alvTemp"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="alvWbc">WBC > 10,000</label><select id="alvWbc"><option value="0">No</option><option value="2">Yes (+2)</option></select></div>
+          <div class="field"><label for="alvShift">WBC left shift (> 75% neutrophils)</label><select id="alvShift"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formAlvarado">Reset</button></div>
+        </form>
+        <div class="result" id="alvaradoResult" aria-live="polite"></div>
+      </article>
+
+      <!-- GBS -->
+      <article id="calc-gbs" class="card calc" data-name="glasgow blatchford bleeding score upper gi gastrointestinal bleed">
+        <header class="card-header"><h2>Glasgow-Blatchford Bleeding Score</h2><p class="muted">Stratifies upper GI bleed patients for outpatient vs inpatient management.</p></header>
+        <form id="formGbs" class="grid" autocomplete="off">
+          <div class="field"><label for="gbsBun">BUN (mg/dL)</label><select id="gbsBun"><option value="0">< 18.2 (0)</option><option value="2">18.2–22.3 (2)</option><option value="3">22.4–27.9 (3)</option><option value="4">28.0–69.9 (4)</option><option value="6">≥ 70.0 (6)</option></select></div>
+          <div class="field"><label for="gbsHb">Hemoglobin (g/dL) — Male</label><select id="gbsHb"><option value="0">≥ 13.0 (0)</option><option value="1">12.0–12.9 (1)</option><option value="3">10.0–11.9 (3)</option><option value="6">< 10.0 (6)</option></select></div>
+          <div class="field"><label for="gbsSbp">Systolic BP</label><select id="gbsSbp"><option value="0">≥ 110 (0)</option><option value="1">100–109 (1)</option><option value="2">90–99 (2)</option><option value="3">< 90 (3)</option></select></div>
+          <div class="field"><label for="gbsHr">HR ≥ 100</label><select id="gbsHr"><option value="0">No (0)</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="gbsMelena">Melena</label><select id="gbsMelena"><option value="0">No (0)</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="gbsSyncope">Syncope</label><select id="gbsSyncope"><option value="0">No (0)</option><option value="2">Yes (+2)</option></select></div>
+          <div class="field"><label for="gbsLiver">Liver disease</label><select id="gbsLiver"><option value="0">No (0)</option><option value="2">Yes (+2)</option></select></div>
+          <div class="field"><label for="gbsHf">Heart failure</label><select id="gbsHf"><option value="0">No (0)</option><option value="2">Yes (+2)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formGbs">Reset</button></div>
+        </form>
+        <div class="result" id="gbsResult" aria-live="polite"></div>
+      </article>
+
+      <!-- Caprini -->
+      <article id="calc-caprini" class="card calc" data-name="caprini vte venous thromboembolism surgical risk prophylaxis">
+        <header class="card-header"><h2>Caprini VTE Risk Score</h2><p class="muted">Stratifies VTE risk in surgical patients to guide prophylaxis.</p></header>
+        <form id="formCaprini" class="grid" autocomplete="off">
+          <div class="field"><label for="capAge">Age</label><select id="capAge"><option value="0">≤ 40 (0)</option><option value="1">41–60 (+1)</option><option value="2">61–74 (+2)</option><option value="3">≥ 75 (+3)</option></select></div>
+          <div class="field"><label for="capSurgery">Type of surgery</label><select id="capSurgery"><option value="0">Minor (0)</option><option value="1">Major (> 45 min) (+1)</option><option value="2">Major open (> 45 min) (+2)</option><option value="5">Hip/knee arthroplasty, hip fracture, stroke, spinal cord injury (+5)</option></select></div>
+          <div class="field"><label for="capImmob">Immobilization/bed rest</label><select id="capImmob"><option value="0">No</option><option value="2">Yes (> 72h) (+2)</option></select></div>
+          <div class="field"><label for="capHxVte">Prior VTE / family hx VTE</label><select id="capHxVte"><option value="0">No (0)</option><option value="3">Yes (+3)</option></select></div>
+          <div class="field"><label for="capMalig">Current malignancy</label><select id="capMalig"><option value="0">No</option><option value="2">Yes (+2)</option></select></div>
+          <div class="field"><label for="capObesity">BMI > 25</label><select id="capObesity"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="capHrt">Hormonal (OCP/HRT/tamoxifen)</label><select id="capHrt"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="capPreg">Pregnant/postpartum</label><select id="capPreg"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="capVaricose">Varicose veins</label><select id="capVaricose"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="capSepsis">Sepsis (< 1 month)</label><select id="capSepsis"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="capChf">CHF (< 1 month)</label><select id="capChf"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formCaprini">Reset</button></div>
+        </form>
+        <div class="result" id="capriniResult" aria-live="polite"></div>
+      </article>
+
+      <!-- Padua -->
+      <article id="calc-padua" class="card calc" data-name="padua prediction score vte risk hospitalized anticoagulation">
+        <header class="card-header"><h2>Padua VTE Prediction Score</h2><p class="muted">Assesses VTE risk in hospitalized medical patients.</p></header>
+        <form id="formPadua" class="grid" autocomplete="off">
+          <div class="field"><label for="padCancer">Active cancer</label><select id="padCancer"><option value="0">No</option><option value="3">Yes (+3)</option></select></div>
+          <div class="field"><label for="padVte">Previous VTE</label><select id="padVte"><option value="0">No</option><option value="3">Yes (+3)</option></select></div>
+          <div class="field"><label for="padImmob">Reduced mobility (≥ 3 days)</label><select id="padImmob"><option value="0">No</option><option value="3">Yes (+3)</option></select></div>
+          <div class="field"><label for="padThrombo">Known thrombophilia</label><select id="padThrombo"><option value="0">No</option><option value="3">Yes (+3)</option></select></div>
+          <div class="field"><label for="padTrauma">Recent (≤ 1 mo) trauma/surgery</label><select id="padTrauma"><option value="0">No</option><option value="2">Yes (+2)</option></select></div>
+          <div class="field"><label for="padAge">Age ≥ 70</label><select id="padAge"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="padHf">Heart/respiratory failure</label><select id="padHf"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="padAmi">Acute MI or stroke</label><select id="padAmi"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="padInfection">Acute infection/rheumatic</label><select id="padInfection"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="padBmi">BMI ≥ 30</label><select id="padBmi"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="padHormone">Hormonal treatment</label><select id="padHormone"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formPadua">Reset</button></div>
+        </form>
+        <div class="result" id="paduaResult" aria-live="polite"></div>
+      </article>
+
+      <!-- Centor -->
+      <article id="calc-centor" class="card calc" data-name="centor mcisaac strep pharyngitis sore throat group a streptococcal">
+        <header class="card-header"><h2>Centor Score (Modified/McIsaac)</h2><p class="muted">Estimates probability of streptococcal pharyngitis.</p></header>
+        <form id="formCentor" class="grid" autocomplete="off">
+          <div class="field"><label for="cenAge">Age</label><select id="cenAge"><option value="1">3–14 (+1)</option><option value="0">15–44 (0)</option><option value="-1">≥ 45 (−1)</option></select></div>
+          <div class="field"><label for="cenExudate">Tonsillar exudates/swelling</label><select id="cenExudate"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="cenLymph">Anterior cervical lymphadenopathy</label><select id="cenLymph"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="cenTemp">Temp > 38°C (100.4°F)</label><select id="cenTemp"><option value="0">No</option><option value="1">Yes (+1)</option></select></div>
+          <div class="field"><label for="cenCough">Absence of cough</label><select id="cenCough"><option value="0">Cough present (0)</option><option value="1">No cough (+1)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formCentor">Reset</button></div>
+        </form>
+        <div class="result" id="centorResult" aria-live="polite"></div>
+      </article>
+
+      <!-- CIWA-Ar -->
+      <article id="calc-ciwa" class="card calc" data-name="ciwa ar alcohol withdrawal severity benzodiazepine">
+        <header class="card-header"><h2>CIWA-Ar (Alcohol Withdrawal)</h2><p class="muted">Objectifies severity of alcohol withdrawal (0–67).</p></header>
+        <form id="formCiwa" class="grid" autocomplete="off">
+          <div class="field"><label for="ciwaNausea">Nausea/vomiting</label><select id="ciwaNausea"><option value="0">0 – None</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4 – Intermittent nausea</option><option value="5">5</option><option value="6">6</option><option value="7">7 – Constant nausea, frequent dry heaves</option></select></div>
+          <div class="field"><label for="ciwaTremor">Tremor</label><select id="ciwaTremor"><option value="0">0 – None</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4 – Moderate</option><option value="5">5</option><option value="6">6</option><option value="7">7 – Severe</option></select></div>
+          <div class="field"><label for="ciwaSweat">Paroxysmal sweats</label><select id="ciwaSweat"><option value="0">0 – None</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4 – Beads on forehead</option><option value="5">5</option><option value="6">6</option><option value="7">7 – Drenching sweats</option></select></div>
+          <div class="field"><label for="ciwaAnxiety">Anxiety</label><select id="ciwaAnxiety"><option value="0">0 – None</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4 – Moderately anxious</option><option value="5">5</option><option value="6">6</option><option value="7">7 – Acute panic</option></select></div>
+          <div class="field"><label for="ciwaAgitation">Agitation</label><select id="ciwaAgitation"><option value="0">0 – Normal</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4 – Moderately fidgety</option><option value="5">5</option><option value="6">6</option><option value="7">7 – Pacing/thrashing</option></select></div>
+          <div class="field"><label for="ciwaTactile">Tactile disturbances</label><select id="ciwaTactile"><option value="0">0 – None</option><option value="1">1 – Mild itching/burning</option><option value="2">2 – Mild itching/burning</option><option value="3">3 – Moderate</option><option value="4">4 – Mod hallucinations</option><option value="5">5 – Severe hallucinations</option><option value="6">6 – Continuous</option><option value="7">7 – Continuous</option></select></div>
+          <div class="field"><label for="ciwaAuditory">Auditory disturbances</label><select id="ciwaAuditory"><option value="0">0 – None</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4 – Mod hallucinations</option><option value="5">5</option><option value="6">6</option><option value="7">7 – Continuous</option></select></div>
+          <div class="field"><label for="ciwaVisual">Visual disturbances</label><select id="ciwaVisual"><option value="0">0 – None</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4 – Mod hallucinations</option><option value="5">5</option><option value="6">6</option><option value="7">7 – Continuous</option></select></div>
+          <div class="field"><label for="ciwaHeadache">Headache</label><select id="ciwaHeadache"><option value="0">0 – Not present</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4 – Moderate</option><option value="5">5</option><option value="6">6</option><option value="7">7 – Extremely severe</option></select></div>
+          <div class="field"><label for="ciwaOrientation">Orientation / clouding</label><select id="ciwaOrientation"><option value="0">0 – Oriented</option><option value="1">1 – Uncertain about date</option><option value="2">2 – Date uncertain by > 2 days</option><option value="3">3 – Disoriented in date by > 2 days</option><option value="4">4 – Disoriented in place/person</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formCiwa">Reset</button></div>
+        </form>
+        <div class="result" id="ciwaResult" aria-live="polite"></div>
+      </article>
+
+      <!-- HOMA-IR -->
+      <article id="calc-homa" class="card calc" data-name="homa ir homeostatic model assessment insulin resistance diabetes">
+        <header class="card-header"><h2>HOMA-IR</h2><p class="muted">Approximates insulin resistance from fasting glucose and insulin.</p></header>
+        <form id="formHoma" class="grid" autocomplete="off">
+          <div class="field"><label for="homaGlu">Fasting glucose</label><div class="row"><input id="homaGlu" type="number" min="0" step="0.1" placeholder="e.g., 100" required /><select id="homaGluUnit"><option value="mgdl">mg/dL</option><option value="mmol">mmol/L</option></select></div></div>
+          <div class="field"><label for="homaIns">Fasting insulin (µU/mL)</label><input id="homaIns" type="number" min="0" step="0.1" placeholder="e.g., 10" required /></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formHoma">Reset</button></div>
+        </form>
+        <div class="result" id="homaResult" aria-live="polite"></div>
+        <details class="details"><summary>Formula</summary><p class="mono">HOMA-IR = (Fasting Insulin × Fasting Glucose in mg/dL) / 405<br/>Normal: < 1.0 | Insulin resistance: > 2.0</p></details>
+      </article>
+
+      <!-- PHQ-9 -->
+      <article id="calc-phq9" class="card calc" data-name="phq9 phq 9 patient health questionnaire depression screening">
+        <header class="card-header"><h2>PHQ-9 (Depression)</h2><p class="muted">Objectifies depression severity over the last 2 weeks (0–27).</p></header>
+        <form id="formPhq9" class="grid" autocomplete="off">
+          <div class="field"><label for="phq1">1. Little interest or pleasure</label><select id="phq1"><option value="0">0 – Not at all</option><option value="1">1 – Several days</option><option value="2">2 – More than half the days</option><option value="3">3 – Nearly every day</option></select></div>
+          <div class="field"><label for="phq2">2. Feeling down, depressed, hopeless</label><select id="phq2"><option value="0">0 – Not at all</option><option value="1">1 – Several days</option><option value="2">2 – More than half the days</option><option value="3">3 – Nearly every day</option></select></div>
+          <div class="field"><label for="phq3">3. Trouble falling/staying asleep, or sleeping too much</label><select id="phq3"><option value="0">0 – Not at all</option><option value="1">1 – Several days</option><option value="2">2 – More than half the days</option><option value="3">3 – Nearly every day</option></select></div>
+          <div class="field"><label for="phq4">4. Feeling tired or having little energy</label><select id="phq4"><option value="0">0 – Not at all</option><option value="1">1 – Several days</option><option value="2">2 – More than half the days</option><option value="3">3 – Nearly every day</option></select></div>
+          <div class="field"><label for="phq5">5. Poor appetite or overeating</label><select id="phq5"><option value="0">0 – Not at all</option><option value="1">1 – Several days</option><option value="2">2 – More than half the days</option><option value="3">3 – Nearly every day</option></select></div>
+          <div class="field"><label for="phq6">6. Feeling bad about yourself</label><select id="phq6"><option value="0">0 – Not at all</option><option value="1">1 – Several days</option><option value="2">2 – More than half the days</option><option value="3">3 – Nearly every day</option></select></div>
+          <div class="field"><label for="phq7">7. Trouble concentrating</label><select id="phq7"><option value="0">0 – Not at all</option><option value="1">1 – Several days</option><option value="2">2 – More than half the days</option><option value="3">3 – Nearly every day</option></select></div>
+          <div class="field"><label for="phq8">8. Moving/speaking slowly or being restless</label><select id="phq8"><option value="0">0 – Not at all</option><option value="1">1 – Several days</option><option value="2">2 – More than half the days</option><option value="3">3 – Nearly every day</option></select></div>
+          <div class="field"><label for="phq9">9. Thoughts of self-harm</label><select id="phq9"><option value="0">0 – Not at all</option><option value="1">1 – Several days</option><option value="2">2 – More than half the days</option><option value="3">3 – Nearly every day</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formPhq9">Reset</button></div>
+        </form>
+        <div class="result" id="phq9Result" aria-live="polite"></div>
+      </article>
+
+      <!-- PECARN -->
+      <article id="calc-pecarn" class="card calc" data-name="pecarn pediatric head injury trauma ct brain imaging children">
+        <header class="card-header"><h2>PECARN Pediatric Head Injury</h2><p class="muted">Predicts need for brain CT after pediatric head injury.</p></header>
+        <form id="formPecarn" class="grid" autocomplete="off">
+          <div class="field"><label for="pecAge">Age group</label><select id="pecAge" required><option value="under2">< 2 years</option><option value="over2">≥ 2 years</option></select></div>
+          <div class="field"><label for="pecGcs">GCS < 15 (altered mental status)</label><select id="pecGcs"><option value="0">No</option><option value="1">Yes</option></select></div>
+          <div class="field"><label for="pecFracture">Palpable skull fracture (< 2y) or signs of basilar skull fx (≥ 2y)</label><select id="pecFracture"><option value="0">No</option><option value="1">Yes</option></select></div>
+          <div class="field"><label for="pecLoc">Loss of consciousness ≥ 5 sec</label><select id="pecLoc"><option value="0">No</option><option value="1">Yes</option></select></div>
+          <div class="field"><label for="pecMech">Severe mechanism of injury</label><select id="pecMech"><option value="0">No</option><option value="1">Yes</option></select></div>
+          <div class="field"><label for="pecAct">Not acting normally per parent (< 2y) or vomiting (≥ 2y)</label><select id="pecAct"><option value="0">No</option><option value="1">Yes</option></select></div>
+          <div class="field"><label for="pecHeadache">Severe headache (≥ 2y) or scalp hematoma except frontal (< 2y)</label><select id="pecHeadache"><option value="0">No</option><option value="1">Yes</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Evaluate</button><button class="btn btn-ghost" type="button" data-reset="formPecarn">Reset</button></div>
+        </form>
+        <div class="result" id="pecarnResult" aria-live="polite"></div>
+      </article>
+
+      <!-- Pregnancy Due Dates -->
+      <article id="calc-pregnancy" class="card calc" data-name="pregnancy due date lmp edd gestational age calculator">
+        <header class="card-header"><h2>Pregnancy Due Dates Calculator</h2><p class="muted">Calculates estimated due date (EDD) and gestational age from LMP.</p></header>
+        <form id="formPregnancy" class="grid" autocomplete="off">
+          <div class="field"><label for="pregLmp">Last Menstrual Period (LMP)</label><input id="pregLmp" type="date" required /></div>
+          <div class="actions"><button class="btn" type="submit">Calculate</button><button class="btn btn-ghost" type="button" data-reset="formPregnancy">Reset</button></div>
+        </form>
+        <div class="result" id="pregnancyResult" aria-live="polite"></div>
+        <details class="details"><summary>Method</summary><p class="mono">Naegele's Rule: EDD = LMP + 280 days<br/>Gestational age = (today − LMP) in weeks + days</p></details>
+      </article>
+
+      <!-- Steroid Conversion -->
+      <article id="calc-steroid" class="card calc" data-name="steroid conversion calculator glucocorticoid prednisone dexamethasone hydrocortisone methylprednisolone">
+        <header class="card-header"><h2>Steroid Conversion Calculator</h2><p class="muted">Converts between glucocorticoid equivalencies.</p></header>
+        <form id="formSteroid" class="grid" autocomplete="off">
+          <div class="field"><label for="stDose">Dose (mg)</label><input id="stDose" type="number" min="0" step="0.1" placeholder="e.g., 40" required /></div>
+          <div class="field"><label for="stFrom">From steroid</label><select id="stFrom"><option value="5">Prednisone / Prednisolone (5 mg)</option><option value="4">Methylprednisolone (4 mg)</option><option value="4t">Triamcinolone (4 mg)</option><option value="0.75">Dexamethasone (0.75 mg)</option><option value="0.6">Betamethasone (0.6 mg)</option><option value="20">Hydrocortisone (20 mg)</option><option value="25">Cortisone (25 mg)</option></select></div>
+          <div class="field"><label for="stTo">To steroid</label><select id="stTo"><option value="5">Prednisone / Prednisolone (5 mg)</option><option value="4">Methylprednisolone (4 mg)</option><option value="4t">Triamcinolone (4 mg)</option><option value="0.75">Dexamethasone (0.75 mg)</option><option value="0.6">Betamethasone (0.6 mg)</option><option value="20">Hydrocortisone (20 mg)</option><option value="25">Cortisone (25 mg)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Convert</button><button class="btn btn-ghost" type="button" data-reset="formSteroid">Reset</button></div>
+        </form>
+        <div class="result" id="steroidResult" aria-live="polite"></div>
+      </article>
+
+      <!-- Canadian CT Head Rule -->
+      <article id="calc-canadian" class="card calc" data-name="canadian ct head injury trauma rule minor imaging">
+        <header class="card-header"><h2>Canadian CT Head Rule</h2><p class="muted">Rules out need for head CT in minor head trauma (GCS 13–15).</p></header>
+        <form id="formCanadian" class="grid" autocomplete="off">
+          <div class="field"><label for="canGcs">GCS < 15 at 2h post-injury</label><select id="canGcs"><option value="0">No</option><option value="1">Yes (High risk)</option></select></div>
+          <div class="field"><label for="canFracture">Suspected open or depressed skull fracture</label><select id="canFracture"><option value="0">No</option><option value="1">Yes (High risk)</option></select></div>
+          <div class="field"><label for="canBasilar">Signs of basilar skull fracture</label><select id="canBasilar"><option value="0">No</option><option value="1">Yes (High risk)</option></select></div>
+          <div class="field"><label for="canVomit">≥ 2 episodes of vomiting</label><select id="canVomit"><option value="0">No</option><option value="1">Yes (High risk)</option></select></div>
+          <div class="field"><label for="canAge65">Age ≥ 65</label><select id="canAge65"><option value="0">No</option><option value="1">Yes (High risk)</option></select></div>
+          <div class="field"><label for="canAmnesia">Retrograde amnesia ≥ 30 min</label><select id="canAmnesia"><option value="0">No</option><option value="2">Yes (Medium risk)</option></select></div>
+          <div class="field"><label for="canMech">Dangerous mechanism (pedestrian struck, ejection, fall > 3 ft / 5 stairs)</label><select id="canMech"><option value="0">No</option><option value="2">Yes (Medium risk)</option></select></div>
+          <div class="actions"><button class="btn" type="submit">Evaluate</button><button class="btn btn-ghost" type="button" data-reset="formCanadian">Reset</button></div>
+        </form>
+        <div class="result" id="canadianResult" aria-live="polite"></div>
+      </article>
+
+      <!-- Converter -->
+      <article id="calc-convert" class="card calc" data-name="unit converter mass weight lab mmol mgdl">
+        <header class="card-header">
+          <h2>Unit Converter</h2>
+          <p class="muted">Quick common conversions.</p>
+        </header>
+
+        <div class="grid">
+          <section class="subcard">
+            <h3>Mass</h3>
+            <form id="formMass" class="grid compact" autocomplete="off">
+              <div class="field">
+                <label for="massValue">Value</label>
+                <input id="massValue" inputmode="decimal" type="number" step="0.0001" placeholder="e.g., 1" required />
+              </div>
+              <div class="field">
+                <label for="massFrom">From</label>
+                <select id="massFrom">
+                  <option value="mg">mg</option>
+                  <option value="mcg">mcg</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="massTo">To</label>
+                <select id="massTo">
+                  <option value="mcg">mcg</option>
+                  <option value="mg">mg</option>
+                </select>
+              </div>
+              <div class="actions">
+                <button class="btn" type="submit">Convert</button>
+              </div>
+            </form>
+            <div class="result small" id="massResult" aria-live="polite"></div>
+          </section>
+
+          <section class="subcard">
+            <h3>Weight</h3>
+            <form id="formWeightConv" class="grid compact" autocomplete="off">
+              <div class="field">
+                <label for="wValue">Value</label>
+                <input id="wValue" inputmode="decimal" type="number" step="0.0001" placeholder="e.g., 70" required />
+              </div>
+              <div class="field">
+                <label for="wFrom">From</label>
+                <select id="wFrom">
+                  <option value="kg">kg</option>
+                  <option value="lb">lb</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="wTo">To</label>
+                <select id="wTo">
+                  <option value="lb">lb</option>
+                  <option value="kg">kg</option>
+                </select>
+              </div>
+              <div class="actions">
+                <button class="btn" type="submit">Convert</button>
+              </div>
+            </form>
+            <div class="result small" id="wResult" aria-live="polite"></div>
+          </section>
+
+          <section class="subcard">
+            <h3>Lab conversions (mmol/L ↔ mg/dL)</h3>
+            <form id="formLab" class="grid compact" autocomplete="off">
+              <div class="field">
+                <label for="labAnalyte">Analyte</label>
+                <select id="labAnalyte">
+                  <option value="glucose">Glucose</option>
+                  <option value="cholesterol">Cholesterol (Total/LDL/HDL)</option>
+                  <option value="triglycerides">Triglycerides</option>
+                  <option value="urea">Urea (BUN↔Urea)</option>
+                  <option value="creatinine">Creatinine</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="labValue">Value</label>
+                <input id="labValue" inputmode="decimal" type="number" step="0.0001" placeholder="e.g., 5.5" required />
+              </div>
+
+              <div class="field">
+                <label for="labFrom">From</label>
+                <select id="labFrom">
+                  <option value="mmol">mmol/L</option>
+                  <option value="mgdl">mg/dL</option>
+                  <option value="umol">µmol/L</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="labTo">To</label>
+                <select id="labTo">
+                  <option value="mgdl">mg/dL</option>
+                  <option value="mmol">mmol/L</option>
+                  <option value="umol">µmol/L</option>
+                </select>
+              </div>
+
+              <div class="actions">
+                <button class="btn" type="submit">Convert</button>
+              </div>
+            </form>
+            <div class="result small" id="labResult" aria-live="polite"></div>
+
+            <p class="muted tiny">
+              Notes: Factors used: Glucose (×18.0182), Cholesterol (×38.67), TG (×88.57),
+              BUN (mg/dL) ↔ Urea (mmol/L) (×0.357), Creatinine (mg/dL) ↔ µmol/L (×88.4).
+            </p>
+          </section>
+        </div>
+      </article>
+
+      <!-- Vancomycin Dosing (Sanford Guide) -->
+      <article id="calc-vancomycin" class="card calc" data-name="vancomycin dosing sanford guide adult iv renal dialysis auc trough mrsa">
+<div class="wrap">
+  <h1>💊 Vancomycin – Adult Dosing Calculator <span class="source-badge">📚 Sanford Guide</span></h1>
+  <p class="subtitle">Adult IV dosing with renal adjustments and dialysis protocols • BMI-based weight selection</p>
+
+  <!-- Safety Alerts -->
+  <div class="alert">
+    <strong>⚠️ Nephrotoxicity & Ototoxicity Risk:</strong> Monitor renal function and auditory status. Risk increases with prolonged therapy, high doses, or concurrent nephrotoxins.
+  </div>
+  <div class="info-box">
+    <strong>📊 AUC-Guided Dosing:</strong> Target AUC<sub>24</sub>/MIC 400-600 µg·h/mL for serious MRSA infections. Trough-only monitoring (10-15 or 15-20 µg/mL) is an alternative.
+  </div>
+
+  <!-- Global Hold Banner - Hidden by default -->
+  <div class="global-hold-banner hidden" id="globalHoldBanner">
+    <div class="hold-title">🛑 HOLD – Do Not Dose</div>
+    <div class="hold-message" id="holdMessage">AUC >600 or trough >20 mg/L. Hold dosing and recheck levels. Resume when therapeutic; adjust dose accordingly.</div>
+  </div>
+
+  <div class="grid">
+    <!-- LEFT COLUMN -->
+    <div>
+      <!-- Previous Vancomycin Therapy -->
+      <div class="section">
+        <h2>Previous Vancomycin Therapy</h2>
+        <div class="prev-dose-toggle">
+          <label>Was patient previously on Vancomycin?</label>
+          <div class="toggle-group">
+            <button type="button" class="toggle-btn active" id="prevNo" onclick="setPrevDose('no')">No</button>
+            <button type="button" class="toggle-btn" id="prevYes" onclick="setPrevDose('yes')">Yes</button>
+          </div>
+        </div>
+        <div id="prevDoseInputs" class="hidden">
+          <div class="row">
+            <div>
+              <label>Previous Dose (mg)</label>
+              <input id="prevDose" type="number" step="1" placeholder="1000" oninput="calculate()" />
+            </div>
+            <div>
+              <label>Previous Frequency</label>
+              <select id="prevFreq" onchange="calculate()">
+                <option value="q8h">q8h (3×/day)</option>
+                <option value="q12h" selected>q12h (2×/day)</option>
+                <option value="q24h">q24h (1×/day)</option>
+                <option value="q48h">q48h (0.5×/day)</option>
+              </select>
+            </div>
+          </div>
+          <div class="out info-box">
+            <strong>Previous TDD:</strong> <span id="prevTDD">—</span> mg/day
+            <div class="hint">Dose will be adjusted based on observed AUC/trough levels below</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Patient Demographics -->
+      <div class="section">
+        <h2>Patient Demographics</h2>
+        <div class="row">
+          <div><label>Age (years)</label><input id="age" type="number" min="18" max="120" placeholder="56" oninput="calculate()" /></div>
+          <div><label>Sex</label><select id="sex" onchange="calculate()"><option value="male">Male</option><option value="female">Female</option></select></div>
+        </div>
+        <div class="row">
+          <div><label>Actual Body Weight (kg)</label><input id="weight" type="number" step="0.1" min="30" max="300" placeholder="72.5" oninput="calculate()" /></div>
+          <div><label>Height (cm)</label><input id="height" type="number" step="0.1" min="100" max="250" placeholder="173" oninput="calculate()" /></div>
+        </div>
+        <div class="weight-display">
+          <div class="weight-box"><div class="label">BMI</div><div class="value" id="bmiOutput">—</div><div class="unit">kg/m²</div></div>
+          <div class="weight-box"><div class="label">IBW</div><div class="value" id="ibwOutput">—</div><div class="unit">kg</div></div>
+          <div class="weight-box"><div class="label">AdjBW</div><div class="value" id="adjbwOutput">—</div><div class="unit">kg</div></div>
+          <div class="weight-box"><div class="label">Dosing Wt</div><div class="value" id="dosingWtOutput">—</div><div class="unit" id="dosingWtUnit">kg</div></div>
+        </div>
+        <div id="underweightTag" class="hidden" style="margin-top:8px"><span class="pill">BMI &lt;18.5 — Using IBW for dosing</span></div>
+        <div id="obesityTag" class="hidden" style="margin-top:8px"><span class="pill warn">BMI ≥30 — Loading: ABW, Maintenance: AdjBW</span></div>
+      </div>
+
+      <!-- Renal Function -->
+      <div class="section">
+        <h2>Renal Function</h2>
+        <div class="row">
+          <div id="scrInputGroup">
+            <label>Serum Creatinine</label>
+            <div class="input-with-toggle">
+              <input id="scr" type="number" step="0.01" placeholder="1.0" oninput="calculate()" />
+              <div class="toggle-group">
+                <button type="button" class="toggle-btn active" id="scrMgDl" onclick="setScrUnit('mgdl')">mg/dL</button>
+                <button type="button" class="toggle-btn" id="scrUmolL" onclick="setScrUnit('umol')">µmol/L</button>
+              </div>
+            </div>
+          </div>
+          <div id="crclMethodGroup">
+            <label>CrCl Method</label>
+            <select id="crclMethod" onchange="calculate()">
+              <option value="cg_actual">Cockcroft–Gault (Actual BW)</option>
+              <option value="cg_ibw">Cockcroft–Gault (IBW)</option>
+              <option value="cg_adj">Cockcroft–Gault (AdjBW if obese)</option>
+              <option value="direct">Direct CrCl Entry</option>
+            </select>
+          </div>
+        </div>
+        <div id="directCrclGroup" style="display:none; margin-bottom: 12px;">
+          <label>Enter CrCl directly (mL/min)</label>
+          <input id="directCrcl" type="number" step="1" placeholder="90" oninput="calculate()" style="width: 100%;" />
+        </div>
+        <div class="row">
+          <div class="out"><strong>Estimated CrCl:</strong> <span id="crclOutput">—</span> mL/min</div>
+          <div class="out"><strong>Renal Category:</strong> <span id="renalCatOutput">—</span></div>
+        </div>
+        <div>
+          <label>Dialysis / Renal Replacement</label>
+          <select id="dialysis" onchange="calculate()">
+            <option value="none">None</option>
+            <option value="hd_low_post">HD – Low-flux (Post-HD)</option>
+            <option value="hd_high_post">HD – High-flux (Post-HD)</option>
+            <option value="hd_low_intra">HD – Low-flux (Intradialytic)</option>
+            <option value="hd_high_intra">HD – High-flux (Intradialytic)</option>
+            <option value="capd">CAPD (Peritoneal Dialysis - IV dosing)</option>
+            <option value="capd_ip_intermittent">CAPD - IP Intermittent</option>
+            <option value="capd_ip_continuous">CAPD - IP Continuous</option>
+            <option value="apd_ip">APD - IP Intermittent</option>
+            <option value="crrt">CRRT (CVVH/CVVHD/CVVHDF)</option>
+            <option value="sled">SLED / PIRRT</option>
+          </select>
+        </div>
+        <div class="tdm-row" style="margin-top: 12px;">
+          <div class="tdm-checkbox">
+            <input type="checkbox" id="concurrentNephrotoxin" onchange="calculate()" />
+            <label for="concurrentNephrotoxin">Concurrent nephrotoxin (aminoglycoside, contrast, NSAIDs, etc.)</label>
+          </div>
+        </div>
+        <div class="warn-box hidden" id="nephrotoxinWarning" style="margin-top: 8px;">
+          <strong>⚠️ Increased AKI Risk:</strong> Concurrent nephrotoxins increase acute kidney injury risk. Favor the lower end of AUC target (400-500). Monitor SCr frequently.
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div>
+      <!-- Indication & Route -->
+      <div class="section">
+        <h2>Indication & Route</h2>
+        <div class="row">
+          <div>
+            <label>Indication</label>
+            <select id="indication" onchange="calculate()">
+              <option value="bacteremia">MRSA Bacteremia</option>
+              <option value="endocarditis">Endocarditis</option>
+              <option value="meningitis">Meningitis / CNS Infection</option>
+              <option value="pneumonia">Pneumonia (MRSA)</option>
+              <option value="osteomyelitis">Osteomyelitis</option>
+              <option value="ssti">Skin/Soft Tissue Infection</option>
+              <option value="sepsis">Sepsis / Critically Ill</option>
+              <option value="surgical_prophylaxis">Surgical Prophylaxis</option>
+              <option value="pji">Prosthetic Joint Infection</option>
+              <option value="dfi">Diabetic Foot Infection</option>
+              <option value="csf_shunt">CSF Shunt Infection</option>
+              <option value="gbs_prophylaxis">GBS Maternal Prophylaxis</option>
+              <option value="cdi">C. difficile (Oral)</option>
+              <option value="intrathecal">Intrathecal/Intraventricular</option>
+            </select>
+          </div>
+          <div>
+            <label>Route</label>
+            <select id="route" onchange="calculate()">
+              <option value="iv">IV - Intermittent Infusion</option>
+              <option value="continuous">IV - Continuous Infusion</option>
+              <option value="oral">Oral (C. difficile only)</option>
+              <option value="intrathecal">Intrathecal</option>
+            </select>
+          </div>
+        </div>
+        <div class="out full" id="indicationNote">Select an indication for specific guidance.</div>
+      </div>
+
+      <!-- TDM Monitoring Section -->
+      <div class="section">
+        <h2>Therapeutic Drug Monitoring (TDM)</h2>
+        <div class="tdm-row">
+          <div class="tdm-checkbox">
+            <input type="checkbox" id="useAUC" checked onchange="calculate()" />
+            <label for="useAUC">AUC Monitoring</label>
+          </div>
+          <div style="margin-left: auto; display: flex; gap: 12px; align-items: center;">
+            <label style="margin: 0; font-size: 12px;">MIC (mg/L):</label>
+            <input id="mic" type="number" step="0.5" value="1" min="0.5" max="4" style="width: 70px;" oninput="calculate()" />
+          </div>
+        </div>
+        <div class="row" id="aucInputRow">
+          <div>
+            <label>Observed Daily AUC (µg·h/mL)</label>
+            <input id="obsAUC" type="number" step="1" placeholder="e.g. 450" oninput="calculate()" />
+            <div class="hint">Target: 400-600 (for MIC = 1)</div>
+          </div>
+          <div class="out" id="aucStatus" style="display: flex; align-items: center; justify-content: center;">
+            <span id="aucStatusText">Enter observed AUC to check status</span>
+          </div>
+        </div>
+        
+        <div class="tdm-row" style="margin-top: 12px;">
+          <div class="tdm-checkbox">
+            <input type="checkbox" id="useTrough" onchange="calculate()" />
+            <label for="useTrough">Trough Monitoring</label>
+          </div>
+          <div style="margin-left: auto; display: flex; gap: 12px; align-items: center;">
+            <label style="margin: 0; font-size: 12px;">Policy 15-20:</label>
+            <input type="checkbox" id="policyBand" onchange="calculate()" />
+          </div>
+        </div>
+        <div class="row hidden" id="troughInputRow">
+          <div>
+            <label>Observed Trough (mg/L)</label>
+            <input id="obsTrough" type="number" step="0.1" placeholder="e.g. 12" oninput="calculate()" />
+            <div class="hint" id="troughTargetHint">Target: 10-15 mg/L (or 15-20 for serious MRSA)</div>
+          </div>
+          <div class="out" id="troughStatus" style="display: flex; align-items: center; justify-content: center;">
+            <span id="troughStatusText">Enter observed trough to check status</span>
+          </div>
+        </div>
+        
+        <div class="out info-box" id="monitoringPlan" style="margin-top: 12px;">
+          <strong>📌 Monitoring Plan:</strong>
+          <div id="monitorPlanText">Select monitoring method(s) above. AUC-based monitoring is preferred for serious MRSA infections per Sanford/ASHP/IDSA guidelines.</div>
+        </div>
+        
+        <div class="out" id="doseAdjustmentBox" style="display: none;">
+          <strong>📊 Dose Adjustment Recommendation:</strong>
+          <div id="doseAdjustmentText"></div>
+        </div>
+      </div>
+
+      <!-- Calculated Doses -->
+      <div class="section" id="doseSection">
+        <h2>Calculated Doses (Sanford Guide)</h2>
+        <div class="row">
+          <div class="dose-card" id="loadingDoseCard">
+            <div class="dose-title">Loading Dose</div>
+            <div class="dose-value" id="loadingDoseOutput">—</div>
+            <div class="dose-hint" id="loadingHint">25-30 mg/kg IV (max 3 gm)</div>
+          </div>
+          <div class="dose-card">
+            <div class="dose-title">Maintenance Dose</div>
+            <div class="dose-value orange" id="maintDoseOutput">—</div>
+            <div class="dose-hint" id="maintHint">15-20 mg/kg IV (max 2 gm)</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="dose-card">
+            <div class="dose-title">Dosing Interval</div>
+            <div class="dose-value green" id="intervalOutput">—</div>
+            <div class="dose-hint" id="intervalHint">Based on CrCl per Sanford</div>
+          </div>
+          <div class="dose-card">
+            <div class="dose-title">Estimated Daily Dose</div>
+            <div class="dose-value purple" id="dailyDoseOutput">—</div>
+            <div class="dose-hint" id="dailyHint">Total mg/day</div>
+          </div>
+        </div>
+        <div class="dose-card" id="infusionCard">
+          <div class="dose-title">Infusion Rate</div>
+          <div class="dose-value" id="infusionOutput">—</div>
+          <div class="dose-hint">Sanford: 10-15 mg/min (≤1 gm over 1 hr, &gt;1 gm over 1.5-2 hr)</div>
+        </div>
+        
+        <!-- Continuous Infusion Box -->
+        <div class="dose-card hidden" id="ciBox" style="border: 1px solid var(--v-accent);">
+          <div class="dose-title" style="color: var(--v-accent);">Continuous Infusion (Alternative)</div>
+          <div class="dose-value" id="ciDoseOutput">—</div>
+          <div class="dose-hint" id="ciHint">30-40 mg/kg/day, target Css 20-25 mg/L</div>
+        </div>
+
+        <!-- Regimen Summary & Copy -->
+        <div class="regimen-box hidden" id="regimenBox">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <strong>📋 Regimen Summary</strong>
+            <button type="button" class="copy-btn" onclick="copyRegimen()">📋 Copy</button>
+          </div>
+          <pre id="regimenText" style="white-space: pre-wrap; margin: 0; font-size: 13px; line-height: 1.6;"></pre>
+          <div id="regimenNotes" class="hint" style="margin-top: 6px;"></div>
+        </div>
+      </div>
+
+      <!-- IV Concentration & Antibiotic Lock Section -->
+      <div class="section">
+        <h2>Safety Calculators</h2>
+        <div class="row">
+          <div>
+            <label>IV Concentration Check</label>
+            <div class="row" style="margin-bottom: 4px;">
+              <input id="concDose" type="number" step="1" placeholder="Dose (mg)" oninput="checkConcentration()" />
+              <input id="concVol" type="number" step="1" placeholder="Volume (mL)" oninput="checkConcentration()" />
+            </div>
+            <div class="out" id="concResult" style="min-height: 40px;">Enter dose and volume to check concentration...</div>
+            <div class="hint">Standard: ≤5 mg/mL | Fluid-restricted: up to 10 mg/mL max</div>
+          </div>
+          <div>
+            <label>Antibiotic Lock (Catheter)</label>
+            <div style="margin-bottom: 4px;">
+              <input id="lockVol" type="number" step="0.1" placeholder="Lumen volume (mL)" oninput="calcLock()" />
+            </div>
+            <div class="out" id="lockResult" style="min-height: 40px;">Enter lumen volume for lock calculation...</div>
+            <div class="hint">Target: 2.5-5 mg/mL in lock solution; dwell up to 72h</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dialysis Section -->
+      <div class="section hidden" id="dialysisSection">
+        <h2>Dialysis Dosing (Sanford Guide)</h2>
+        <div id="dialysisContent"></div>
+      </div>
+
+      <!-- Oral/Intrathecal Section -->
+      <div class="section hidden" id="specialRouteSection">
+        <h2 id="specialRouteTitle">Special Route Dosing</h2>
+        <div id="specialRouteContent"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Collapsible Reference Tables -->
+  <details>
+    <summary>📋 Sanford Guide Dosing Reference Tables</summary>
+    <div class="details-content">
+      <div class="warn-box" style="margin-top: 12px;">
+        <strong>Maximum Doses (Sanford):</strong><br>
+        • Loading: <strong>max 3 gm</strong><br>
+        • Maintenance: <strong>max 2 gm per dose</strong><br>
+        • Daily: <strong>&gt;4.5 gm/day should rarely be required</strong>
+      </div>
+      
+      <h3 style="color: var(--v-heading); margin: 16px 0 10px;">Renal Dosing</h3>
+      <table>
+        <thead>
+          <tr><th>CrCl (mL/min)</th><th>Maintenance Dose</th><th>Interval</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>&gt;100</td><td>15-20 mg/kg (max 2g)</td><td>q8-12h</td></tr>
+          <tr><td>&gt;50-100</td><td>15-20 mg/kg (max 2g)</td><td>q12h</td></tr>
+          <tr><td>20-50</td><td>15-20 mg/kg (max 2g)</td><td>q24h</td></tr>
+          <tr><td>&lt;20</td><td>15-20 mg/kg (max 2g)</td><td>q48h</td></tr>
+        </tbody>
+      </table>
+      
+      <h3 style="color: var(--v-heading); margin: 20px 0 10px;">Dialysis Dosing (IV)</h3>
+      <table>
+        <thead>
+          <tr><th>Modality</th><th>Loading</th><th>Maintenance</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>HD Low-flux (Post-HD)</strong></td><td>25 mg/kg</td><td>7.5 mg/kg after dialysis</td></tr>
+          <tr><td><strong>HD High-flux (Post-HD)</strong></td><td>25 mg/kg</td><td>10 mg/kg after dialysis</td></tr>
+          <tr><td><strong>HD Low-flux (Intra)</strong></td><td>30 mg/kg</td><td>7.5-10 mg/kg</td></tr>
+          <tr><td><strong>HD High-flux (Intra)</strong></td><td>35 mg/kg</td><td>10-15 mg/kg</td></tr>
+          <tr><td><strong>CAPD</strong></td><td>—</td><td>7.5 mg/kg q48-96h</td></tr>
+          <tr><td><strong>CRRT</strong></td><td>20-25 mg/kg</td><td>7.5-10 mg/kg q12h</td></tr>
+          <tr><td><strong>SLED</strong></td><td>20-25 mg/kg</td><td>15 mg/kg after dialysis</td></tr>
+        </tbody>
+      </table>
+      
+      <h3 style="color: var(--v-heading); margin: 20px 0 10px;">Intraperitoneal Dosing (PD Peritonitis)</h3>
+      <table>
+        <thead>
+          <tr><th>Modality</th><th>Loading</th><th>Maintenance</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>CAPD - Intermittent</strong></td><td>—</td><td>15-30 mg/kg IP q5-7d</td></tr>
+          <tr><td><strong>APD - Intermittent</strong></td><td>—</td><td>15 mg/kg IP q4d</td></tr>
+          <tr><td><strong>CAPD/APD - Continuous</strong></td><td>20-25 mg/kg IP</td><td>25 mg/L in all exchanges</td></tr>
+        </tbody>
+      </table>
+      
+      <h3 style="color: var(--v-heading); margin: 20px 0 10px;">Pediatric Dosing (Age &gt;28 Days) - Reference Only</h3>
+      <table>
+        <thead>
+          <tr><th>Usage</th><th>Dose</th><th>Target</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>IV</strong></td><td>60-80 mg/kg/day (divided q6-8h)</td><td>AUC 400-600 or trough 10-15 µg/mL</td></tr>
+          <tr><td><strong>Oral (C. diff)</strong></td><td>40 mg/kg/day (divided q6h)</td><td>—</td></tr>
+        </tbody>
+      </table>
+      <div class="hint" style="margin-top: 8px; font-size: 11px; color: var(--v-muted);">
+        Pediatric note: AUC<sub>24</sub> closer to 400 µg/mL is adequate for most non-CNS infections in infants and older children with normal renal function.
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>🤰 Pregnancy & Lactation</summary>
+    <div class="details-content">
+      <div class="row" style="margin-top: 12px;">
+        <div class="out"><strong>FDA Pregnancy Category:</strong> <span style="color: #fbbf24;">C</span></div>
+        <div class="out"><strong>Lactation:</strong> <span style="color: #34d399;">Safe with monitoring</span></div>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>🧪 Pharmacology & Half-Life</summary>
+    <div class="details-content">
+      <table style="margin-top: 12px;">
+        <tbody>
+          <tr><td style="width: 40%;"><strong>PK/PD Index</strong></td><td>24-hr AUC/MIC</td></tr>
+          <tr><td><strong>Half-life (normal renal)</strong></td><td>4-6 hours</td></tr>
+          <tr><td><strong>Half-life (ESRD)</strong></td><td>200-250 hours</td></tr>
+          <tr><td><strong>Volume of Distribution (Vd)</strong></td><td>0.7 L/kg</td></tr>
+          <tr><td><strong>Protein Binding</strong></td><td>55%</td></tr>
+          <tr><td><strong>CSF Penetration</strong></td><td>7-14% (with inflammation)</td></tr>
+          <tr><td><strong>Elimination</strong></td><td>Renal</td></tr>
+          <tr><td><strong>Target AUC<sub>24</sub></strong></td><td>400-600 µg·h/mL</td></tr>
+          <tr><td><strong>Target Trough</strong></td><td>10-20 µg/mL</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <details>
+    <summary>🩺 Hepatic & ECMO Adjustments</summary>
+    <div class="details-content">
+      <div class="ok-box" style="margin-top: 12px;">
+        <strong>Hepatic Impairment:</strong> No dosage adjustment required (Child-Pugh A, B, or C)
+      </div>
+      <div class="info-box">
+        <strong>ECMO Dosing:</strong> Minimal impact on pharmacokinetics. Use standard dosing. TDM is vital to achieve safety and efficacy targets.
+        <div class="hint" style="margin-top: 4px;">(Crit Care 2024;28:326)</div>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>⚠️ Adverse Effects</summary>
+    <div class="details-content">
+      <div class="warn-box" style="margin-top: 12px;">
+        <strong>Nephrotoxicity (Dose-dependent)</strong>
+        <ul style="margin: 8px 0 0 16px; font-size: 12px;">
+          <li>Risk increases with dose, duration, and AUC</li>
+          <li>Monitor SCr at least every 48-72h during therapy</li>
+          <li>Risk factors: high trough (>15-20), concurrent nephrotoxins, prolonged therapy</li>
+          <li>AKI definition: ≥0.3 mg/dL rise in 48h OR ≥50% increase from baseline in 7 days</li>
+        </ul>
+      </div>
+      <div class="warn-box">
+        <strong>Vancomycin Histamine Release Syndrome (VHS)</strong>
+        <ul style="margin: 8px 0 0 16px; font-size: 12px;">
+          <li>Acute onset erythematous edematous skin ("Red Man Syndrome")</li>
+          <li>Due to non-specific histamine release from mast cells</li>
+          <li>NOT an allergy - associated with rapid infusion</li>
+          <li>Prevention: Infuse at ≤10-15 mg/min; slow rate if reaction occurs</li>
+        </ul>
+      </div>
+      <div class="alert">
+        <strong>Other Adverse Effects:</strong>
+        <ul style="margin: 8px 0 0 16px; font-size: 12px;">
+          <li><strong>Ototoxicity:</strong> High-frequency hearing loss (19% after ~27 days at high doses)</li>
+          <li><strong>DRESS Syndrome:</strong> Most common antimicrobial cause in US; risk increases >2 weeks therapy</li>
+          <li><strong>Neutropenia:</strong> Usually reversible with discontinuation</li>
+          <li><strong>Thrombocytopenia:</strong> Immune-mediated; linear relationship with peak trough</li>
+          <li><strong>Linear IgA Bullous Dermatosis:</strong> Rare; blistering skin eruption</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>📚 TDM/Monitoring Guide</summary>
+    <div class="details-content">
+      <div class="info-box" style="margin-top: 12px;">
+        <strong>AUC-Based Monitoring (Preferred for Serious MRSA)</strong>
+        <ul style="margin: 8px 0 0 16px; font-size: 12px;">
+          <li>Target AUC<sub>24</sub>/MIC: 400-600 µg·h/mL (assuming MIC = 1)</li>
+          <li>Methods: Trapezoidal equations (peak + trough at steady state) OR Bayesian modeling</li>
+          <li>First levels: Within 24-48h at steady state (typically before 4th dose)</li>
+          <li>For AUC: Draw two levels - 1-2h post-dose (peak) + trough before next dose</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <strong>Trough-Only Monitoring (Alternative)</strong>
+        <ul style="margin: 8px 0 0 16px; font-size: 12px;">
+          <li>Target: 10-15 mg/L (uncomplicated infections) or 15-20 mg/L (serious MRSA)</li>
+          <li>Preferred for: meningitis, CNS infections, unstable renal function</li>
+          <li>Poor proxy for AUC; target may be achieved with trough <15 mg/L</li>
+        </ul>
+      </div>
+      <div class="warn-box">
+        <strong>Dose Adjustment Based on Levels</strong>
+        <ul style="margin: 8px 0 0 16px; font-size: 12px;">
+          <li>If AUC <400 or trough below target: <strong>↑ dose by 25%</strong></li>
+          <li>If AUC >600 or trough above target: <strong>↓ dose by 25%</strong></li>
+          <li>If AUC >600 or trough >20 mg/L: <strong>HOLD dosing</strong>; recheck level and resume when therapeutic</li>
+          <li>Unstable renal function: more frequent monitoring (daily SCr, levels q24-48h)</li>
+        </ul>
+      </div>
+      <div class="out">
+        <strong>Level Timing:</strong>
+        <ul style="margin: 8px 0 0 16px; font-size: 12px;">
+          <li><strong>Intermittent IV:</strong> First trough just before 4th dose (steady state). After any change, recheck in 24-48h.</li>
+          <li><strong>HD:</strong> Obtain pre-HD level before next session; at least weekly monitoring.</li>
+          <li><strong>PD:</strong> Serum level ~48-72h after loading; redose based on level.</li>
+          <li><strong>CRRT/PIRRT:</strong> Monitor within first 24-48h and after any changes.</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+
+  <!-- Disclaimer -->
+  <div class="info-box" style="margin-top: 14px;">
+    <strong>⚕️ Clinical Disclaimer:</strong> This calculator is based on Sanford Guide recommendations for adult patients. Always verify with current guidelines and consider individual patient factors. Therapeutic drug monitoring (TDM) is recommended for serious infections.
+  </div>
+</div>
+
+      </article>
+
+      <footer class="footer">
+        <p class="muted">
+          © <span id="year"></span> MedCalculationPro. Verify results against local protocols.
+        </p>
+      </footer>
+    </section>
+  </main>
+
+  <!-- Back to top -->
+  <button id="btnBackToTop" class="back-to-top" type="button" title="Back to top" aria-label="Back to top">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+
+  <!-- Mobile bottom nav -->
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <button class="mobile-nav-btn" data-mobile="search" type="button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="M18 18l-4-4"/></svg>
+      <span>Search</span>
+    </button>
+    <button class="mobile-nav-btn" data-mobile="favorites" type="button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span>Favorites</span>
+    </button>
+    <button class="mobile-nav-btn" data-mobile="history" type="button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><polyline points="10 6 10 10 13 13"/></svg>
+      <span>History</span>
+    </button>
+    <button class="mobile-nav-btn" data-mobile="theme" type="button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <span>Theme</span>
+    </button>
+  </nav>
+
+  <script src="app.js"></script>
+</body>
+</html>

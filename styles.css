@@ -1,0 +1,1458 @@
+﻿/* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+   MedCalculationPro Ã¢â‚¬â€ Premium Clinical Calculator Styles
+   Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
+
+/* Font loaded via preload in HTML */
+
+:root{
+  --bg: #070a13;
+  --panel: #0d1323;
+  --card: #0e1528;
+  --card-hover: #111a30;
+  --text: #eaecf0;
+  --text-secondary: #c4c9d4;
+  --muted: #8991a4;
+  --border: rgba(255,255,255,0.07);
+  --border-hover: rgba(255,255,255,0.14);
+  --accent: #6ea8fe;
+  --accent-dim: rgba(110,168,254,0.12);
+  --accent-glow: rgba(110,168,254,0.25);
+  --danger: #ff6b8a;
+  --danger-dim: rgba(255,107,138,0.12);
+  --ok: #3de8a0;
+  --ok-dim: rgba(61,232,160,0.10);
+  --gradient-1: #6ea8fe;
+  --gradient-2: #a78bfa;
+  --gradient-3: #3de8a0;
+  --input-bg: rgba(255,255,255,0.04);
+
+  --radius: 18px;
+  --radius-sm: 12px;
+  --radius-xs: 8px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.30), 0 1px 2px rgba(0,0,0,0.20);
+  --shadow-lg: 0 12px 48px rgba(0,0,0,0.40);
+  --shadow-glow: 0 0 20px rgba(110,168,254,0.08);
+  --mono: 'SF Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --sans: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-fast: 150ms var(--ease);
+  --transition: 250ms var(--ease);
+  --transition-slow: 400ms var(--ease);
+}
+
+[data-theme="light"]{
+  --bg: #f0f2f8;
+  --panel: #ffffff;
+  --card: #ffffff;
+  --card-hover: #f8f9fc;
+  --text: #0f172a;
+  --text-secondary: #334155;
+  --muted: #64748b;
+  --border: rgba(15, 23, 42, 0.08);
+  --border-hover: rgba(15, 23, 42, 0.16);
+  --accent: #3b82f6;
+  --accent-dim: rgba(59,130,246,0.08);
+  --accent-glow: rgba(59,130,246,0.15);
+  --danger: #ef4444;
+  --danger-dim: rgba(239,68,68,0.08);
+  --ok: #10b981;
+  --ok-dim: rgba(16,185,129,0.08);
+  --gradient-1: #3b82f6;
+  --gradient-2: #8b5cf6;
+  --gradient-3: #10b981;
+  --input-bg: rgba(15, 23, 42, 0.03);
+  --shadow: 0 4px 20px rgba(15,23,42,0.06), 0 1px 3px rgba(15,23,42,0.08);
+  --shadow-lg: 0 12px 40px rgba(15,23,42,0.10);
+  --shadow-glow: 0 0 20px rgba(59,130,246,0.06);
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Reset & Base Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+*, *::before, *::after{ box-sizing:border-box; margin:0; padding:0; }
+html{
+  height:100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+body{
+  min-height:100%;
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  transition: background var(--transition-slow), color var(--transition-slow);
+  overflow-x: hidden;
+}
+
+/* Ambient background glow */
+body::before{
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 900px 600px at 8% -5%, rgba(110,168,254,0.12), transparent 60%),
+    radial-gradient(ellipse 800px 500px at 92% 20%, rgba(167,139,250,0.08), transparent 55%),
+    radial-gradient(ellipse 600px 400px at 50% 90%, rgba(61,232,160,0.06), transparent 50%);
+  pointer-events: none;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar{ width: 6px; height: 6px; }
+::-webkit-scrollbar-track{ background: transparent; }
+::-webkit-scrollbar-thumb{
+  background: rgba(110,168,254,0.18);
+  border-radius: 100px;
+}
+::-webkit-scrollbar-thumb:hover{ background: rgba(110,168,254,0.30); }
+
+/* Selection */
+::selection{
+  background: rgba(110,168,254,0.30);
+  color: var(--text);
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Header Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(7,10,19,0.60);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  transition: background var(--transition-slow), border-color var(--transition-slow);
+}
+[data-theme="light"] .header{
+  background: rgba(255,255,255,0.72);
+}
+
+.brand{
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.logo{
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2), var(--gradient-3));
+  color: #fff;
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -0.5px;
+  box-shadow: 0 4px 16px rgba(110,168,254,0.25);
+  overflow: hidden;
+}
+.logo::after{
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.20) 50%, transparent 60%);
+  animation: logoShimmer 3s ease-in-out infinite;
+}
+@keyframes logoShimmer{
+  0%, 100%{ transform: translateX(-100%) rotate(15deg); }
+  50%{ transform: translateX(100%) rotate(15deg); }
+}
+
+h1{
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  line-height: 1.1;
+  background: linear-gradient(135deg, var(--text) 60%, var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.subtitle{
+  margin: 3px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 400;
+  letter-spacing: 0.2px;
+}
+
+.header-actions{
+  display: flex;
+  gap: 8px;
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Layout Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.layout{
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 20px;
+  padding: 20px 24px;
+  max-width: 1260px;
+  margin: 0 auto;
+}
+
+.sidebar{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: sticky;
+  top: 90px;
+  align-self: start;
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Search Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.search{ position: relative; }
+.search::before{
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%238991a4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='7' cy='7' r='5'/%3E%3Cpath d='M13 13l-3-3'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+.search input{
+  width: 100%;
+  padding: 12px 14px 12px 38px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 13px;
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-slow);
+}
+.search input::placeholder{ color: var(--muted); opacity: 0.7; }
+.search input:focus{
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim), var(--shadow-glow);
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Nav Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.nav{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-category{
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 12px 0 2px 4px;
+  padding: 0;
+}
+.nav-category:first-child{ margin-top: 0; }
+
+.nav-item{
+  position: relative;
+  text-align: left;
+  padding: 11px 14px 11px 42px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  overflow: hidden;
+}
+.nav-item::before{
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  background: var(--accent-dim);
+  transition: all var(--transition-fast);
+}
+.nav-item:hover{
+  background: var(--accent-dim);
+  color: var(--text);
+  border-color: var(--border);
+}
+.nav-item.active{
+  background: var(--accent-dim);
+  border-color: rgba(110,168,254,0.30);
+  color: var(--accent);
+  font-weight: 600;
+  box-shadow: 0 0 0 1px var(--accent-dim), var(--shadow-glow);
+}
+.nav-item.active::before{
+  background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+  box-shadow: 0 0 8px rgba(110,168,254,0.30);
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Panels Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.panel{
+  padding: 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  transition: background var(--transition-slow), border-color var(--transition-slow);
+}
+.panel h3{
+  margin: 0 0 10px 0;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--muted);
+}
+.disclaimer{
+  background: linear-gradient(135deg, var(--panel), rgba(110,168,254,0.03));
+}
+.disclaimer p{
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Content Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.content{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Cards Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.card{
+  position: relative;
+  padding: 24px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--card);
+  box-shadow: var(--shadow);
+  transition: all var(--transition);
+  overflow: hidden;
+}
+.card::before{
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gradient-1), var(--gradient-2), var(--gradient-3));
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+.card.active::before{
+  opacity: 1;
+}
+
+.card-header{
+  margin-bottom: 4px;
+}
+.card-header h2{
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+.muted{ color: var(--muted); }
+.tiny{ font-size: 11px; }
+.mono{ font-family: var(--mono); font-size: 12px; line-height: 1.5; }
+.card-header p{ margin: 6px 0 0; font-size: 13px; }
+@keyframes fadeSlideIn{
+  from{ opacity: 0; transform: translateY(8px); }
+  to{ opacity: 1; transform: translateY(0); }
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Grid Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+.grid.compact{
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Fields Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.field label{
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 7px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+.field input, .field select{
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--input-bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.field input::placeholder{
+  color: var(--muted);
+  opacity: 0.5;
+}
+.field input:hover, .field select:hover{
+  border-color: var(--border-hover);
+  background: rgba(255,255,255,0.06);
+}
+[data-theme="light"] .field input:hover,
+[data-theme="light"] .field select:hover{
+  background: rgba(15,23,42,0.04);
+}
+.field input:focus, .field select:focus{
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+  background: rgba(110,168,254,0.04);
+}
+[data-theme="light"] .field input,
+[data-theme="light"] .field select{
+  background: rgba(15, 23, 42, 0.03);
+}
+.field select{
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238991a4'%3E%3Cpath d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+
+.row{
+  display: flex;
+  gap: 8px;
+}
+.row input{ flex: 1; min-width: 0; }
+.row select{ width: 110px; flex-shrink: 0; }
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Actions Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.actions{
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Buttons Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.btn{
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: var(--radius-sm);
+  border: none;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(110,168,254,0.25), inset 0 1px 0 rgba(255,255,255,0.15);
+  overflow: hidden;
+}
+.btn::before{
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.12), transparent);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+.btn:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(110,168,254,0.35), inset 0 1px 0 rgba(255,255,255,0.15);
+}
+.btn:hover::before{ opacity: 1; }
+.btn:active{
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(110,168,254,0.20);
+}
+
+.btn-ghost{
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  box-shadow: none;
+}
+.btn-ghost::before{ display: none; }
+.btn-ghost:hover{
+  background: var(--accent-dim);
+  border-color: var(--border-hover);
+  color: var(--text);
+  transform: none;
+  box-shadow: none;
+}
+.btn-ghost:active{
+  background: rgba(110,168,254,0.15);
+  transform: none;
+  box-shadow: none;
+}
+
+/* Icon buttons in header */
+.btn svg{
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Results Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.result{
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--input-bg);
+  min-height: 52px;
+  transition: all var(--transition);
+  font-size: 14px;
+}
+.result.small{ min-height: 42px; padding: 12px; }
+.result.ok{
+  border-color: rgba(61,232,160,0.25);
+  background: var(--ok-dim);
+  animation: resultPop 0.3s var(--ease-bounce);
+}
+.result.bad{
+  border-color: rgba(255,107,138,0.25);
+  background: var(--danger-dim);
+  animation: resultShake 0.4s var(--ease);
+}
+.ok{ color: var(--ok); }
+.bad{ color: var(--danger); }
+
+@keyframes resultPop{
+  0%{ transform: scale(0.97); opacity: 0.7; }
+  60%{ transform: scale(1.005); }
+  100%{ transform: scale(1); opacity: 1; }
+}
+@keyframes resultShake{
+  0%, 100%{ transform: translateX(0); }
+  20%{ transform: translateX(-4px); }
+  40%{ transform: translateX(4px); }
+  60%{ transform: translateX(-2px); }
+  80%{ transform: translateX(2px); }
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Details Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.details{
+  margin-top: 16px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.details summary{
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 0;
+  transition: color var(--transition-fast);
+  list-style: none;
+}
+.details summary::-webkit-details-marker{ display: none; }
+.details summary::before{
+  content: 'Ã¢â€“Â¸ ';
+  display: inline-block;
+  transition: transform var(--transition-fast);
+}
+.details[open] summary::before{
+  transform: rotate(90deg);
+}
+.details summary:hover{ color: var(--gradient-2); }
+.details p, .details ul{
+  padding: 8px 0 4px 16px;
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Subcards (converter) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.subcard{
+  padding: 18px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: linear-gradient(135deg, var(--input-bg), transparent);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.subcard:hover{
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-glow);
+}
+.subcard h3{
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ History Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.history{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 240px;
+  overflow: auto;
+}
+.history-item{
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--input-bg);
+  transition: all var(--transition-fast);
+}
+.history-item:hover{
+  border-color: var(--border-hover);
+  background: var(--accent-dim);
+}
+.history-item .meta{
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+.history-item .val{
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ok);
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Footer Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.footer{
+  padding: 16px 4px 36px;
+  text-align: center;
+}
+.footer p{
+  font-size: 12px;
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Utility Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.sr-only{
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Responsive Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+@media (max-width: 980px){
+  .layout{
+    grid-template-columns: 1fr;
+    padding: 16px;
+    gap: 16px;
+  }
+  .sidebar{
+    position: static;
+    max-height: none;
+  }
+  .grid{ grid-template-columns: 1fr; }
+  .grid.compact{ grid-template-columns: 1fr 1fr; }
+  .row select{ width: 130px; }
+  .header{ padding: 12px 16px; }
+  .card{ padding: 18px; }
+}
+
+@media (max-width: 480px){
+  .grid.compact{ grid-template-columns: 1fr; }
+  .header-actions .btn-label{ display: none; }
+  h1{ font-size: 17px; }
+  .card-header h2{ font-size: 17px; }
+  .content{ padding-bottom: 80px; }
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Favorites Star Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.card-header{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.card-header > div{ flex: 1; min-width: 0; }
+.btn-fav{
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--input-bg);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  padding: 0;
+}
+.btn-fav:hover{
+  border-color: #fbbf24;
+  color: #fbbf24;
+  background: rgba(251,191,36,0.08);
+}
+.btn-fav.active{
+  color: #fbbf24;
+  border-color: rgba(251,191,36,0.4);
+  background: rgba(251,191,36,0.10);
+}
+.btn-fav svg{ width: 16px; height: 16px; pointer-events: none; }
+
+/* Favorites panel */
+.favorites-panel .nav{
+  gap: 3px;
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Nav Category Collapsible Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.nav-category{
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.nav-category::after{
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' fill='%238991a4'%3E%3Cpath d='M2 1l4 3-4 3z'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  transition: transform var(--transition-fast);
+  margin-left: auto;
+}
+.nav-category.collapsed::after{
+  transform: rotate(0deg);
+}
+.nav-category:not(.collapsed)::after{
+  transform: rotate(90deg);
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Copy / Print Button Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.result-actions{
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}
+.btn-copy, .btn-print{
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border);
+  background: var(--input-bg);
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.btn-copy:hover, .btn-print:hover{
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+.btn-copy.copied{
+  border-color: var(--ok);
+  color: var(--ok);
+  background: var(--ok-dim);
+}
+.btn-copy svg, .btn-print svg{ width: 12px; height: 12px; }
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Result Badges Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.result-badge{
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+.result-badge.badge-ok{
+  background: var(--ok-dim);
+  color: var(--ok);
+  border: 1px solid rgba(61,232,160,0.20);
+}
+.result-badge.badge-warn{
+  background: rgba(251,191,36,0.10);
+  color: #fbbf24;
+  border: 1px solid rgba(251,191,36,0.20);
+}
+.result-badge.badge-bad{
+  background: var(--danger-dim);
+  color: var(--danger);
+  border: 1px solid rgba(255,107,138,0.20);
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Input Validation Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.field-error{
+  font-size: 11px;
+  color: var(--danger);
+  margin-top: 4px;
+  display: none;
+  animation: fadeSlideIn 0.2s var(--ease);
+}
+.field.has-error input,
+.field.has-error select{
+  border-color: var(--danger) !important;
+  box-shadow: 0 0 0 3px var(--danger-dim) !important;
+}
+.field.has-error .field-error{
+  display: block;
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Back to Top Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.back-to-top{
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: all var(--transition);
+  z-index: 40;
+}
+.back-to-top.visible{
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.back-to-top:hover{
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: var(--shadow-lg), 0 0 16px var(--accent-dim);
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Mobile Bottom Nav Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.mobile-nav{
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--panel);
+  border-top: 1px solid var(--border);
+  padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px));
+  justify-content: space-around;
+  z-index: 60;
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+}
+.mobile-nav-btn{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 12px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+  border-radius: var(--radius-xs);
+}
+.mobile-nav-btn:hover,
+.mobile-nav-btn.active{
+  color: var(--accent);
+}
+.mobile-nav-btn svg{ flex-shrink: 0; }
+
+@media (max-width: 980px){
+  .mobile-nav{ display: flex; }
+  .back-to-top{ bottom: 76px; right: 16px; }
+}
+
+/* ──── Vancomycin Theme Variables (Dark) ──── */
+#calc-vancomycin {
+  --v-bg: #0d1117;
+  --v-card: #111827;
+  --v-text: #e5e7eb;
+  --v-muted: #9ca3af;
+  --v-accent: #22d3ee;
+  --v-danger: #ef4444;
+  --v-warn: #f59e0b;
+  --v-ok: #10b981;
+  --v-border: #293241;
+  --v-input-bg: #0f172a;
+  --v-heading: #9dd6ff;
+  --v-out-bg: #0b1320;
+  --v-out-border: #234;
+  --v-out-text: #bfe5ff;
+  --v-h1: #fff;
+  --v-alert-bg: #1b0e10;
+  --v-alert-border: #7f1d1d;
+  --v-alert-text: #fecaca;
+  --v-alert-strong: #f87171;
+  --v-warn-bg: #271a00;
+  --v-warn-border: #7c4a00;
+  --v-warn-text: #fde68a;
+  --v-warn-strong: #fbbf24;
+  --v-ok-bg: #031610;
+  --v-ok-border: #064e3b;
+  --v-ok-text: #d1fae5;
+  --v-ok-strong: #34d399;
+  --v-info-bg: #0c1929;
+  --v-info-border: #1e40af;
+  --v-info-text: #93c5fd;
+  --v-info-strong: #60a5fa;
+  --v-pill-text: #b5f3ff;
+  --v-pill-bg: rgba(34,211,238,0.1);
+  --v-pill-warn-text: #fde68a;
+  --v-pill-warn-border: #7c4a00;
+  --v-pill-warn-bg: rgba(245,158,11,0.1);
+  --v-pill-danger-text: #fecaca;
+  --v-pill-danger-border: #7f1d1d;
+  --v-pill-danger-bg: rgba(239,68,68,0.1);
+  --v-toggle-hover: #1e293b;
+  --v-regimen-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  --v-badge-bg: #a78bfa;
+  --v-hold-bg: linear-gradient(135deg, #4c0519 0%, #7f1d1d 100%);
+  --v-hold-msg: #fecaca;
+  --v-weight-bg: #0f172a;
+  --v-dose-bg: #0b1320;
+  --v-dose-accent: #22d3ee;
+  --v-dose-magenta: #f472b6;
+  --v-dose-orange: #fbbf24;
+  --v-dose-green: #34d399;
+  --v-dose-purple: #a78bfa;
+}
+
+/* ──── Vancomycin Theme Variables (Light) ──── */
+[data-theme="light"] #calc-vancomycin {
+  --v-bg: #f8fafc;
+  --v-card: #ffffff;
+  --v-text: #0f172a;
+  --v-muted: #64748b;
+  --v-accent: #0891b2;
+  --v-danger: #dc2626;
+  --v-warn: #d97706;
+  --v-ok: #059669;
+  --v-border: #e2e8f0;
+  --v-input-bg: #f1f5f9;
+  --v-heading: #0e7490;
+  --v-out-bg: #f1f5f9;
+  --v-out-border: #cbd5e1;
+  --v-out-text: #0f172a;
+  --v-h1: #0f172a;
+  --v-alert-bg: #fef2f2;
+  --v-alert-border: #fca5a5;
+  --v-alert-text: #991b1b;
+  --v-alert-strong: #dc2626;
+  --v-warn-bg: #fffbeb;
+  --v-warn-border: #fcd34d;
+  --v-warn-text: #92400e;
+  --v-warn-strong: #d97706;
+  --v-ok-bg: #ecfdf5;
+  --v-ok-border: #6ee7b7;
+  --v-ok-text: #065f46;
+  --v-ok-strong: #059669;
+  --v-info-bg: #eff6ff;
+  --v-info-border: #93c5fd;
+  --v-info-text: #1e40af;
+  --v-info-strong: #2563eb;
+  --v-pill-text: #0e7490;
+  --v-pill-bg: rgba(14,116,144,0.08);
+  --v-pill-warn-text: #92400e;
+  --v-pill-warn-border: #fcd34d;
+  --v-pill-warn-bg: rgba(217,119,6,0.08);
+  --v-pill-danger-text: #991b1b;
+  --v-pill-danger-border: #fca5a5;
+  --v-pill-danger-bg: rgba(220,38,38,0.08);
+  --v-toggle-hover: #e2e8f0;
+  --v-regimen-bg: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  --v-badge-bg: #8b5cf6;
+  --v-hold-bg: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  --v-hold-msg: #991b1b;
+  --v-weight-bg: #f1f5f9;
+  --v-dose-bg: #f1f5f9;
+  --v-dose-accent: #0891b2;
+  --v-dose-magenta: #db2777;
+  --v-dose-orange: #d97706;
+  --v-dose-green: #059669;
+  --v-dose-purple: #7c3aed;
+}
+
+/* ──── Vancomycin Article Override ──── */
+#calc-vancomycin{
+  padding: 0 !important;
+  border: none !important;
+  background: var(--v-bg) !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  max-width: none !important;
+  overflow: visible !important;
+}
+#calc-vancomycin::before { display: none !important; }
+#calc-vancomycin .card-header{ display: none !important; }
+
+/* ──── Vancomycin Dosing CSS ──── */
+#calc-vancomycin * { box-sizing: border-box; }
+#calc-vancomycin {
+  color: var(--v-text);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+}
+#calc-vancomycin .wrap { max-width: 1320px; margin: 0 auto; padding: 20px; }
+#calc-vancomycin h1 {
+  font-size: 24px !important;
+  margin-bottom: 8px;
+  color: var(--v-h1) !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+  -webkit-text-fill-color: var(--v-h1) !important;
+  line-height: 1.4;
+  letter-spacing: normal;
+}
+#calc-vancomycin .subtitle { color: var(--v-muted); margin-bottom: 20px; font-size: 14px; }
+#calc-vancomycin .source-badge {
+  display: inline-block;
+  background: var(--v-badge-bg);
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-left: 10px;
+}
+#calc-vancomycin .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 0; }
+@media (max-width: 900px) { #calc-vancomycin .grid { grid-template-columns: 1fr; } }
+#calc-vancomycin .section {
+  background: var(--v-card) !important;
+  border: 1px solid var(--v-border) !important;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+#calc-vancomycin .section h2 {
+  margin: 0 0 12px;
+  font-size: 15px;
+  color: var(--v-heading);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none !important;
+  -webkit-text-fill-color: var(--v-heading) !important;
+}
+#calc-vancomycin .section h2::before {
+  content: '';
+  width: 4px;
+  height: 16px;
+  background: var(--v-accent);
+  border-radius: 2px;
+}
+#calc-vancomycin label {
+  display: block;
+  font-size: 12px;
+  color: var(--v-muted);
+  margin-bottom: 4px;
+  text-transform: none;
+  font-weight: 400;
+  letter-spacing: normal;
+}
+#calc-vancomycin input:not([type="checkbox"]), #calc-vancomycin select {
+  width: 100% !important;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--v-border) !important;
+  background: var(--v-input-bg) !important;
+  color: var(--v-text) !important;
+  outline: none;
+  font-size: 14px;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+  flex: unset;
+  min-width: 0;
+}
+#calc-vancomycin select {
+  padding-right: 32px !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238991a4' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 10px center !important;
+  background-size: 12px !important;
+  cursor: pointer;
+}
+#calc-vancomycin input:not([type="checkbox"]):focus, #calc-vancomycin select:focus { border-color: var(--v-accent) !important; }
+#calc-vancomycin .row { display: grid !important; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+#calc-vancomycin .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+#calc-vancomycin .row-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+@media (max-width: 700px) { #calc-vancomycin .row, #calc-vancomycin .row-3, #calc-vancomycin .row-4 { grid-template-columns: 1fr; } }
+#calc-vancomycin .hint { font-size: 11px; color: var(--v-muted); margin-top: 4px; }
+#calc-vancomycin .pill {
+  display: inline-block;
+  padding: 3px 8px;
+  border: 1px solid var(--v-border);
+  border-radius: 999px;
+  font-size: 11px;
+  margin: 2px 4px 0 0;
+  color: var(--v-pill-text);
+  background: var(--v-pill-bg);
+}
+#calc-vancomycin .pill.warn { color: var(--v-pill-warn-text); border-color: var(--v-pill-warn-border); background: var(--v-pill-warn-bg); }
+#calc-vancomycin .pill.danger { color: var(--v-pill-danger-text); border-color: var(--v-pill-danger-border); background: var(--v-pill-danger-bg); }
+#calc-vancomycin .out {
+  background: var(--v-out-bg);
+  border: 1px dashed var(--v-out-border);
+  padding: 12px;
+  border-radius: 10px;
+  color: var(--v-out-text);
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+#calc-vancomycin .out:last-child { margin-bottom: 0; }
+#calc-vancomycin .out strong { color: var(--v-heading); }
+#calc-vancomycin .full { grid-column: 1 / -1; }
+
+/* Alert boxes */
+#calc-vancomycin .alert { background: var(--v-alert-bg); border: 1px solid var(--v-alert-border); color: var(--v-alert-text); padding: 12px; border-radius: 10px; margin-bottom: 12px; }
+#calc-vancomycin .alert strong { color: var(--v-alert-strong); }
+#calc-vancomycin .warn-box { background: var(--v-warn-bg); border: 1px solid var(--v-warn-border); color: var(--v-warn-text); padding: 12px; border-radius: 10px; margin-bottom: 12px; }
+#calc-vancomycin .warn-box strong { color: var(--v-warn-strong); }
+#calc-vancomycin .ok-box { background: var(--v-ok-bg); border: 1px solid var(--v-ok-border); color: var(--v-ok-text); padding: 12px; border-radius: 10px; margin-bottom: 12px; }
+#calc-vancomycin .ok-box strong { color: var(--v-ok-strong); }
+#calc-vancomycin .info-box { background: var(--v-info-bg); border: 1px solid var(--v-info-border); color: var(--v-info-text); padding: 12px; border-radius: 10px; margin-bottom: 12px; }
+#calc-vancomycin .info-box strong { color: var(--v-info-strong); }
+
+/* Toggle button group */
+#calc-vancomycin .toggle-group {
+  display: inline-flex;
+  border: 1px solid var(--v-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+#calc-vancomycin .toggle-btn {
+  padding: 8px 16px;
+  background: var(--v-input-bg);
+  color: var(--v-muted);
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+#calc-vancomycin .toggle-btn.active {
+  background: var(--v-accent);
+  color: #fff;
+  font-weight: 600;
+}
+#calc-vancomycin .toggle-btn:hover:not(.active) { background: var(--v-toggle-hover); }
+
+/* Copy button */
+#calc-vancomycin .copy-btn {
+  background: var(--v-accent);
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+#calc-vancomycin .copy-btn:hover { opacity: 0.85; }
+
+/* Regimen output */
+#calc-vancomycin .regimen-box {
+  background: var(--v-regimen-bg);
+  border: 2px solid var(--v-accent);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+#calc-vancomycin .regimen-box h3 {
+  color: var(--v-accent);
+  font-size: 14px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#calc-vancomycin .regimen-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--v-text);
+}
+#calc-vancomycin .regimen-text .dose { color: var(--v-dose-accent); font-weight: 600; }
+#calc-vancomycin .regimen-text .freq { color: var(--v-dose-purple); }
+
+/* Input group with unit toggle */
+#calc-vancomycin .input-with-toggle { display: flex; gap: 0; }
+#calc-vancomycin .input-with-toggle input {
+  border-radius: 8px 0 0 8px;
+  border-right: none;
+  flex: 1 !important;
+}
+#calc-vancomycin .input-with-toggle .toggle-group { border-radius: 0 8px 8px 0; }
+#calc-vancomycin .input-with-toggle .toggle-btn { padding: 8px 10px; }
+
+/* Weight display boxes */
+#calc-vancomycin .weight-display {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+@media (max-width: 600px) { #calc-vancomycin .weight-display { grid-template-columns: repeat(2, 1fr); } }
+#calc-vancomycin .weight-box {
+  background: var(--v-weight-bg);
+  border: 1px solid var(--v-border);
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+}
+#calc-vancomycin .weight-box .label { font-size: 11px; color: var(--v-muted); }
+#calc-vancomycin .weight-box .value { font-size: 16px; color: var(--v-h1); font-weight: 600; }
+#calc-vancomycin .weight-box .unit { font-size: 11px; color: var(--v-muted); }
+
+#calc-vancomycin .hidden { display: none !important; }
+
+/* Dose Cards */
+#calc-vancomycin .dose-card {
+  background: var(--v-dose-bg);
+  border: 1px solid var(--v-border);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+#calc-vancomycin .dose-card:last-child { margin-bottom: 0; }
+#calc-vancomycin .dose-card .dose-title {
+  font-weight: 600;
+  color: var(--v-heading);
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+#calc-vancomycin .dose-card .dose-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--v-dose-accent);
+}
+#calc-vancomycin .dose-card .dose-value.magenta { color: var(--v-dose-magenta); }
+#calc-vancomycin .dose-card .dose-value.orange { color: var(--v-dose-orange); }
+#calc-vancomycin .dose-card .dose-value.green { color: var(--v-dose-green); }
+#calc-vancomycin .dose-card .dose-value.purple { color: var(--v-dose-purple); }
+#calc-vancomycin .dose-card .dose-hint {
+  font-size: 11px;
+  color: var(--v-muted);
+  margin-top: 4px;
+}
+
+#calc-vancomycin .max-warning { color: var(--v-warn); font-size: 12px; font-weight: 600; }
+
+/* Collapsible details */
+#calc-vancomycin details {
+  border: 1px solid var(--v-border);
+  border-radius: 12px;
+  margin-bottom: 14px;
+  background: var(--v-card);
+}
+#calc-vancomycin details > summary {
+  cursor: pointer;
+  color: var(--v-heading);
+  padding: 14px 16px;
+  font-weight: 500;
+  list-style: none;
+}
+#calc-vancomycin details > summary::-webkit-details-marker { display: none; }
+#calc-vancomycin details > summary::before {
+  content: '▶';
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.2s;
+}
+#calc-vancomycin details[open] > summary::before { transform: rotate(90deg); }
+#calc-vancomycin details .details-content { padding: 0 16px 16px; }
+
+/* Tables */
+#calc-vancomycin table { width: 100%; border-collapse: collapse; font-size: 13px; }
+#calc-vancomycin th, #calc-vancomycin td { padding: 10px; text-align: left; border-bottom: 1px solid var(--v-border); }
+#calc-vancomycin th { background: var(--v-input-bg); color: var(--v-muted); font-weight: 600; font-size: 12px; }
+#calc-vancomycin td { color: var(--v-out-text); }
+
+/* Previous Dose Toggle */
+#calc-vancomycin .prev-dose-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+#calc-vancomycin .prev-dose-toggle label {
+  margin: 0;
+  font-size: 13px;
+  color: var(--v-text);
+}
+
+/* TDM Section styling */
+#calc-vancomycin .tdm-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+#calc-vancomycin .tdm-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+/* Toggle switch for checkboxes */
+#calc-vancomycin input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  width: 44px !important;
+  height: 24px;
+  background: var(--v-border);
+  border-radius: 12px;
+  border: none !important;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.25s ease;
+  flex-shrink: 0;
+  padding: 0;
+}
+#calc-vancomycin input[type="checkbox"]::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.25s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+#calc-vancomycin input[type="checkbox"]:checked {
+  background: var(--v-accent);
+}
+#calc-vancomycin input[type="checkbox"]:checked::after {
+  transform: translateX(20px);
+}
+#calc-vancomycin .tdm-checkbox label {
+  font-size: 13px;
+  color: var(--v-text);
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Dose adjustment indicators */
+#calc-vancomycin .dose-adjustment {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 8px;
+}
+#calc-vancomycin .dose-adjustment.increase { background: rgba(251, 191, 36, 0.2); color: var(--v-warn); }
+#calc-vancomycin .dose-adjustment.decrease { background: rgba(239, 68, 68, 0.2); color: var(--v-danger); }
+#calc-vancomycin .dose-adjustment.maintain { background: rgba(52, 211, 153, 0.2); color: var(--v-ok); }
+
+/* Global Hold Banner */
+#calc-vancomycin .global-hold-banner {
+  background: var(--v-hold-bg);
+  border: 2px solid var(--v-danger);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 14px;
+  text-align: center;
+}
+#calc-vancomycin .global-hold-banner .hold-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--v-danger);
+  margin-bottom: 8px;
+}
+#calc-vancomycin .global-hold-banner .hold-message {
+  font-size: 14px;
+  color: var(--v-hold-msg);
+}
+
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Smooth calc transitions Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.calc{
+  display: none;
+  opacity: 0;
+  transform: translateY(8px);
+}
+.calc.active{
+  display: block;
+  animation: fadeSlideIn 0.35s var(--ease) both;
+}
+.calc.exiting{
+  display: block;
+  animation: fadeSlideOut 0.18s var(--ease) forwards;
+}
+@keyframes fadeSlideOut{
+  from{ opacity: 1; transform: translateY(0); }
+  to{ opacity: 0; transform: translateY(-6px); }
+}
+
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Keyboard shortcut hint Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+.kbd{
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--input-bg);
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1;
+  vertical-align: middle;
+  margin-left: 4px;
+}
